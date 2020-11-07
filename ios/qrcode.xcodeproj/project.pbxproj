@@ -19,8 +19,8 @@
 		700AF6EE7E59AA9CBEC1317C /* libPods-qrcode-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD79FCCCD37CFC6BB5B53AD /* libPods-qrcode-tvOS.a */; };
 		70874A051BBCC850CF11310E /* libPods-qrcode.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2E4A2C1AF9B712BBA57AEC1 /* libPods-qrcode.a */; };
 		A2C138598A31D679389A2659 /* libPods-qrcodeTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F61E9A1094AE8E9FA7FE01D8 /* libPods-qrcodeTests.a */; };
-		DB6589372556EEB200F7107E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB65890C2556EEB200F7107E /* GoogleService-Info.plist */; };
-		DB6589382556EEB200F7107E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB65890C2556EEB200F7107E /* GoogleService-Info.plist */; };
+		DB3610D825570AC900179230 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB3610D725570AC900179230 /* GoogleService-Info.plist */; };
+		DB3610D925570AC900179230 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB3610D725570AC900179230 /* GoogleService-Info.plist */; };
 		EFCB844BD292EEEACEEC3DB8 /* libPods-qrcode-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5039FF1863ECE401D55DC954 /* libPods-qrcode-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +38,76 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "qrcode-tvOS";
+		};
+		DB3610782557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E2B63D462DB7F827C4B11FD51E4F8E2D;
+			remoteInfo = FirebaseCore;
+		};
+		DB36107A2557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8CC9178C366942FD6FF6A115604EAD58;
+			remoteInfo = FirebaseCoreDiagnostics;
+		};
+		DB36107C2557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 856B5CD56F194FAD26EA91620B66D614;
+			remoteInfo = GoogleDataTransport;
+		};
+		DB36107E2557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B43874C6CBB50E7134FBEC24BABFE14F;
+			remoteInfo = GoogleUtilities;
+		};
+		DB3610802557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06FC5C9CF96D60C50FCD47D339C91951;
+			remoteInfo = nanopb;
+		};
+		DB3610822557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BB1D7880F01CE5024CE360F0D72A6DE3;
+			remoteInfo = "Permission-Camera";
+		};
+		DB3610842557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3347A1AB6546F0A3977529B8F199DC41;
+			remoteInfo = PromisesObjC;
+		};
+		DB3610862557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6C9790F1A25C1E3828E179A8F0850851;
+			remoteInfo = "react-native-camera";
+		};
+		DB3610882557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18D0B1E13C69654196028DD6EDCC3452;
+			remoteInfo = RNFBApp;
+		};
+		DB36108A2557082100179230 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 778C1572AE22EE933ACA12594B6DF949;
+			remoteInfo = RNPermissions;
 		};
 		DB65892F2556EEB200F7107E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -273,7 +343,7 @@
 		B75A2706F2C0C2238F09035D /* Pods-qrcode-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qrcode-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-qrcode-tvOS/Pods-qrcode-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B7BC9031B0F5DE2A2821D383 /* Pods-qrcode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qrcode.release.xcconfig"; path = "Target Support Files/Pods-qrcode/Pods-qrcode.release.xcconfig"; sourceTree = "<group>"; };
 		C2E4A2C1AF9B712BBA57AEC1 /* libPods-qrcode.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-qrcode.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB65890C2556EEB200F7107E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DB3610D725570AC900179230 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		E4B42E8462DF2ECD6D957049 /* Pods-qrcode-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qrcode-tvOS.release.xcconfig"; path = "Target Support Files/Pods-qrcode-tvOS/Pods-qrcode-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		E8236D12F9FB965113B1E23E /* Pods-qrcodeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-qrcodeTests.debug.xcconfig"; path = "Target Support Files/Pods-qrcodeTests/Pods-qrcodeTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -339,7 +409,7 @@
 		13B07FAE1A68108700A75B9A /* qrcode */ = {
 			isa = PBXGroup;
 			children = (
-				DB65890C2556EEB200F7107E /* GoogleService-Info.plist */,
+				DB3610D725570AC900179230 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -418,12 +488,19 @@
 			children = (
 				DBFDD45A2555526D00ADA0CA /* libDoubleConversion.a */,
 				DBFDD45C2555526D00ADA0CA /* libFBReactNativeSpec.a */,
+				DB3610792557082100179230 /* libFirebaseCore.a */,
+				DB36107B2557082100179230 /* libFirebaseCoreDiagnostics.a */,
 				DBFDD45E2555526D00ADA0CA /* libFolly.a */,
 				DBFDD4602555526D00ADA0CA /* libglog.a */,
+				DB36107D2557082100179230 /* libGoogleDataTransport.a */,
+				DB36107F2557082100179230 /* libGoogleUtilities.a */,
+				DB3610812557082100179230 /* libnanopb.a */,
+				DB3610832557082100179230 /* libPermission-Camera.a */,
 				DBFDD4622555526D00ADA0CA /* libPods-qrcode.a */,
 				DBFDD4642555526D00ADA0CA /* libPods-qrcode-tvOS.a */,
 				DBFDD4662555526D00ADA0CA /* libPods-qrcode-tvOSTests.a */,
 				DBFDD4682555526D00ADA0CA /* libPods-qrcodeTests.a */,
+				DB3610852557082100179230 /* libPromisesObjC.a */,
 				DBFDD46A2555526D00ADA0CA /* libRCTTypeSafety.a */,
 				DBFDD46C2555526D00ADA0CA /* libReact-Core.a */,
 				DBFDD46E2555526D00ADA0CA /* libReact-CoreModules.a */,
@@ -431,6 +508,7 @@
 				DBFDD4722555526D00ADA0CA /* libReact-jsi.a */,
 				DBFDD4742555526D00ADA0CA /* libReact-jsiexecutor.a */,
 				DBFDD4762555526D00ADA0CA /* libReact-jsinspector.a */,
+				DB3610872557082100179230 /* libreact-native-camera.a */,
 				DBFDD4782555526D00ADA0CA /* libReact-RCTActionSheet.a */,
 				DBFDD47A2555526D00ADA0CA /* libReact-RCTAnimation.a */,
 				DBFDD47C2555526D00ADA0CA /* libReact-RCTBlob.a */,
@@ -441,7 +519,9 @@
 				DBFDD4862555526D00ADA0CA /* libReact-RCTText.a */,
 				DBFDD4882555526D00ADA0CA /* libReact-RCTVibration.a */,
 				DBFDD48A2555526D00ADA0CA /* libReactCommon.a */,
+				DB3610892557082100179230 /* libRNFBApp.a */,
 				DB6589302556EEB200F7107E /* libRNGestureHandler.a */,
+				DB36108B2557082100179230 /* libRNPermissions.a */,
 				DB6589322556EEB200F7107E /* libRNReanimated.a */,
 				DB6589342556EEB200F7107E /* libRNScreens.a */,
 				DB6589362556EEB200F7107E /* libRNVectorIcons.a */,
@@ -546,6 +626,10 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = SZJ267B4Q8;
+						ProvisioningStyle = Automatic;
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -586,6 +670,76 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		DB3610792557082100179230 /* libFirebaseCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFirebaseCore.a;
+			remoteRef = DB3610782557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB36107B2557082100179230 /* libFirebaseCoreDiagnostics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFirebaseCoreDiagnostics.a;
+			remoteRef = DB36107A2557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB36107D2557082100179230 /* libGoogleDataTransport.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGoogleDataTransport.a;
+			remoteRef = DB36107C2557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB36107F2557082100179230 /* libGoogleUtilities.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGoogleUtilities.a;
+			remoteRef = DB36107E2557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB3610812557082100179230 /* libnanopb.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libnanopb.a;
+			remoteRef = DB3610802557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB3610832557082100179230 /* libPermission-Camera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPermission-Camera.a";
+			remoteRef = DB3610822557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB3610852557082100179230 /* libPromisesObjC.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPromisesObjC.a;
+			remoteRef = DB3610842557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB3610872557082100179230 /* libreact-native-camera.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libreact-native-camera.a";
+			remoteRef = DB3610862557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB3610892557082100179230 /* libRNFBApp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFBApp.a;
+			remoteRef = DB3610882557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB36108B2557082100179230 /* libRNPermissions.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNPermissions.a;
+			remoteRef = DB36108A2557082100179230 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DB6589302556EEB200F7107E /* libRNGestureHandler.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -812,7 +966,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				DB6589372556EEB200F7107E /* GoogleService-Info.plist in Resources */,
+				DB3610D825570AC900179230 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,7 +975,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
-				DB6589382556EEB200F7107E /* GoogleService-Info.plist in Resources */,
+				DB3610D925570AC900179230 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1160,8 +1314,11 @@
 			baseConfigurationReference = 5ADC875CC0B4248A5071E9B0 /* Pods-qrcode.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = SZJ267B4Q8;
 				INFOPLIST_FILE = qrcode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1169,8 +1326,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.qrcode;
 				PRODUCT_NAME = qrcode;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1180,7 +1338,10 @@
 			baseConfigurationReference = B7BC9031B0F5DE2A2821D383 /* Pods-qrcode.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SZJ267B4Q8;
 				INFOPLIST_FILE = qrcode/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1188,8 +1349,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.qrcode;
 				PRODUCT_NAME = qrcode;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
