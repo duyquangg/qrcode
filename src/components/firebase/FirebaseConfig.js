@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: "AIzaSyAN_n_g68Wv8Yh4k2KsJBhsO3W682Ycvuk",
@@ -11,5 +12,15 @@ const firebaseConfig = {
     measurementId: "G-43HBNVYRQ1"
 };
 const Firebase = firebase.initializeApp(firebaseConfig);
+
+
+// ... before export default statemen
+export const db = firebase.firestore()
+
+// avoid deprecated warnings
+db.settings({
+    timestampsInSnapshots: true
+})
+
 export default Firebase;
 

@@ -16,8 +16,6 @@ import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
 const AppRouter = (props) => {
-
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle={"dark-content"} />
@@ -60,7 +58,7 @@ const AppRouter = (props) => {
           </Tabs>
           <Scene
             key="Login"
-            // initial
+            initial
             component={Login}
             title="Login"
           />

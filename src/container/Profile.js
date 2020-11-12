@@ -1,35 +1,39 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  TouchableOpacity
-} from 'react-native';
-import {Actions} from 'react-native-router-flux';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
+import Firebase from '../components/firebase/FirebaseConfig';
 
+class Profile extends React.Component {
+  handleSignout = () => {
+    Firebase.auth().signOut()
+    Actions.Login();
+  }
 
-import Icon from 'react-native-vector-icons/FontAwesome';
-const myIcon = <Icon name="rocket" size={30} color="#900" />;
-
-const App = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        {myIcon}
-        <TouchableOpacity onPress={() => Actions.Login()}>
-          <Text>LOG OUT</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    </>
-  );
-};
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Profile Screen</Text>
+        <Text>{this.props.user.email}</Text>
+        <Button title='Logout' onPress={this.handleSignout} />
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
-  
-});
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Profile)
