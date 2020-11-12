@@ -2,12 +2,22 @@ import React from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'react-native'
 import {Actions } from 'react-native-router-flux';
 
+import Firebase from '../firebase/FirebaseConfig';
+
 class Login extends React.Component {
     state = {
         email: '',
         password: ''
     }
 
+    handleLogin = () => {
+        const { email, password } = this.state
+
+        Firebase.auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(() => Actions.Home())
+            .catch(error => console.log(error))
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -25,7 +35,7 @@ class Login extends React.Component {
                     placeholder='Password'
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => Actions.Signup()}>

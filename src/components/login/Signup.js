@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import {Actions} from 'react-native-router-flux';
 
+import Firebase from '../firebase/FirebaseConfig';
 class Signup extends React.Component {
     state = {
         name: '',
@@ -8,6 +10,13 @@ class Signup extends React.Component {
         password: ''
     }
 
+    handleSignUp = () => {
+        const { email, password } = this.state
+        Firebase.auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => Actions.Home())
+            .catch(error => console.log(error))
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -31,7 +40,7 @@ class Signup extends React.Component {
                     placeholder='Password'
                     secureTextEntry={true}
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity onPress={this.handleSignUp} style={styles.button}>
                     <Text style={styles.buttonText}>Signup</Text>
                 </TouchableOpacity>
             </View>
