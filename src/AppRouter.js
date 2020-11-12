@@ -7,8 +7,14 @@ import {
 } from "react-native-router-flux";
 import TabIcon from "./components/icons/TabIcon";
 
+
 import Home from "./container/Home";
 import Profile from "./container/Profile";
+
+//login
+import Login from "./components/login/Login";
+import Signup from "./components/login/Signup";
+
 const AppRouter = (props) => {
 
 
@@ -34,7 +40,7 @@ const AppRouter = (props) => {
             activeTintColor={'red'} //cùng màu với màu icons
             inactiveTintColor={'#000'}
 
-            // initial={isLogin}
+          // initial={isLogin}
           >
             <Scene
               key="Home"
@@ -52,6 +58,18 @@ const AppRouter = (props) => {
               icon={TabIcon}
             />
           </Tabs>
+          <Scene
+            key="Login"
+            initial
+            component={Login}
+            title="Login"
+          />
+          <Scene
+            key="Signup"
+            // initial
+            component={Signup}
+            title="Signup"
+          />
         </Scene>
       </Router>
     </View>

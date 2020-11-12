@@ -4,13 +4,21 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Linking
+  Linking,
+  View
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
 class ScanScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isCheckCam: false,
+      typeCam: false,
+    }
+  }
   onSuccess = e => {
     Linking.openURL(e.data).catch(err =>
       console.error('An error occured', err)
@@ -18,10 +26,16 @@ class ScanScreen extends Component {
   };
 
   render() {
+    let { isCheckCam, typeCam } = this.state;
     return (
       <QRCodeScanner
+        reactivate={true}
         onRead={this.onSuccess}
-        flashMode={RNCamera.Constants.FlashMode.torch}
+        reactivateTimeout={1500}
+        cameraTimeout={3000}
+        cameraType={typeCam && typeCam ? 'front' : 'back'}
+        containerStyle={{ backgroundColor: 'pink' }}
+        flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
           <Text style={styles.centerText}>
             Go to{' '}
@@ -30,9 +44,18 @@ class ScanScreen extends Component {
           </Text>
         }
         bottomContent={
-          <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText}>OK. Got it!</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
+              style={styles.buttonTouchable}
+            >
+              <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
+              style={styles.buttonTouchable}
+            >
+              <Text style={styles.buttonText}>{this.state.typeCam ? 'Cam back' : 'Cam front'} </Text>
+            </TouchableOpacity>
+          </View>
         }
       />
     );
