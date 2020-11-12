@@ -58,7 +58,7 @@ const AppRouter = (props) => {
           </Tabs>
           <Scene
             key="Login"
-            initial
+            // initial
             component={Login}
             title="Login"
           />
