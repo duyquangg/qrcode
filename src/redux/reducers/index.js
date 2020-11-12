@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux'
-import { LOGIN, SIGNUP, UPDATE_EMAIL, UPDATE_PASSWORD } from '../actions/user'
+const {
+	UPDATE_EMAIL,
+    UPDATE_PASSWORD,
+    LOGIN,
+    SIGNUP 
+} = require('../../lib/constants').default;
 
 const user = (state = {}, action) => {
 	switch (action.type) {

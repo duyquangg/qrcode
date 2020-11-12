@@ -1,23 +1,28 @@
 import { combineReducers } from 'redux'
-import { LOGIN, SIGNUP, UPDATE_EMAIL, UPDATE_PASSWORD } from './globalActions';
+const {
+	UPDATE_EMAIL,
+    UPDATE_PASSWORD,
+    LOGIN,
+    SIGNUP 
+} = require('../../lib/constants').default;
 
 const user = (state = {}, action) => {
-    switch (action.type) {
-        case LOGIN:
-            return action.payload
-        case SIGNUP:
-            return action.payload
-        case UPDATE_EMAIL:
-            return { ...state, email: action.payload }
-        case UPDATE_PASSWORD:
-            return { ...state, password: action.payload }
-        default:
-            return state
-    }
+	switch (action.type) {
+		case LOGIN:
+			return action.payload
+		case SIGNUP:
+			return action.payload
+		case UPDATE_EMAIL:
+			return { ...state, email: action.payload }
+		case UPDATE_PASSWORD:
+			return { ...state, password: action.payload }
+		default:
+			return state
+	}
 }
 
 const rootReducer = combineReducers({
-    user
+	user
 })
 
 export default rootReducer
