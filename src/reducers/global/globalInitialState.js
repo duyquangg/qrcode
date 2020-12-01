@@ -13,6 +13,8 @@ var InitialState = Record({
         email: '',
         password: '',
     })),
+    email: '',
+    password: '',
 
     // deviceInfo : {
     //     deviceID : null,

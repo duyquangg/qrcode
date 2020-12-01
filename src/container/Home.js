@@ -14,15 +14,22 @@ import { RNCamera } from 'react-native-camera';
 class ScanScreen extends Component {
   constructor(props) {
     super(props);
+    // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
     this.state = {
       isCheckCam: false,
       typeCam: false,
     }
   }
   onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err)
-    );
+    let data = JSON.parse(e.data)
+    data.forEach(e => {
+      if(e.age == 10){
+        alert('yeahhhh');
+      } else alert('chiuuuu')
+    })
+    // Linking.openURL(e.data).catch(err =>
+    //   console.error('An error occured', err)
+    // );
   };
 
   render() {

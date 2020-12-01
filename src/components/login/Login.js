@@ -10,7 +10,7 @@ class Login extends React.Component {
 	componentDidMount = () => {
 		Firebase.auth().onAuthStateChanged(user => {
 			if (user) {
-				this.props.getUser(user.uid)
+				this.props.getUser(user.uid);
 				if (this.props.user != null) {
 					Actions.Home();
 				}
