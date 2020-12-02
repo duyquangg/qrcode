@@ -394,18 +394,25 @@ class Login extends Component {
 			checkLogin: true,
 		}
 	}
-	componentDidMount = () => {
+	componentDidMount(){
 		Firebase.auth().onAuthStateChanged(user => {
 			if (user) {
 				this.setState({checkLogin: false})
 				// this.props.actions.getUser(user.uid);
 				console.log('======> user', user);
-				if (this.props.global.email != null) {
-					Actions.Home();
-				}
+				// if (this.props.global.email != null) {
+				// 	Actions.Home();
+				// }
 			}
+			this.onLoginPress();
 		})
 	}
+	componentWillUnmount() {
+		// fix Warning: Can't perform a React state update on an unmounted component
+		this.setState = (state,callback)=>{
+			return;
+		};
+	  }
 
 	render() {
 		return (
@@ -442,6 +449,7 @@ class Login extends Component {
 				password
 			}
 			this.props.actions.login(email,password);
+			Actions.Home();
 			ls.setLoginInfo(dto);
 			this.setState({
 				email: '',

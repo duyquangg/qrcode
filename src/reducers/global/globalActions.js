@@ -42,15 +42,10 @@ export const login = (email, password) => {
 		dispatch(loginRequest())
 		try {
 			let response = await Firebase.auth().signInWithEmailAndPassword(email, password);
-			ls.setLoginInfo({ email, password });
+			// ls.setLoginInfo({ email, password });
 			dispatch(loginSuccess(response))
 		} catch (e) {
-			if(!email){
-				alert('k co email');
-			}
-			if(!password){
-				alert('k co password')
-			}
+			alert(e)
 		}
 	}
 }
