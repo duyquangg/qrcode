@@ -1,6 +1,4 @@
 const {
-	UPDATE_EMAIL,
-	UPDATE_PASSWORD,
 	LOGIN,
 	SIGNUP,
 	LOGIN_REQUEST,
@@ -17,11 +15,6 @@ export default function globalReducer(state = initialState, action) {
 			return action.payload
 		case SIGNUP:
 			return action.payload
-		case UPDATE_EMAIL:
-			return { ...state, email: action.payload }
-		case UPDATE_PASSWORD:
-			return { ...state, password: action.payload }
-
 		case LOGIN_REQUEST: {
 			let newState = state
 				.set("isLoggin", true);

@@ -1,8 +1,6 @@
 import Firebase, { db } from '../../components/firebase/FirebaseConfig';
 
 const {
-	UPDATE_EMAIL,
-    UPDATE_PASSWORD,
     LOGIN,
 	SIGNUP,
 	LOGIN_REQUEST,
@@ -12,20 +10,6 @@ const {
 
 import ls from "../../lib/localStorage";
 
-
-export const updateEmail = email => {
-	return {
-		type: UPDATE_EMAIL,
-		payload: email
-	}
-}
-
-export const updatePassword = password => {
-	return {
-		type: UPDATE_PASSWORD,
-		payload: password
-	}
-}
 
 export function onChatGlobalChange(field, value) {
     return {

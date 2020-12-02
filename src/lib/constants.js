@@ -2,8 +2,6 @@
 import keyMirror from 'key-mirror';
 
 export default keyMirror({
-    UPDATE_EMAIL: null,
-    UPDATE_PASSWORD: null,
     LOGIN_REQUEST: null,
     LOGIN_SUCCESS: null,
     LOGIN_FAILURE: null,
