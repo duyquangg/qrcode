@@ -382,6 +382,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 import Firebase from '../firebase/FirebaseConfig';
+import ls from '../../lib/localStorage';
 import * as globalActions from '../../reducers/global/globalActions';
 
 class Login extends Component {
@@ -435,7 +436,18 @@ class Login extends Component {
 	}
 	onLoginPress() {
 		let { email, password } = this.state;
-		this.props.actions.login(email,password);
+		if(email && password){
+			let dto = {
+				email,
+				password
+			}
+			this.props.actions.login(email,password);
+			ls.setLoginInfo(dto);
+			this.setState({
+				email: '',
+				password: ''
+			})
+		}
 		// if (!this.validate()){
 		//   return;
 		// }

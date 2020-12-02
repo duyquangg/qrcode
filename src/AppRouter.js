@@ -19,6 +19,8 @@ import Profile from "./container/Profile";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
+import ls from './lib/localStorage';
+
 
 import * as globalActions from './reducers/global/globalActions';
 const actions = [globalActions];
@@ -43,6 +45,18 @@ function mapDispatchToProps(dispatch) {
 class AppRouter extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isLogin: false
+    }
+  }
+  componentDidMount(){
+    ls.getLoginInfo().then((e) => {
+      // console.log('====> e',e);
+      if (e) {
+        this.setState({isLogin: true});
+      }
+    })
+    return;
   }
   render() {
     let loggedIn = this.props.global.loggedIn;
@@ -67,7 +81,7 @@ class AppRouter extends Component {
               labelStyle={styles.bottomTabTitle}
               activeTintColor={'red'} //cùng màu với màu icons
               inactiveTintColor={'#000'}
-              // initial={loggedIn}
+              initial={this.state.isLogin}
             >
               <Scene
                 key="Home"
@@ -88,9 +102,8 @@ class AppRouter extends Component {
             </Tabs>
             <Scene
               key="Login"
-              initial
               component={Login}
-              // initial={!loggedIn}
+              initial={!this.state.isLogin}
               title="Login"
             />
             <Scene

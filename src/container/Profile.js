@@ -7,11 +7,13 @@ import { Map } from 'immutable';
 
 import { Actions } from 'react-native-router-flux';
 import Firebase from '../components/firebase/FirebaseConfig';
+import ls from '../lib/localStorage';
 import * as globalActions from '../reducers/global/globalActions';
 
 class Profile extends React.Component {
   handleSignout = () => {
-    Firebase.auth().signOut()
+    Firebase.auth().signOut();
+    ls.removeLogin();
     Actions.Login();
   }
 

@@ -38,8 +38,6 @@ export default function globalReducer(state = initialState, action) {
 			log.info('=====> action.payload', action.payload);
 			let data = action.payload.data;
 			let newState = state
-				// .setIn(['currentUser', 'userID'], data.userID)
-				// .setIn(['currentUser', 'token'], action.payload.token)
 				// .setIn(["currentUser", "username"], data.username)
 				// .setIn(["currentUser", "phone"], data.phone)
 				// .setIn(['currentUser', 'email'], data.email)

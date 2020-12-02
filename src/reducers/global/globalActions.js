@@ -1,6 +1,5 @@
 import Firebase, { db } from '../../components/firebase/FirebaseConfig';
 
-// define types
 const {
 	UPDATE_EMAIL,
     UPDATE_PASSWORD,
@@ -11,7 +10,8 @@ const {
     LOGIN_FAILURE,
 } = require('../../lib/constants').default;
 
-// actions
+import ls from "../../lib/localStorage";
+
 
 export const updateEmail = email => {
 	return {
@@ -53,34 +53,20 @@ export function loginFailure(error) {
     };
 }
 
-
-// export function login(username, password) {
-//     return dispatch => {
-//         dispatch(loginRequest());
-//         return userApi.login(username, password)
-//             .then(function (json) {
-//                 log.info("Login success data action", json);
-//                 if (json.status === 200) {
-//                     let token = json.token;
-//                     ls.setLoginInfo({ username, password, token });
-//                     dispatch(loginSuccess(json));
-//                 } else {
-//                     dispatch(loginFailure(json.error));
-//                 }
-
-//                 return json;
-//             });
-//     };
-// }
-
 export const login = (email, password) => {
 	return async dispatch => {
 		dispatch(loginRequest())
 		try {
-			const response = await Firebase.auth().signInWithEmailAndPassword(email, password)
+			let response = await Firebase.auth().signInWithEmailAndPassword(email, password);
+			ls.setLoginInfo({ email, password });
 			dispatch(loginSuccess(response))
 		} catch (e) {
-			alert(e)
+			if(!email){
+				alert('k co email');
+			}
+			if(!password){
+				alert('k co password')
+			}
 		}
 	}
 }
