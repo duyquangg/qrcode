@@ -1,12 +1,14 @@
-import { combineReducers } from 'redux'
 const {
 	UPDATE_EMAIL,
     UPDATE_PASSWORD,
     LOGIN,
     SIGNUP 
 } = require('../../lib/constants').default;
+import InitialState from './globalInitialState';
 
-const user = (state = {}, action) => {
+const initialState = new InitialState;
+export default function globalReducer(state = initialState, action) {
+	if (!(state instanceof InitialState)) return initialState.merge(state);
 	switch (action.type) {
 		case LOGIN:
 			return action.payload
@@ -20,9 +22,3 @@ const user = (state = {}, action) => {
 			return state
 	}
 }
-
-const rootReducer = combineReducers({
-	user
-})
-
-export default rootReducer
