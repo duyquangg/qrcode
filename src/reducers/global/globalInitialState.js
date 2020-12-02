@@ -7,11 +7,6 @@ var InitialState = Record({
     password: '',
     loggedIn : false,
     isLoggin : false,
-    // savedPassword: false,
-    // scene : {},
-    // prevScene: {},
-    // mountTabCv: 1,
-    // imageUploading: false,
 });
 
 export default InitialState;

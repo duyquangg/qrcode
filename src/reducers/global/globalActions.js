@@ -5,7 +5,10 @@ const {
 	UPDATE_EMAIL,
     UPDATE_PASSWORD,
     LOGIN,
-    SIGNUP 
+	SIGNUP,
+	LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
 } = require('../../lib/constants').default;
 
 // actions
@@ -24,13 +27,58 @@ export const updatePassword = password => {
 	}
 }
 
-export const login = () => {
-	return async (dispatch, getState) => {
-		try {
-			const { email, password } = getState().user
-			const response = await Firebase.auth().signInWithEmailAndPassword(email, password)
+export function onChatGlobalChange(field, value) {
+    return {
+        type: ON_GLOBAL_FIELD_CHANGE,
+        payload: {field: field, value: value}
+    };
+}
 
-			dispatch(getUser(response.user.uid))
+export function loginRequest() {
+    return {
+        type: LOGIN_REQUEST
+    };
+}
+
+export function loginSuccess(user) {
+    return {
+        type: LOGIN_SUCCESS,
+        payload: user
+    };
+}
+export function loginFailure(error) {
+    return {
+        type: LOGIN_FAILURE,
+        payload: error
+    };
+}
+
+
+// export function login(username, password) {
+//     return dispatch => {
+//         dispatch(loginRequest());
+//         return userApi.login(username, password)
+//             .then(function (json) {
+//                 log.info("Login success data action", json);
+//                 if (json.status === 200) {
+//                     let token = json.token;
+//                     ls.setLoginInfo({ username, password, token });
+//                     dispatch(loginSuccess(json));
+//                 } else {
+//                     dispatch(loginFailure(json.error));
+//                 }
+
+//                 return json;
+//             });
+//     };
+// }
+
+export const login = (email, password) => {
+	return async dispatch => {
+		dispatch(loginRequest())
+		try {
+			const response = await Firebase.auth().signInWithEmailAndPassword(email, password)
+			dispatch(loginSuccess(response))
 		} catch (e) {
 			alert(e)
 		}

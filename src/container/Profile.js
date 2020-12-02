@@ -1,8 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Map } from 'immutable';
+
 import { Actions } from 'react-native-router-flux';
 import Firebase from '../components/firebase/FirebaseConfig';
+import * as globalActions from '../reducers/global/globalActions';
 
 class Profile extends React.Component {
   handleSignout = () => {
@@ -14,7 +19,7 @@ class Profile extends React.Component {
     return (
       <View style={styles.container}>
         <Text>Profile Screen</Text>
-        <Text>{this.props.user.email}</Text>
+        <Text>{this.props.global.email}</Text>
         <Button title='Logout' onPress={this.handleSignout} />
       </View>
     )
@@ -29,11 +34,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   }
 })
+const actions = [
+  globalActions
+];
+const mapDispatchToProps = dispatch => {
+  const creators = Map()
+    .merge(...actions)
+    .filter(value => typeof value === 'function')
+    .toObject();
 
+  return {
+    actions: bindActionCreators(creators, dispatch),
+    dispatch
+  };
+}
 const mapStateToProps = state => {
   return {
-    user: state.user
+    ...state
   }
 }
 
-export default connect(mapStateToProps)(Profile)
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)

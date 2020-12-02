@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import { StyleSheet, Platform, View, Text, StatusBar } from "react-native";
 import {
   Router,
@@ -8,6 +8,10 @@ import {
 import TabIcon from "./components/icons/TabIcon";
 
 
+import { Map } from 'immutable';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import Home from "./container/Home";
 import Profile from "./container/Profile";
 
@@ -15,63 +19,91 @@ import Profile from "./container/Profile";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
-const AppRouter = (props) => {
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle={"dark-content"} />
-      <Router>
-        <Scene
-          key="root"
-          hideNavBar={true}
-          // navigationBarStyle={styles.topNavBar}
-          titleStyle={styles.topNavBarTitle}
-        >
-          <Tabs
-            key="Main"
-            tabBarPosition="bottom"
-            lazy
-            tabs
-            hideNavBar
-            activeBackgroundColor="transperent" //bg khi click vao icon
-            tabBarStyle={[styles.bottomTabBar, { backgroundColor: '#fff' }]} // bg bottomBar
-            labelStyle={styles.bottomTabTitle}
-            activeTintColor={'red'} //cùng màu với màu icons
-            inactiveTintColor={'#000'}
 
-          // initial={isLogin}
+import * as globalActions from './reducers/global/globalActions';
+const actions = [globalActions];
+
+function mapStateToProps(state) {
+  return {
+    ...state
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  const creators = Map()
+    .merge(...actions)
+    .filter(value => typeof value === 'function')
+    .toObject();
+
+  return {
+    actions: bindActionCreators(creators, dispatch),
+    dispatch,
+  };
+}
+class AppRouter extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    let loggedIn = this.props.global.loggedIn;
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle={"dark-content"} />
+        <Router>
+          <Scene
+            key="root"
+            hideNavBar={true}
+            // navigationBarStyle={styles.topNavBar}
+            titleStyle={styles.topNavBarTitle}
           >
-            <Scene
-              key="Home"
-              component={Home}
-              hideNavBar //tự sinh height on Top
-              title="Trang chủ"
-              icon={TabIcon}
-            />
-            <Scene
-              key="Profile"
-              // initial
-              component={Profile}
+            <Tabs
+              key="Main"
+              tabBarPosition="bottom"
+              lazy
+              tabs
               hideNavBar
-              title="Cá nhân"
-              icon={TabIcon}
+              activeBackgroundColor="transperent" //bg khi click vao icon
+              tabBarStyle={[styles.bottomTabBar, { backgroundColor: '#fff' }]} // bg bottomBar
+              labelStyle={styles.bottomTabTitle}
+              activeTintColor={'red'} //cùng màu với màu icons
+              inactiveTintColor={'#000'}
+              // initial={loggedIn}
+            >
+              <Scene
+                key="Home"
+                component={Home}
+                hideNavBar //tự sinh height on Top
+                title="Trang chủ"
+                // initial
+                icon={TabIcon}
+              />
+              <Scene
+                key="Profile"
+                // initial
+                component={Profile}
+                hideNavBar
+                title="Cá nhân"
+                icon={TabIcon}
+              />
+            </Tabs>
+            <Scene
+              key="Login"
+              initial
+              component={Login}
+              // initial={!loggedIn}
+              title="Login"
             />
-          </Tabs>
-          <Scene
-            key="Login"
-            // initial
-            component={Login}
-            title="Login"
-          />
-          <Scene
-            key="Signup"
-            // initial
-            component={Signup}
-            title="Signup"
-          />
-        </Scene>
-      </Router>
-    </View>
-  );
+            <Scene
+              key="Signup"
+              // initial
+              component={Signup}
+              title="Signup"
+            />
+          </Scene>
+        </Router>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -109,4 +141,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppRouter;
+export default connect(mapStateToProps, mapDispatchToProps)(AppRouter);

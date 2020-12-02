@@ -1,13 +1,17 @@
-import React from 'react'
-import { createStore, applyMiddleware } from 'redux'
-import { Provider } from 'react-redux'
-import thunkMiddleware from 'redux-thunk'
-
+import React from 'react';
+import { Provider } from 'react-redux';
 import AppRouter from './src/AppRouter';
-import reducer from './src/redux/reducers';
 
-const middleware = applyMiddleware(thunkMiddleware)
-const store = createStore(reducer, middleware)
+import configureStore from './src/lib/configureStore';
+import globalInitialState from './src/reducers/global/globalInitialState';
+
+function getInitialState() {
+	const _initState = {
+	  global: new globalInitialState,
+	};
+	return _initState;
+  }
+const store = configureStore(getInitialState());
 
 export default class App extends React.Component {
 	render() {
