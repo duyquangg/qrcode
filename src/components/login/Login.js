@@ -404,7 +404,7 @@ class Login extends Component {
 				// 	Actions.Home();
 				// }
 			}
-			this.onLoginPress();
+			this.onLoginPress.bind(this);
 		})
 	}
 	componentWillUnmount() {
@@ -449,6 +449,7 @@ class Login extends Component {
 				password
 			}
 			this.props.actions.login(email,password);
+			this.props.onGlobalFieldChange('email',email);
 			Actions.Home();
 			ls.setLoginInfo(dto);
 			this.setState({

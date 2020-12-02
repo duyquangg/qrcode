@@ -11,7 +11,7 @@ const {
 import ls from "../../lib/localStorage";
 
 
-export function onChatGlobalChange(field, value) {
+export function onGlobalFieldChange(field, value) {
     return {
         type: ON_GLOBAL_FIELD_CHANGE,
         payload: {field: field, value: value}

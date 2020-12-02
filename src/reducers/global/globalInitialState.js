@@ -3,8 +3,8 @@
 import {Record} from 'immutable';
 
 var InitialState = Record({
-    email: '',
-    password: '',
+    email: null,
+    password: null,
     loggedIn : false,
     isLoggin : false,
 });
