@@ -10,6 +10,7 @@ import { Map } from 'immutable';
 
 import gui from '../../lib/gui';
 import Loader from '../icons/Loader';
+import ls from '../../lib/localStorage';
 
 import Firebase, { db } from '../firebase/FirebaseConfig';
 import * as globalActions from '../../reducers/global/globalActions';
@@ -42,7 +43,7 @@ class Signup extends Component {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder='Full Name'
+                        placeholder='Họ và tên'
                         placeholderTextColor="#aaaaaa"
                         onChangeText={(fullName) => this.setState({ fullName })}
                         value={this.state.fullName}
@@ -51,7 +52,8 @@ class Signup extends Component {
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder='E-mail'
+                        placeholder='Email'
+                        keyboardType={'email-address'}
                         placeholderTextColor="#aaaaaa"
                         onChangeText={(email) => this.setState({ email })}
                         value={this.state.email}
@@ -63,7 +65,7 @@ class Signup extends Component {
                             style={styles.inputPass}
                             placeholderTextColor="#aaaaaa"
                             secureTextEntry={this.state.checkPass ? true : false}
-                            placeholder='Password'
+                            placeholder='Mật khẩu'
                             onChangeText={(password) => this.setState({ password })}
                             value={this.state.password}
                             underlineColorAndroid="transparent"
@@ -92,7 +94,7 @@ class Signup extends Component {
                             style={styles.inputPass}
                             placeholderTextColor="#aaaaaa"
                             secureTextEntry={this.state.checkConfirmPass ? true : false}
-                            placeholder='Confirm Password'
+                            placeholder='Xác nhận mật khẩu'
                             onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
                             value={this.state.confirmPassword}
                             underlineColorAndroid="transparent"
@@ -120,54 +122,81 @@ class Signup extends Component {
                         style={styles.button}
                         onPress={this.onRegisterPress.bind(this)}
                     >
-                        <Text style={styles.buttonTitle}>Create account</Text>
+                        <Text style={styles.buttonTitle}>Tạo tài khoản</Text>
                     </TouchableOpacity>
                     <View style={styles.footerView}>
-                        <Text style={styles.footerText}>Already got an account? <Text onPress={() => Actions.Login()} style={styles.footerLink}>Log in</Text></Text>
+                        <Text style={styles.footerText}>Bạn đã có tài khoản? <Text onPress={() => Actions.Login()} style={styles.footerLink}>Đăng nhập</Text></Text>
                     </View>
-                    <Loader loading={this.state.loading}/>
+                    <Loader loading={this.state.loading} />
                 </KeyboardAwareScrollView>
             </View>
         )
     }
     onRegisterPress = () => {
         let { email, password, confirmPassword, fullName } = this.state;
+        if (!fullName) {
+            Alert.alert('Thông báo', 'Họ và tên không được để trống !');
+            return;
+        } else if (!email) {
+            Alert.alert('Thông báo', 'Email không được để trống !');
+            return;
+        } else if (!password) {
+            Alert.alert('Thông báo', 'Mật khẩu không được để trống !');
+            return;
+        }
+        if (password.length < 6) {
+            Alert.alert('Thông báo', 'Mật khẩu cần ít nhất 6 ký tự !');
+            return;
+        }
         if (password !== confirmPassword) {
-            alert("Passwords don't match")
+            Alert.alert('Thông báo','Mật khẩu không khớp rồi !')
             return
         }
-        this.setState({ loading: true })
-        Firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((response) => {
-                this.setState({loading: false})
-                const data = {
-                    email,
-                    fullName,
-                };
-                db.collection('users')
-                    .doc(response.user.uid)
-                    .set(data)
-                    .then(() => {
-                        Actions.Home();
-                        Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
-                        this.setState({
-                            email: '',
-                            password: '',
-                            confirmPassword: '',
-                            fullName: '',
-                            loading: false
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (reg.test(email) === false) {
+            this.setState({ email });
+            Alert.alert('Thông báo', 'Email không đúng định dạng')
+            return false;
+        } else {
+            this.setState({ loading: true })
+            Firebase
+                .auth()
+                .createUserWithEmailAndPassword(email, password)
+                .then((response) => {
+                    this.setState({ loading: false })
+                    const data = {
+                        email,
+                        fullName,
+                    };
+                    db.collection('users')
+                        .doc(response.user.uid)
+                        .set(data)
+                        .then(() => {
+                            let dto = {
+								email,
+								password
+							}
+                            ls.setLoginInfo(dto);
+                            Actions.Home();
+                            Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
+                            this.setState({
+                                email: '',
+                                password: '',
+                                confirmPassword: '',
+                                fullName: '',
+                                loading: false
+                            })
                         })
-                    })
-                    .catch((error) => {
-                        alert(error)
-                    });
-            })
-            .catch((error) => {
-                alert(error);
-                this.setState({loading: false})
-            });
+                        .catch((error) => {
+                            this.setState({ loading: false });
+							Alert.alert(error);
+                        });
+                })
+                .catch((error) => {
+                    Alert.alert('Thông báo', 'Email hoặc mật khẩu của bạn không đúng !');
+                    this.setState({ loading: false })
+                });
+        }
     }
 }
 
@@ -201,7 +230,7 @@ const styles = StyleSheet.create({
         height: 46,
         borderRadius: 5,
         width: gui.screenWidth - 110,
-        color:'#000',
+        color: '#000',
         overflow: 'hidden',
         backgroundColor: 'white',
     },
@@ -210,7 +239,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
-        color:'#000',
+        color: '#000',
         borderWidth: 1,
         borderColor: '#788eec',
         marginTop: 10,

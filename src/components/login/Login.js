@@ -55,10 +55,11 @@ class Login extends Component {
 					/>
 					<TextInput
 						style={styles.input}
-						placeholder='E-mail'
+						placeholder='Email'
 						placeholderTextColor="#aaaaaa"
 						onChangeText={(email) => this.setState({ email })}
 						value={this.state.email}
+						keyboardType={'email-address'}
 						underlineColorAndroid="transparent"
 						autoCapitalize="none"
 					/>
@@ -67,7 +68,7 @@ class Login extends Component {
 							style={styles.inputPass}
 							placeholderTextColor="#aaaaaa"
 							secureTextEntry={this.state.checkPass ? true : false}
-							placeholder='Password'
+							placeholder='Mật khẩu'
 							onChangeText={(password) => this.setState({ password })}
 							value={this.state.password}
 							underlineColorAndroid="transparent"
@@ -94,10 +95,10 @@ class Login extends Component {
 					<TouchableOpacity
 						style={styles.button}
 						onPress={this.onLoginPress.bind(this)}>
-						<Text style={styles.buttonTitle}>Log in</Text>
+						<Text style={styles.buttonTitle}>Đăng nhập</Text>
 					</TouchableOpacity>
 					<View style={styles.footerView}>
-						<Text style={styles.footerText}>Don't have an account? <Text onPress={() => Actions.Signup()} style={styles.footerLink}>Sign up</Text></Text>
+						<Text style={styles.footerText}>Bạn chưa có tài khoản? <Text onPress={() => Actions.Signup()} style={styles.footerLink}>Đăng ký</Text></Text>
 					</View>
 				</KeyboardAwareScrollView>
 			</View>
@@ -106,44 +107,60 @@ class Login extends Component {
 	onLoginPress = (user) => {
 		let { email, password } = this.state;
 		if (!email) {
-			Alert.alert('Thông báo', 'Bạn phải nhập email trước đã !')
+			Alert.alert('Thông báo', 'Email trước không được để trống !');
+			return;
 		} else if (!password) {
-			Alert.alert('Thông báo', 'Bạn phải nhập mật khẩu đã !')
+			Alert.alert('Thông báo', 'Mật khẩu không được để trống !');
+			return;
 		}
-		this.setState({ loading: true });
-		Firebase
-			.auth()
-			.signInWithEmailAndPassword(email, password)
-			.then((response) => {
-				const uid = response.user.uid
-				const usersRef = Firebase.firestore().collection('users')
-				usersRef
-					.doc(uid)
-					.get()
-					.then(firestoreDocument => {
-						if (!firestoreDocument.exists) {
-							alert("User does not exist anymore.")
-							return;
-						}
-						let dto = {
-							email,
-							password
-						}
-						ls.setLoginInfo(dto)
-						Actions.Home();
-						this.setState({
-							email: '',
-							password: '',
-							loading: false
+		if (password.length < 6) {
+			Alert.alert('Thông báo', 'Mật khẩu cần ít nhất 6 ký tự !');
+			return;
+		}
+		//done validated
+		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+		if (reg.test(email) === false) {
+			this.setState({ email });
+			Alert.alert('Thông báo','Email không đúng định dạng')
+			return false;
+		} else {
+			this.setState({ loading: true });
+			Firebase
+				.auth()
+				.signInWithEmailAndPassword(email, password)
+				.then((response) => {
+					const uid = response.user.uid
+					const usersRef = Firebase.firestore().collection('users')
+					usersRef
+						.doc(uid)
+						.get()
+						.then(firestoreDocument => {
+							if (!firestoreDocument.exists) {
+								Alert.alert("Người dùng không tồn tại !")
+								return;
+							}
+							let dto = {
+								email,
+								password
+							}
+							ls.setLoginInfo(dto);
+							Actions.Home();
+							this.setState({
+								email: '',
+								password: '',
+								loading: false
+							})
 						})
-					})
-					.catch(error => {
-						alert(error)
-					});
-			})
-			.catch(error => {
-				alert(error)
-			})
+						.catch(error => {
+							this.setState({ loading: false });
+							Alert.alert(error);
+						});
+				})
+				.catch(error => {
+					Alert.alert('Thông báo', 'Email hoặc mật khẩu của bạn không đúng !');
+					this.setState({ loading: false });
+				})
+		}
 	}
 }
 const styles = StyleSheet.create({
@@ -175,7 +192,7 @@ const styles = StyleSheet.create({
 	inputPass: {
 		height: 46,
 		borderRadius: 5,
-		color:'#000',
+		color: '#000',
 		width: gui.screenWidth - 110,
 		overflow: 'hidden',
 		backgroundColor: 'white',
@@ -184,7 +201,7 @@ const styles = StyleSheet.create({
 		height: 46,
 		borderRadius: 5,
 		overflow: 'hidden',
-		color:'#000',
+		color: '#000',
 		borderWidth: 1,
 		borderColor: '#788eec',
 		backgroundColor: 'white',
