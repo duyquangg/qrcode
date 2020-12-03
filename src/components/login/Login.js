@@ -130,8 +130,7 @@ class Login extends Component {
 				.signInWithEmailAndPassword(email, password)
 				.then((response) => {
 					const uid = response.user.uid
-					const usersRef = Firebase.firestore().collection('users')
-					usersRef
+					Firebase.firestore().collection('users')
 						.doc(uid)
 						.get()
 						.then(firestoreDocument => {
