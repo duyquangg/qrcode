@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet, Alert } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -10,7 +10,8 @@ import { Map } from 'immutable';
 
 import gui from '../../lib/gui';
 
-import Firebase from '../firebase/FirebaseConfig';
+import Firebase, { db } from '../firebase/FirebaseConfig';
+import Loader from '../icons/Loader';
 import ls from '../../lib/localStorage';
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -21,20 +22,17 @@ class Login extends Component {
 			email: '',
 			password: '',
 			checkLogin: true,
-			checkPass: true
+			checkPass: true,
+
+			loading: false,
 		}
 	}
 	componentDidMount() {
 		// Firebase.auth().onAuthStateChanged(user => {
 		// 	if (user) {
-		// 		this.setState({checkLogin: false})
-		// 		// this.props.actions.getUser(user.uid);
-		// 		console.log('======> user', user);
-		// 		// if (this.props.global.email != null) {
-		// 		// 	Actions.Home();
-		// 		// }
+		// 		this.setState({ checkLogin: false })
+		// 		this.onLoginPress.bind(this, user);
 		// 	}
-		// 	this.onLoginPress.bind(this);
 		// })
 	}
 	componentWillUnmount() {
@@ -48,7 +46,9 @@ class Login extends Component {
 			<View style={styles.container} >
 				<KeyboardAwareScrollView
 					style={{ flex: 1, width: '100%' }}
-					keyboardShouldPersistTaps="always">
+					keyboardShouldPersistTaps="always"
+				>
+					<Loader loading={this.state.loading} />
 					<Image
 						style={styles.logo}
 					// source={require('../../../assets/icon.png')}
@@ -103,85 +103,47 @@ class Login extends Component {
 			</View>
 		)
 	};
-	onLoginPress = () => {
+	onLoginPress = (user) => {
 		let { email, password } = this.state;
-		// Firebase
-		// 	.auth()
-		// 	.signInWithEmailAndPassword(email, password)
-		// 	.then(() => Actions.Home())
-		// 	//   .catch(error => this.setState({ errorMessage: error.message }))
-		// 	.catch(error => {
-		// 		if(!email){
-		// 			Alert.alert('Thông báo','nhap email di')
-		// 		} else if(!password) {
-		// 			Alert.alert('Thông báo','nhap pass di')
-		// 		} else {
-		// 			alert(error)
-		// 		}
-		// 	})
-
-		// if(email && password){
-		// 	let dto = {
-		// 		email,
-		// 		password
-		// 	}
-		this.props.actions.login(email, password);
-		// 	this.props.onGlobalFieldChange('email',email);
-		// 	Actions.Home();
-		// 	ls.setLoginInfo(dto);
-		// 	this.setState({
-		// 		email: '',
-		// 		password: ''
-		// 	})
-		// }
-		// if (!this.validate()){
-		//   return;
-		// }
-		// 	this.setState({progressLogin: true});
-		// 	  let userDto = {
-		// 		  username: this.state.username,
-		// 		  password: this.state.password
-		// 	  };
-		// 	  this.props.actions.login(username, password)
-		// 		  .then(async (res) => {
-		// 			log.info('=======> res login',res);
-		// 			  if (res.status === 200) {
-		// 				this.setState({progressLogin: false}, () => {
-		// 					Actions.Main();
-		// 				});
-		// 			  } else {
-		// 				  Alert.alert('Thông báo', 'Mật khẩu hoặc tài khoản không đúng! Bạn vui lòng thử lại')
-		// 				  this.setState({progressLogin: false});
-		// 			  }
-		// 		  })
-		// 		  .catch((res) => {
-		// 			Alert.alert('Thông báo', 'Quá trình đăng nhập xảy ra lỗi. Bạn vui lòng thử lại sau')
-		// 		  })
-
-		// firebase
-		//     .auth()
-		//     .signInWithEmailAndPassword(email, password)
-		//     .then((response) => {
-		//         const uid = response.user.uid
-		//         const usersRef = firebase.firestore().collection('users')
-		//         usersRef
-		//             .doc(uid)
-		//             .get()
-		//             .then(firestoreDocument => {
-		//                 if (!firestoreDocument.exists) {
-		//                     alert("User does not exist anymore.")
-		//                     return;
-		//                 }
-		//                 const user = firestoreDocument.data()
-		//                 navigation.navigate('Home', {user: user})
-		//             })
-		//             .catch(error => {
-		//                 alert(error)
-		//             });
-		//     })
-		//     .catch(error => {
-		//         alert(error)
-		//     })
+		if (!email) {
+			Alert.alert('Thông báo', 'Bạn phải nhập email trước đã !')
+		} else if (!password) {
+			Alert.alert('Thông báo', 'Bạn phải nhập mật khẩu đã !')
+		}
+		this.setState({ loading: true });
+		Firebase
+			.auth()
+			.signInWithEmailAndPassword(email, password)
+			.then((response) => {
+				const uid = response.user.uid
+				const usersRef = Firebase.firestore().collection('users')
+				usersRef
+					.doc(uid)
+					.get()
+					.then(firestoreDocument => {
+						if (!firestoreDocument.exists) {
+							alert("User does not exist anymore.")
+							return;
+						}
+						let dto = {
+							email,
+							password
+						}
+						ls.setLoginInfo(dto)
+						Actions.Home();
+						this.setState({
+							email: '',
+							password: '',
+							loading: false
+						})
+					})
+					.catch(error => {
+						alert(error)
+					});
+			})
+			.catch(error => {
+				alert(error)
+			})
 	}
 }
 const styles = StyleSheet.create({
@@ -200,19 +162,20 @@ const styles = StyleSheet.create({
 		margin: 30
 	},
 	viewInput: {
-		flexDirection:'row',
-		justifyContent:'space-between',
-		alignItems:'center',
-		marginHorizontal:30,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginHorizontal: 30,
 		height: 48,
 		borderRadius: 5,
 		borderWidth: 1,
 		borderColor: '#788eec',
-		paddingHorizontal:16
+		paddingHorizontal: 16
 	},
 	inputPass: {
 		height: 46,
 		borderRadius: 5,
+		color:'#000',
 		width: gui.screenWidth - 110,
 		overflow: 'hidden',
 		backgroundColor: 'white',
@@ -221,6 +184,7 @@ const styles = StyleSheet.create({
 		height: 46,
 		borderRadius: 5,
 		overflow: 'hidden',
+		color:'#000',
 		borderWidth: 1,
 		borderColor: '#788eec',
 		backgroundColor: 'white',
@@ -229,7 +193,7 @@ const styles = StyleSheet.create({
 		marginLeft: 30,
 		marginRight: 30,
 		paddingLeft: 16,
-		paddingHorizontal:16
+		paddingHorizontal: 16
 	},
 	button: {
 		backgroundColor: '#788eec',

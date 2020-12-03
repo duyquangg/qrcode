@@ -142,9 +142,7 @@ class Signup extends Component {
             .createUserWithEmailAndPassword(email, password)
             .then((response) => {
                 this.setState({loading: false})
-                const uid = response.user.uid
                 const data = {
-                    id: uid,
                     email,
                     fullName,
                 };
@@ -203,6 +201,7 @@ const styles = StyleSheet.create({
         height: 46,
         borderRadius: 5,
         width: gui.screenWidth - 110,
+        color:'#000',
         overflow: 'hidden',
         backgroundColor: 'white',
     },
@@ -211,6 +210,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
+        color:'#000',
         borderWidth: 1,
         borderColor: '#788eec',
         marginTop: 10,
