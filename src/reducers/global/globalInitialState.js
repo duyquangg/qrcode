@@ -7,6 +7,9 @@ var InitialState = Record({
     password: null,
     loggedIn : false,
     isLoggin : false,
+    typeScan: 'checkin',
+
+
 });
 
 export default InitialState;

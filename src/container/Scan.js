@@ -5,11 +5,22 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  View
+  View,
+  Alert
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+
+import { Map } from 'immutable';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import Firebase from '../components/firebase/FirebaseConfig';
+import gui from '../lib/gui';
+
+import * as globalActions from '../reducers/global/globalActions';
+
 
 class Scan extends Component {
   constructor(props) {
@@ -18,22 +29,29 @@ class Scan extends Component {
     this.state = {
       isCheckCam: false,
       typeCam: false,
+      typeScan: props.global.typeScan,
     }
+    const { currentUser } = Firebase.auth();
+    console.log('====> current',currentUser)
+  }
+  componentDidMount(){
+    
   }
   onSuccess = e => {
-    let data = JSON.parse(e.data)
-    data.forEach(e => {
-      if(e.age == 10){
-        alert('yeahhhh');
-      } else alert('chiuuuu')
-    })
-    // Linking.openURL(e.data).catch(err =>
-    //   console.error('An error occured', err)
-    // );
+    // let data = JSON.parse(e.data)
+    // data.forEach(e => {
+    //   if(e.age == 10){
+    //     alert('yeahhhh');
+    //   } else alert('chiuuuu')
+    // })
+    Linking.openURL(e.data).catch(err =>
+      console.error('An error occured', err)
+    );
   };
 
   render() {
-    let { isCheckCam, typeCam } = this.state;
+    let { isCheckCam, typeCam, typeScan } = this.state;
+    console.log('====> typeScan',typeScan);
     return (
       <QRCodeScanner
         reactivate={true}
@@ -41,18 +59,23 @@ class Scan extends Component {
         reactivateTimeout={1500}
         cameraTimeout={3000}
         cameraType={typeCam && typeCam ? 'front' : 'back'}
-        containerStyle={{ backgroundColor: 'pink' }}
+        containerStyle={{ backgroundColor: '#d0e8f2' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
-          <Text style={styles.centerText}>
-            Go to{' '}
-            <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-            your computer and scan the QR code.
-          </Text>
+          <View>
+            <TouchableOpacity>
+              <Text>asdasdsd</Text>
+            </TouchableOpacity>
+          </View>
+          // <Text style={styles.centerText}>
+          //   Go to{' '}
+          //   <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+          //   your computer and scan the QR code.
+          // </Text>
         }
         bottomContent={
           <View>
-            <TouchableOpacity onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
+            <TouchableOpacity disabled={this.state.typeCam} onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
               style={styles.buttonTouchable}
             >
               <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>
@@ -60,7 +83,7 @@ class Scan extends Component {
             <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
               style={styles.buttonTouchable}
             >
-              <Text style={styles.buttonText}>{this.state.typeCam ? 'Cam back' : 'Cam front'} </Text>
+              <Text style={styles.buttonText}>{this.state.typeCam ? 'Front camera' : 'Back camera'} </Text>
             </TouchableOpacity>
           </View>
         }
@@ -88,4 +111,23 @@ const styles = StyleSheet.create({
     padding: 16
   }
 });
-export default Scan;
+const actions = [
+	globalActions
+];
+const mapDispatchToProps = dispatch => {
+	const creators = Map()
+		.merge(...actions)
+		.filter(value => typeof value === 'function')
+		.toObject();
+
+	return {
+		actions: bindActionCreators(creators, dispatch),
+		dispatch
+	};
+}
+const mapStateToProps = state => {
+	return {
+		...state
+	}
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Scan);

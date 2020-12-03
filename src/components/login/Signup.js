@@ -149,7 +149,7 @@ class Signup extends Component {
             return;
         }
         if (password !== confirmPassword) {
-            Alert.alert('Thông báo','Mật khẩu không khớp rồi !')
+            Alert.alert('Thông báo', 'Mật khẩu không khớp rồi !')
             return
         }
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -173,11 +173,11 @@ class Signup extends Component {
                         .set(data)
                         .then(() => {
                             let dto = {
-								email,
-								password
-							}
+                                email,
+                                password
+                            }
                             ls.setLoginInfo(dto);
-                            Actions.Home();
+                            Actions.Scan();
                             Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
                             this.setState({
                                 email: '',
@@ -189,12 +189,15 @@ class Signup extends Component {
                         })
                         .catch((error) => {
                             this.setState({ loading: false });
-							Alert.alert(error);
+                            Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
                         });
                 })
                 .catch((error) => {
-                    Alert.alert('Thông báo', 'Email hoặc mật khẩu của bạn không đúng !');
+                    if (error.code === 'auth/email-already-in-use') {
+                        Alert.alert('Thông báo', 'Email đã tồn tại trong hệ thống !');
+                    }
                     this.setState({ loading: false })
+                    Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
                 });
         }
     }

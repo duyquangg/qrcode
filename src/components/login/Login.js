@@ -152,12 +152,15 @@ class Login extends Component {
 						})
 						.catch(error => {
 							this.setState({ loading: false });
-							Alert.alert(error);
+							Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
 						});
 				})
 				.catch(error => {
-					Alert.alert('Thông báo', 'Email hoặc mật khẩu của bạn không đúng !');
+					if (error.code === 'auth/email-already-in-use') {
+                        Alert.alert('Thông báo', 'Email đã tồn tại trong hệ thống !');
+                    }
 					this.setState({ loading: false });
+					Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
 				})
 		}
 	}
