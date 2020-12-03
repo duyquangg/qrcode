@@ -375,7 +375,7 @@
 // export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text, Button, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import { bindActionCreators } from 'redux';
@@ -394,25 +394,25 @@ class Login extends Component {
 			checkLogin: true,
 		}
 	}
-	componentDidMount(){
-		Firebase.auth().onAuthStateChanged(user => {
-			if (user) {
-				this.setState({checkLogin: false})
-				// this.props.actions.getUser(user.uid);
-				console.log('======> user', user);
-				// if (this.props.global.email != null) {
-				// 	Actions.Home();
-				// }
-			}
-			this.onLoginPress.bind(this);
-		})
+	componentDidMount() {
+		// Firebase.auth().onAuthStateChanged(user => {
+		// 	if (user) {
+		// 		this.setState({checkLogin: false})
+		// 		// this.props.actions.getUser(user.uid);
+		// 		console.log('======> user', user);
+		// 		// if (this.props.global.email != null) {
+		// 		// 	Actions.Home();
+		// 		// }
+		// 	}
+		// 	this.onLoginPress.bind(this);
+		// })
 	}
 	componentWillUnmount() {
 		// fix Warning: Can't perform a React state update on an unmounted component
-		this.setState = (state,callback)=>{
+		this.setState = (state, callback) => {
 			return;
 		};
-	  }
+	}
 
 	render() {
 		return (
@@ -443,20 +443,35 @@ class Login extends Component {
 	}
 	onLoginPress() {
 		let { email, password } = this.state;
-		if(email && password){
-			let dto = {
-				email,
-				password
-			}
+		// Firebase
+		// 	.auth()
+		// 	.signInWithEmailAndPassword(email, password)
+		// 	.then(() => Actions.Home())
+		// 	//   .catch(error => this.setState({ errorMessage: error.message }))
+		// 	.catch(error => {
+		// 		if(!email){
+		// 			Alert.alert('Thông báo','nhap email di')
+		// 		} else if(!password) {
+		// 			Alert.alert('Thông báo','nhap pass di')
+		// 		} else {
+		// 			alert(error)
+		// 		}
+		// 	})
+
+		// if(email && password){
+		// 	let dto = {
+		// 		email,
+		// 		password
+		// 	}
 			this.props.actions.login(email,password);
-			this.props.onGlobalFieldChange('email',email);
-			Actions.Home();
-			ls.setLoginInfo(dto);
-			this.setState({
-				email: '',
-				password: ''
-			})
-		}
+		// 	this.props.onGlobalFieldChange('email',email);
+		// 	Actions.Home();
+		// 	ls.setLoginInfo(dto);
+		// 	this.setState({
+		// 		email: '',
+		// 		password: ''
+		// 	})
+		// }
 		// if (!this.validate()){
 		//   return;
 		// }
