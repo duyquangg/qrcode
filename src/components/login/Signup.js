@@ -2,10 +2,13 @@ import React, { Component } from 'react'
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
+
+import gui from '../../lib/gui';
 
 import Firebase from '../firebase/FirebaseConfig';
 import * as globalActions from '../../reducers/global/globalActions';
@@ -19,6 +22,9 @@ class Signup extends Component {
             password: '',
             confirmPassword: '',
             checkLogin: true,
+
+            checkPass: true,
+            checkConfirmPass: true,
         }
     }
     render() {
@@ -49,29 +55,67 @@ class Signup extends Component {
                         underlineColorAndroid="transparent"
                         autoCapitalize="none"
                     />
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#aaaaaa"
-                        secureTextEntry
-                        placeholder='Password'
-                        onChangeText={(password) => this.setState({ password })}
-                        value={this.state.password}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#aaaaaa"
-                        secureTextEntry
-                        placeholder='Confirm Password'
-                        onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
-                        value={this.state.confirmPassword}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
+                    <View style={styles.viewInput}>
+                        <TextInput
+                            style={styles.inputPass}
+                            placeholderTextColor="#aaaaaa"
+                            secureTextEntry={this.state.checkPass ? true : false}
+                            placeholder='Password'
+                            onChangeText={(password) => this.setState({ password })}
+                            value={this.state.password}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                        />
+                        <TouchableOpacity
+                            onPress={() => this.setState({ checkPass: !this.state.checkPass })}
+                        >
+                            {this.state.checkPass ?
+                                <FontAwesome
+                                    name="eye-slash"
+                                    color="grey"
+                                    size={20}
+                                />
+                                :
+                                <FontAwesome
+                                    name="eye"
+                                    color="grey"
+                                    size={20}
+                                />
+                            }
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.viewInput, {marginTop:10}]}>
+                        <TextInput
+                            style={styles.inputPass}
+                            placeholderTextColor="#aaaaaa"
+                            secureTextEntry={this.state.checkConfirmPass ? true : false}
+                            placeholder='Confirm Password'
+                            onChangeText={(confirmPassword) => this.setState({ confirmPassword })}
+                            value={this.state.confirmPassword}
+                            underlineColorAndroid="transparent"
+                            autoCapitalize="none"
+                        />
+                        <TouchableOpacity
+                            onPress={() => this.setState({ checkConfirmPass: !this.state.checkConfirmPass })}
+                        >
+                            {this.state.checkConfirmPass ?
+                                <FontAwesome
+                                    name="eye-slash"
+                                    color="grey"
+                                    size={20}
+                                />
+                                :
+                                <FontAwesome
+                                    name="eye"
+                                    color="grey"
+                                    size={20}
+                                />
+                            }
+                        </TouchableOpacity>
+                    </View>
                     <TouchableOpacity
                         style={styles.button}
-                        // onPress={() => onRegisterPress()}
+                    // onPress={() => onRegisterPress()}
                     >
                         <Text style={styles.buttonTitle}>Create account</Text>
                     </TouchableOpacity>
@@ -99,13 +143,31 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         margin: 30
     },
+    viewInput: {
+		flexDirection:'row',
+		justifyContent:'space-between',
+		alignItems:'center',
+		marginHorizontal:30,
+		height: 48,
+		borderRadius: 5,
+		borderWidth: 1,
+		borderColor: '#788eec',
+		paddingHorizontal:16
+	},
+	inputPass: {
+		height: 46,
+		borderRadius: 5,
+		width: gui.screenWidth - 110,
+		overflow: 'hidden',
+		backgroundColor: 'white',
+	},
     input: {
         height: 48,
         borderRadius: 5,
         overflow: 'hidden',
         backgroundColor: 'white',
         borderWidth: 1,
-		borderColor: '#788eec',
+        borderColor: '#788eec',
         marginTop: 10,
         marginBottom: 10,
         marginLeft: 30,
