@@ -18,7 +18,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    console.log('=====> email',this.props.global.email);
+    // console.log('=====> email',this.props.global.email);
     return (
       <View style={styles.container}>
         <Text>Profile Screen</Text>

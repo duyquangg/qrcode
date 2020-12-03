@@ -93,7 +93,7 @@ class Login extends Component {
 					</View>
 					<TouchableOpacity
 						style={styles.button}
-						onPress={() => onLoginPress()}>
+						onPress={this.onLoginPress.bind(this)}>
 						<Text style={styles.buttonTitle}>Log in</Text>
 					</TouchableOpacity>
 					<View style={styles.footerView}>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Text, Image, Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import gui from '../../lib/gui';
+import Loader from '../icons/Loader';
 
-import Firebase from '../firebase/FirebaseConfig';
+import Firebase, { db } from '../firebase/FirebaseConfig';
 import * as globalActions from '../../reducers/global/globalActions';
 
 class Signup extends Component {
@@ -25,6 +26,8 @@ class Signup extends Component {
 
             checkPass: true,
             checkConfirmPass: true,
+
+            loading: false,
         }
     }
     render() {
@@ -84,7 +87,7 @@ class Signup extends Component {
                             }
                         </TouchableOpacity>
                     </View>
-                    <View style={[styles.viewInput, {marginTop:10}]}>
+                    <View style={[styles.viewInput, { marginTop: 10 }]}>
                         <TextInput
                             style={styles.inputPass}
                             placeholderTextColor="#aaaaaa"
@@ -115,16 +118,58 @@ class Signup extends Component {
                     </View>
                     <TouchableOpacity
                         style={styles.button}
-                    // onPress={() => onRegisterPress()}
+                        onPress={this.onRegisterPress.bind(this)}
                     >
                         <Text style={styles.buttonTitle}>Create account</Text>
                     </TouchableOpacity>
                     <View style={styles.footerView}>
                         <Text style={styles.footerText}>Already got an account? <Text onPress={() => Actions.Login()} style={styles.footerLink}>Log in</Text></Text>
                     </View>
+                    <Loader loading={this.state.loading}/>
                 </KeyboardAwareScrollView>
             </View>
         )
+    }
+    onRegisterPress = () => {
+        let { email, password, confirmPassword, fullName } = this.state;
+        if (password !== confirmPassword) {
+            alert("Passwords don't match")
+            return
+        }
+        this.setState({ loading: true })
+        Firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                this.setState({loading: false})
+                const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                    fullName,
+                };
+                db.collection('users')
+                    .doc(response.user.uid)
+                    .set(data)
+                    .then(() => {
+                        Actions.Home();
+                        Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
+                        this.setState({
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                            fullName: '',
+                            loading: false
+                        })
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+            })
+            .catch((error) => {
+                alert(error);
+                this.setState({loading: false})
+            });
     }
 }
 
@@ -144,23 +189,23 @@ const styles = StyleSheet.create({
         margin: 30
     },
     viewInput: {
-		flexDirection:'row',
-		justifyContent:'space-between',
-		alignItems:'center',
-		marginHorizontal:30,
-		height: 48,
-		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: '#788eec',
-		paddingHorizontal:16
-	},
-	inputPass: {
-		height: 46,
-		borderRadius: 5,
-		width: gui.screenWidth - 110,
-		overflow: 'hidden',
-		backgroundColor: 'white',
-	},
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 30,
+        height: 48,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: '#788eec',
+        paddingHorizontal: 16
+    },
+    inputPass: {
+        height: 46,
+        borderRadius: 5,
+        width: gui.screenWidth - 110,
+        overflow: 'hidden',
+        backgroundColor: 'white',
+    },
     input: {
         height: 48,
         borderRadius: 5,

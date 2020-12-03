@@ -10,7 +10,7 @@ class LocalStorage {
     };
     getLoginInfo() {
         return AsyncStorage.getItem(storageKeys.LOGIN_INFO).then(result => {
-            console.log('===> rs',result);
+            // console.log('===> rs',result);
             return JSON.parse(result);
         })
     }

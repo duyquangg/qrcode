@@ -29,7 +29,7 @@ export default function globalReducer(state = initialState, action) {
 		}
 		case LOGIN_SUCCESS: {
 			let data = action.payload.user;
-			console.log('====> data',data.email)
+			// console.log('====> data',data.email)
 			let newState = state
 				// .setIn(["currentUser", "username"], data.username)
 				// .setIn(["currentUser", "phone"], data.phone)

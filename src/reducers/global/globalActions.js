@@ -1,40 +1,40 @@
 import Firebase, { db } from '../../components/firebase/FirebaseConfig';
 
 const {
-    LOGIN,
+	LOGIN,
 	SIGNUP,
 	LOGIN_REQUEST,
-    LOGIN_SUCCESS,
-    LOGIN_FAILURE,
+	LOGIN_SUCCESS,
+	LOGIN_FAILURE,
 } = require('../../lib/constants').default;
 
 import ls from "../../lib/localStorage";
 
 
 export function onGlobalFieldChange(field, value) {
-    return {
-        type: ON_GLOBAL_FIELD_CHANGE,
-        payload: {field: field, value: value}
-    };
+	return {
+		type: ON_GLOBAL_FIELD_CHANGE,
+		payload: { field: field, value: value }
+	};
 }
 
 export function loginRequest() {
-    return {
-        type: LOGIN_REQUEST
-    };
+	return {
+		type: LOGIN_REQUEST
+	};
 }
 
 export function loginSuccess(user) {
-    return {
-        type: LOGIN_SUCCESS,
-        payload: user
-    };
+	return {
+		type: LOGIN_SUCCESS,
+		payload: user
+	};
 }
 export function loginFailure(error) {
-    return {
-        type: LOGIN_FAILURE,
-        payload: error
-    };
+	return {
+		type: LOGIN_FAILURE,
+		payload: error
+	};
 }
 
 export const login = (email, password) => {
@@ -59,29 +59,6 @@ export const getUser = uid => {
 				.get()
 
 			dispatch({ type: LOGIN, payload: user.data() })
-		} catch (e) {
-			alert(e)
-		}
-	}
-}
-
-export const signup = () => {
-	return async (dispatch, getState) => {
-		try {
-			const { email, password } = getState().user
-			const response = await Firebase.auth().createUserWithEmailAndPassword(email, password)
-			if (response.user.uid) {
-				const user = {
-					uid: response.user.uid,
-					email: email
-				}
-
-				db.collection('users')
-					.doc(response.user.uid)
-					.set(user)
-
-				dispatch({ type: SIGNUP, payload: user })
-			}
 		} catch (e) {
 			alert(e)
 		}
