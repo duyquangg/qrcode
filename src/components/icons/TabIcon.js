@@ -1,13 +1,14 @@
 import React from 'react';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import gui from '../../lib/gui';
 
 const TabIcon = ({ title, focused }) => {
   //   const Icon = focused ? SolidIcon : LightIcon;
   let iconName;
   switch (title) {
-    case 'Trang chủ':
-      iconName = 'home';
+    case 'Scan':
+      iconName = 'qrcode';
       break;
     case 'Explore':
       iconName = 'paper-plane';
@@ -24,7 +25,7 @@ const TabIcon = ({ title, focused }) => {
     <FontAwesome
       name={iconName}
       size={25}
-      color={focused ? 'red' : '#000'}
+      color={focused ? gui.mainColor : '#4b515d'}
     />
   );
 };

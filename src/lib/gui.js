@@ -3,7 +3,7 @@ import {Dimensions, Platform} from 'react-native'
 const {width, height} = Dimensions.get('window');
 
 export const gui = {
-    mainColor: "#3366ff",
+    mainColor: "#3443be",
     linearMain: ['#3443be','#2e9cff'],
     linearButton: ['rgb(255,194,38)','rgb(246,73,36)'],
     linearMinus: ['#8d8e9d','#c1c1cc'],

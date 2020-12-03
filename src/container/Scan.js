@@ -11,7 +11,7 @@ import {
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 
-class ScanScreen extends Component {
+class Scan extends Component {
   constructor(props) {
     super(props);
     // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
@@ -88,4 +88,4 @@ const styles = StyleSheet.create({
     padding: 16
   }
 });
-export default ScanScreen;
+export default Scan;

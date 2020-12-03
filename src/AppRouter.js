@@ -12,13 +12,14 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Home from "./container/Home";
+import Scan from "./container/Scan";
 import Profile from "./container/Profile";
 
 //login
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
+import gui from './lib/gui';
 import ls from './lib/localStorage';
 
 
@@ -79,15 +80,15 @@ class AppRouter extends Component {
               activeBackgroundColor="transperent" //bg khi click vao icon
               tabBarStyle={[styles.bottomTabBar, { backgroundColor: '#fff' }]} // bg bottomBar
               labelStyle={styles.bottomTabTitle}
-              activeTintColor={'red'} //cùng màu với màu icons
-              inactiveTintColor={'#000'}
+              activeTintColor={gui.mainColor} //cùng màu với màu icons
+              inactiveTintColor={'#4b515d'}
               initial={this.state.isLogin}
             >
               <Scene
-                key="Home"
-                component={Home}
+                key="Scan"
+                component={Scan}
                 hideNavBar //tự sinh height on Top
-                title="Trang chủ"
+                title="Scan"
                 // initial
                 icon={TabIcon}
               />
@@ -143,7 +144,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   bottomTabBar: {
-    height: 65,
+    height: 55,
+    marginBottom:5,
     borderTopWidth: Platform.OS === "ios" ? 1 : 0.8,
     borderTopColor: "gray",
     paddingVertical: 10,
