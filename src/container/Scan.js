@@ -62,21 +62,26 @@ class Scan extends Component {
       })
       .catch(error => console.log(error))
   }
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
-  //   console.log(nextProps.payload.payloadData);  //  Display proper list
-  // }
-  onSuccess = e => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
+    console.log(nextProps.payload.payloadData);  //  Display proper list
+  }
+  onSuccess = (e) => {
     // checkin at PTIT
     // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
-    alert(JSON.stringify(e));
+    // alert(JSON.stringify(e));
 
-    // if (e.data == 'checkin at PTIT') {
-    //   return alert('hihi')
-    // } else
-    Linking.canOpenURL(e.data).catch(err =>
-      console.error('An error occured', err)
-    );
+    let { email, dataEmail } = this.state;
+    alert(dataEmail)
+    if (e.data == 'checkin at PTIT') {
+      if (e.data == 'checkin at PTIT') {
+        // Alert.alert('Điểm danh thành công');
+        let check = dataEmail.includes(email);
+        check ? Alert.alert('Thông báo','Điểm danh thành công') : Alert.alert('Thông báo','Điểm danh thất bại');
+      }
+    } else {
+      Alert.alert('Thông báo', 'Mã QR không quét được !')
+    }
   };
 
   render() {
@@ -89,8 +94,8 @@ class Scan extends Component {
       <QRCodeScanner
         reactivate={true}
         onRead={this.onSuccess}
-        reactivateTimeout={1500}
-        cameraTimeout={3000}
+        reactivateTimeout={3000}
+        cameraTimeout={1000}
         cameraType={typeCam && typeCam ? 'front' : 'back'}
         containerStyle={{ backgroundColor: '#d0e8f2' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
@@ -113,7 +118,7 @@ class Scan extends Component {
             <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
               style={styles.buttonTouchable}
             >
-              <Text style={styles.buttonText}>{this.state.typeCam ? 'Front camera' : 'Back camera'} </Text>
+              <Text style={styles.buttonText}>{this.state.typeCam ? 'Back camera' : 'Front camera'} </Text>
             </TouchableOpacity>
           </View>
         }
