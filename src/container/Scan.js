@@ -19,6 +19,7 @@ import { bindActionCreators } from 'redux';
 import Firebase from '../components/firebase/FirebaseConfig';
 import gui from '../lib/gui';
 
+import firestore from '@react-native-firebase/firestore';
 import * as globalActions from '../reducers/global/globalActions';
 
 
@@ -29,14 +30,17 @@ class Scan extends Component {
     this.state = {
       isCheckCam: false,
       typeCam: false,
-      typeScan: props.global.typeScan,
     }
-    const { currentUser } = Firebase.auth();
-    console.log('====> current',currentUser)
+    // console.log('====> email',props.global.email);
+    // console.log('====> props', props);
   }
   componentDidMount(){
     
   }
+  componentWillReceiveProps(nextProps) {       
+    console.log("Data"+nextProps.payload.payloadData); // Display [Object Object]
+    console.log(nextProps.payload.payloadData);  //  Display proper list
+ }
   onSuccess = e => {
     // let data = JSON.parse(e.data)
     // data.forEach(e => {
@@ -50,8 +54,7 @@ class Scan extends Component {
   };
 
   render() {
-    let { isCheckCam, typeCam, typeScan } = this.state;
-    console.log('====> typeScan',typeScan);
+    let { isCheckCam, typeCam } = this.state;
     return (
       <QRCodeScanner
         reactivate={true}

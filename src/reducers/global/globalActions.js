@@ -6,6 +6,7 @@ const {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE,
+	ON_GLOBAL_FIELD_CHANGE,
 } = require('../../lib/constants').default;
 
 import ls from "../../lib/localStorage";

@@ -4,6 +4,7 @@ const {
 	LOGIN_REQUEST,
 	LOGIN_SUCCESS,
 	LOGIN_FAILURE,
+	ON_GLOBAL_FIELD_CHANGE,
 } = require('../../lib/constants').default;
 import InitialState from './globalInitialState';
 
@@ -11,6 +12,11 @@ const initialState = new InitialState;
 export default function globalReducer(state = initialState, action) {
 	if (!(state instanceof InitialState)) return initialState.merge(state);
 	switch (action.type) {
+		case ON_GLOBAL_FIELD_CHANGE: {
+            const {field, value} = action.payload;
+            let nextState = state.set(field, value);
+            return nextState;
+		}
 		case LOGIN:
 			return action.payload
 		case SIGNUP:

@@ -41,6 +41,10 @@ class Login extends Component {
 			return;
 		};
 	}
+	componentWillReceiveProps(nextProps) {       
+		console.log("Dataaa"+nextProps.payload.payloadData); // Display [Object Object]
+		console.log(nextProps.payload.payloadData);  //  Display proper list
+	 }
 	render() {
 		return (
 			<View style={styles.container} >
@@ -121,7 +125,7 @@ class Login extends Component {
 		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (reg.test(email) === false) {
 			this.setState({ email });
-			Alert.alert('Thông báo','Email không đúng định dạng')
+			Alert.alert('Thông báo', 'Email không đúng định dạng')
 			return false;
 		} else {
 			this.setState({ loading: true });
@@ -134,6 +138,7 @@ class Login extends Component {
 						.doc(uid)
 						.get()
 						.then(firestoreDocument => {
+							console.log('====> firestoreDocument',firestoreDocument);
 							if (!firestoreDocument.exists) {
 								Alert.alert("Người dùng không tồn tại !")
 								return;
@@ -143,7 +148,7 @@ class Login extends Component {
 								password
 							}
 							ls.setLoginInfo(dto);
-							Actions.Home();
+							Actions.Scan();
 							this.setState({
 								email: '',
 								password: '',
@@ -152,15 +157,18 @@ class Login extends Component {
 						})
 						.catch(error => {
 							this.setState({ loading: false });
-							Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
+							Alert.alert('Thông báoaaa', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
 						});
 				})
 				.catch(error => {
-					if (error.code === 'auth/email-already-in-use') {
-                        Alert.alert('Thông báo', 'Email đã tồn tại trong hệ thống !');
-                    }
-					this.setState({ loading: false });
-					Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
+					if (error.code === 'auth/user-not-found') {
+						Alert.alert('Thông báo', 'Email không tồn tài trong hệ thống !');
+						this.setState({ loading: false });
+					} else if (error.code === 'auth/wrong-password') {
+						Alert.alert('Thông báo', 'Bạn nhập sai mật khẩu rồi !');
+						this.setState({ loading: false });
+					}
+					// Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
 				})
 		}
 	}

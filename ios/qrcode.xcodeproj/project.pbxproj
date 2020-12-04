@@ -137,6 +137,76 @@
 			remoteGlobalIDString = 8998273719FDD789E6F9C7541AFD0B33;
 			remoteInfo = RNVectorIcons;
 		};
+		DB9E1A45257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF96B57ADE05E8909F823BDF6868B3E3;
+			remoteInfo = abseil;
+		};
+		DB9E1A47257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 514D7742C6CBB0BDBD9984AEE97DDFDE;
+			remoteInfo = "BoringSSL-GRPC";
+		};
+		DB9E1A49257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3501832F51E21BCD681DC315B3424B43;
+			remoteInfo = BVLinearGradient;
+		};
+		DB9E1A4B257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 92000153CD73F7FC2DBAB4AB708269F3;
+			remoteInfo = FirebaseFirestore;
+		};
+		DB9E1A4D257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1911113E0FBF13CFF9132E5FF7685228;
+			remoteInfo = "gRPC-C++";
+		};
+		DB9E1A4F257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9C7C87B5D0A6752AFA2642F1BCA967A3;
+			remoteInfo = "gRPC-C++-gRPCCertificates-Cpp";
+		};
+		DB9E1A51257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B471867C535B02FA55D87E260F6480F8;
+			remoteInfo = "gRPC-Core";
+		};
+		DB9E1A53257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0A9F46A999C47653013D3AD854352507;
+			remoteInfo = "leveldb-library";
+		};
+		DB9E1A55257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5737DDB4BC95AD399B3206838AB97095;
+			remoteInfo = RNCAsyncStorage;
+		};
+		DB9E1A57257A07080048B1F4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1492B8126E174E9B7DC3748278EF2DFD;
+			remoteInfo = RNFBFirestore;
+		};
 		DBFDD4592555526D00ADA0CA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DBFDD4382555526C00ADA0CA /* Pods.xcodeproj */;
@@ -486,14 +556,22 @@
 		DBFDD4392555526C00ADA0CA /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				DB9E1A46257A07080048B1F4 /* libabseil.a */,
+				DB9E1A48257A07080048B1F4 /* libBoringSSL-GRPC.a */,
+				DB9E1A4A257A07080048B1F4 /* libBVLinearGradient.a */,
 				DBFDD45A2555526D00ADA0CA /* libDoubleConversion.a */,
 				DBFDD45C2555526D00ADA0CA /* libFBReactNativeSpec.a */,
 				DB3610792557082100179230 /* libFirebaseCore.a */,
 				DB36107B2557082100179230 /* libFirebaseCoreDiagnostics.a */,
+				DB9E1A4C257A07080048B1F4 /* libFirebaseFirestore.a */,
 				DBFDD45E2555526D00ADA0CA /* libFolly.a */,
 				DBFDD4602555526D00ADA0CA /* libglog.a */,
 				DB36107D2557082100179230 /* libGoogleDataTransport.a */,
 				DB36107F2557082100179230 /* libGoogleUtilities.a */,
+				DB9E1A4E257A07080048B1F4 /* libgRPC-C++.a */,
+				DB9E1A50257A07080048B1F4 /* gRPCCertificates-Cpp.bundle */,
+				DB9E1A52257A07080048B1F4 /* libgRPC-Core.a */,
+				DB9E1A54257A07080048B1F4 /* libleveldb-library.a */,
 				DB3610812557082100179230 /* libnanopb.a */,
 				DB3610832557082100179230 /* libPermission-Camera.a */,
 				DBFDD4622555526D00ADA0CA /* libPods-qrcode.a */,
@@ -519,7 +597,9 @@
 				DBFDD4862555526D00ADA0CA /* libReact-RCTText.a */,
 				DBFDD4882555526D00ADA0CA /* libReact-RCTVibration.a */,
 				DBFDD48A2555526D00ADA0CA /* libReactCommon.a */,
+				DB9E1A56257A07080048B1F4 /* libRNCAsyncStorage.a */,
 				DB3610892557082100179230 /* libRNFBApp.a */,
+				DB9E1A58257A07080048B1F4 /* libRNFBFirestore.a */,
 				DB6589302556EEB200F7107E /* libRNGestureHandler.a */,
 				DB36108B2557082100179230 /* libRNPermissions.a */,
 				DB6589322556EEB200F7107E /* libRNReanimated.a */,
@@ -643,10 +723,9 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "qrcode" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -766,6 +845,76 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = DB6589352556EEB200F7107E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A46257A07080048B1F4 /* libabseil.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libabseil.a;
+			remoteRef = DB9E1A45257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A48257A07080048B1F4 /* libBoringSSL-GRPC.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libBoringSSL-GRPC.a";
+			remoteRef = DB9E1A47257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A4A257A07080048B1F4 /* libBVLinearGradient.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libBVLinearGradient.a;
+			remoteRef = DB9E1A49257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A4C257A07080048B1F4 /* libFirebaseFirestore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFirebaseFirestore.a;
+			remoteRef = DB9E1A4B257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A4E257A07080048B1F4 /* libgRPC-C++.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libgRPC-C++.a";
+			remoteRef = DB9E1A4D257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A50257A07080048B1F4 /* gRPCCertificates-Cpp.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "gRPCCertificates-Cpp.bundle";
+			remoteRef = DB9E1A4F257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A52257A07080048B1F4 /* libgRPC-Core.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libgRPC-Core.a";
+			remoteRef = DB9E1A51257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A54257A07080048B1F4 /* libleveldb-library.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libleveldb-library.a";
+			remoteRef = DB9E1A53257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A56257A07080048B1F4 /* libRNCAsyncStorage.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNCAsyncStorage.a;
+			remoteRef = DB9E1A55257A07080048B1F4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		DB9E1A58257A07080048B1F4 /* libRNFBFirestore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFBFirestore.a;
+			remoteRef = DB9E1A57257A07080048B1F4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		DBFDD45A2555526D00ADA0CA /* libDoubleConversion.a */ = {
