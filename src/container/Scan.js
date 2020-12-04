@@ -72,12 +72,10 @@ class Scan extends Component {
     // alert(JSON.stringify(e));
 
     let { email, dataEmail } = this.state;
-    alert(dataEmail)
     if (e.data == 'checkin at PTIT') {
       if (e.data == 'checkin at PTIT') {
-        // Alert.alert('Điểm danh thành công');
         let check = dataEmail.includes(email);
-        check ? Alert.alert('Thông báo','Điểm danh thành công') : Alert.alert('Thông báo','Điểm danh thất bại');
+        check ? Alert.alert('Thông báo','Quét mã QR thành công !') : Alert.alert('Thông báo','Quét mã QR thất bại !');
       }
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
@@ -101,11 +99,13 @@ class Scan extends Component {
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
           <View>
-            <TouchableOpacity>
               <Text style={styles.centerText}>Xin chào{' '}
+              {fullName ?
                 <Text style={styles.textBold}>{fullName} !</Text>
+                :
+                <Text style={styles.textBold}>{email} !</Text>
+              }
               </Text>
-            </TouchableOpacity>
           </View>
         }
         bottomContent={

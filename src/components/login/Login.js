@@ -140,8 +140,8 @@ class Login extends Component {
 						.then(firestoreDocument => {
 							console.log('====> firestoreDocument',firestoreDocument);
 							if (!firestoreDocument.exists) {
-								Alert.alert("Người dùng không tồn tại !")
-								return;
+								Alert.alert('Thông báo','Người dùng không tồn tại !');
+								this.setState({ loading: false });
 							}
 							let dto = {
 								email,
