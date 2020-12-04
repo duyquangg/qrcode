@@ -41,7 +41,7 @@ class Login extends Component {
 			return;
 		};
 	}
-	componentWillReceiveProps(nextProps) {       
+	UNSAFE_componentWillReceiveProps(nextProps) {       
 		console.log("Dataaa"+nextProps.payload.payloadData); // Display [Object Object]
 		console.log(nextProps.payload.payloadData);  //  Display proper list
 	 }
@@ -148,7 +148,7 @@ class Login extends Component {
 								password
 							}
 							ls.setLoginInfo(dto);
-							Actions.Scan();
+							Actions.Scan({data: dto});
 							this.setState({
 								email: '',
 								password: '',

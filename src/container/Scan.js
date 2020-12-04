@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   Linking,
   View,
-  Alert
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -16,45 +17,74 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Firebase from '../components/firebase/FirebaseConfig';
-import gui from '../lib/gui';
+import { db } from '../components/firebase/FirebaseConfig';
 
-import firestore from '@react-native-firebase/firestore';
+import Loader from '../components/icons/Loader';
+import gui from '../lib/gui';
+import ls from '../lib/localStorage';
 import * as globalActions from '../reducers/global/globalActions';
 
 
 class Scan extends Component {
   constructor(props) {
     super(props);
-    // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
     this.state = {
       isCheckCam: false,
       typeCam: false,
+      allData: [],
+      email: null,
+      fullName: '',
+      dataEmail: [],
     }
-    // console.log('====> email',props.global.email);
-    // console.log('====> props', props);
   }
-  componentDidMount(){
-    
+  componentDidMount() {
+    db.collection('users')
+      .get()
+      .then(snapshot => {
+        let users = [];
+        let dataEmail = [];
+        snapshot.forEach(e => {
+          let data = e.data();
+          users.push(data);
+          dataEmail.push(data.email);
+        });
+        ls.getLoginInfo().then(ls => {
+          let email = ls.email;
+          let fullName = null;
+          users.forEach(e => {
+            if (e.email == email) {
+              return fullName = e.fullName;
+            }
+            return;
+          });
+          this.setState({ email: ls.email, allData: users, fullName, dataEmail });
+        });
+      })
+      .catch(error => console.log(error))
   }
-  componentWillReceiveProps(nextProps) {       
-    console.log("Data"+nextProps.payload.payloadData); // Display [Object Object]
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
     console.log(nextProps.payload.payloadData);  //  Display proper list
- }
+  }
   onSuccess = e => {
-    // let data = JSON.parse(e.data)
-    // data.forEach(e => {
-    //   if(e.age == 10){
-    //     alert('yeahhhh');
-    //   } else alert('chiuuuu')
-    // })
+    // checkin at PTIT
+    // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
+    // alert(JSON.stringify(e));
+
+    // if (e.data == 'checkin at PTIT') {
+    //   return alert('hihi')
+    // } else
     Linking.openURL(e.data).catch(err =>
       console.error('An error occured', err)
     );
   };
 
   render() {
-    let { isCheckCam, typeCam } = this.state;
+    let { isCheckCam, typeCam, allData, email, fullName, dataEmail } = this.state;
+    console.log('=====> dataEmail', dataEmail);
+    if (!allData) {
+      return <Loader />
+    }
     return (
       <QRCodeScanner
         reactivate={true}
@@ -67,14 +97,11 @@ class Scan extends Component {
         topContent={
           <View>
             <TouchableOpacity>
-              <Text>asdasdsd</Text>
+              <Text style={styles.centerText}>Xin chào{' '}
+                <Text style={styles.textBold}>{fullName} !</Text>
+              </Text>
             </TouchableOpacity>
           </View>
-          // <Text style={styles.centerText}>
-          //   Go to{' '}
-          //   <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-          //   your computer and scan the QR code.
-          // </Text>
         }
         bottomContent={
           <View>
@@ -112,25 +139,34 @@ const styles = StyleSheet.create({
   },
   buttonTouchable: {
     padding: 16
-  }
+  },
+  viewLoading: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 const actions = [
-	globalActions
+  globalActions
 ];
 const mapDispatchToProps = dispatch => {
-	const creators = Map()
-		.merge(...actions)
-		.filter(value => typeof value === 'function')
-		.toObject();
+  const creators = Map()
+    .merge(...actions)
+    .filter(value => typeof value === 'function')
+    .toObject();
 
-	return {
-		actions: bindActionCreators(creators, dispatch),
-		dispatch
-	};
+  return {
+    actions: bindActionCreators(creators, dispatch),
+    dispatch
+  };
 }
 const mapStateToProps = state => {
-	return {
-		...state
-	}
+  return {
+    ...state
+  }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Scan);
