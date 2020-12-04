@@ -62,19 +62,19 @@ class Scan extends Component {
       })
       .catch(error => console.log(error))
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
-    console.log(nextProps.payload.payloadData);  //  Display proper list
-  }
+  // UNSAFE_componentWillReceiveProps(nextProps) {
+  //   console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
+  //   console.log(nextProps.payload.payloadData);  //  Display proper list
+  // }
   onSuccess = e => {
     // checkin at PTIT
     // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
-    // alert(JSON.stringify(e));
+    alert(JSON.stringify(e));
 
     // if (e.data == 'checkin at PTIT') {
     //   return alert('hihi')
     // } else
-    Linking.openURL(e.data).catch(err =>
+    Linking.canOpenURL(e.data).catch(err =>
       console.error('An error occured', err)
     );
   };

@@ -12,7 +12,6 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.11.0",
     "@react-native-firebase/app": "8.4.7",
-    "@react-native-firebase/firestore": "7.10.3",
     "firebase": "8.0.1",
     "immutable": "4.0.0-rc.12",
     "key-mirror": "1.0.1",

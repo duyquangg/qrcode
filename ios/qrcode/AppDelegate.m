@@ -11,14 +11,39 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
+// iOS 9.x or newer
+#import <React/RCTLinkingManager.h>
 
 @implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+ restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+{
+ return [RCTLinkingManager application:application
+                  continueUserActivity:userActivity
+                    restorationHandler:restorationHandler];
+}
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
  
-  if ([FIRApp defaultApp] == nil) {
-      [FIRApp configure];
+  // Initialize Firebase
+  @try {
+    [FIRApp configure];
+  }
+  @catch (NSException * e) {
+    NSLog(@"Exception: %@", e);
+  }
+  @finally {
+    NSLog(@"FIRAppConfiguration finally");
   }
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
