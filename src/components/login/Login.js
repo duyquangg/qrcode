@@ -138,15 +138,16 @@ class Login extends Component {
 						.doc(uid)
 						.get()
 						.then(firestoreDocument => {
-							console.log('====> firestoreDocument',firestoreDocument);
 							if (!firestoreDocument.exists) {
 								Alert.alert('Thông báo','Người dùng không tồn tại !');
 								this.setState({ loading: false });
+								return; // add return to stop. if no, run -> Actions.Main();
 							}
 							let dto = {
 								email,
 								password
 							}
+							this.props.actions.onGlobalFieldChange('email', email);
 							ls.setLoginInfo(dto);
 							// Actions.Scan(); // k load dc email
 							Actions.Main({type:'reset'});

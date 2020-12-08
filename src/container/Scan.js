@@ -32,7 +32,7 @@ class Scan extends Component {
       isCheckCam: false,
       typeCam: false,
       allData: [],
-      email: null,
+      email: props.global.email ? props.global.email : null,
       fullName: '',
       dataEmail: [],
     }
@@ -48,17 +48,17 @@ class Scan extends Component {
           users.push(data);
           dataEmail.push(data.email);
         });
-        ls.getLoginInfo().then(ls => {
-          let email = ls.email;
+        // ls.getLoginInfo().then(ls => {
+        //   let email = ls.email;
           let fullName = null;
           users.forEach(e => {
-            if (e.email == email) {
+            if (e.email == this.state.email) {
               return fullName = e.fullName;
             }
             return;
           });
           this.setState({ email: ls.email, allData: users, fullName, dataEmail });
-        });
+        // });
       })
       .catch(error => console.log(error))
   }
