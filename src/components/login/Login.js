@@ -148,7 +148,8 @@ class Login extends Component {
 								password
 							}
 							ls.setLoginInfo(dto);
-							Actions.Scan({data: dto});
+							// Actions.Scan(); // k load dc email
+							Actions.Main({type:'reset'});
 							this.setState({
 								email: '',
 								password: '',

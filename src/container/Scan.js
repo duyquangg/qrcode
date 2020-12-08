@@ -84,7 +84,7 @@ class Scan extends Component {
 
   render() {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail } = this.state;
-    console.log('=====> dataEmail', dataEmail);
+    // console.log('=====> dataEmail', dataEmail);
     if (!allData) {
       return <Loader />
     }
