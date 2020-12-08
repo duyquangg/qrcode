@@ -32,7 +32,7 @@ class Scan extends Component {
       isCheckCam: false,
       typeCam: false,
       allData: [],
-      email: props.global.email ? props.global.email : null,
+      email: null,
       fullName: '',
       dataEmail: [],
     }
@@ -48,17 +48,17 @@ class Scan extends Component {
           users.push(data);
           dataEmail.push(data.email);
         });
-        // ls.getLoginInfo().then(ls => {
-        //   let email = ls.email;
+        ls.getLoginInfo().then(ls => {
+          let email = ls.email;
           let fullName = null;
           users.forEach(e => {
-            if (e.email == this.state.email) {
+            if (e.email == email) {
               return fullName = e.fullName;
             }
             return;
           });
           this.setState({ email: ls.email, allData: users, fullName, dataEmail });
-        // });
+        });
       })
       .catch(error => console.log(error))
   }
@@ -73,10 +73,8 @@ class Scan extends Component {
 
     let { email, dataEmail } = this.state;
     if (e.data == 'checkin at PTIT') {
-      if (e.data == 'checkin at PTIT') {
         let check = dataEmail.includes(email);
         check ? Alert.alert('Thông báo','Quét mã QR thành công !') : Alert.alert('Thông báo','Quét mã QR thất bại !');
-      }
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
     }
