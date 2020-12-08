@@ -73,8 +73,15 @@ class Scan extends Component {
 
     let { email, dataEmail } = this.state;
     if (e.data == 'checkin at PTIT') {
-        let check = dataEmail.includes(email);
-        check ? Alert.alert('Thông báo','Quét mã QR thành công !') : Alert.alert('Thông báo','Quét mã QR thất bại !');
+      let check = dataEmail.includes(email);
+      check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
+
+      db.collection('users')
+        .doc()
+        .get()
+        .then(abc => {
+          alert(abc.size)
+        })
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
     }
@@ -97,13 +104,13 @@ class Scan extends Component {
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
           <View>
-              <Text style={styles.centerText}>Xin chào{' '}
+            <Text style={styles.centerText}>Xin chào{' '}
               {fullName ?
                 <Text style={styles.textBold}>{fullName} !</Text>
                 :
                 <Text style={styles.textBold}>{email} !</Text>
               }
-              </Text>
+            </Text>
           </View>
         }
         bottomContent={

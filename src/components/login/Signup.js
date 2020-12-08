@@ -175,9 +175,11 @@ class Signup extends Component {
                             let dto = {
                                 email,
                                 password
-                            }
+                            };
                             ls.setLoginInfo(dto);
-                            Actions.Scan();
+                            this.props.actions.onGlobalFieldChange('email', email);
+                            // Actions.Scan();
+                            Actions.Main({type:'reset'});
                             Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
                             this.setState({
                                 email: '',
