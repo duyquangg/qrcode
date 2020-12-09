@@ -35,6 +35,7 @@ class Scan extends Component {
       email: null,
       fullName: '',
       dataEmail: [],
+      uid: null,
     }
   }
   componentDidMount() {
@@ -76,12 +77,12 @@ class Scan extends Component {
       let check = dataEmail.includes(email);
       check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
 
-      db.collection('users')
-        .doc()
-        .get()
-        .then(abc => {
-          alert(abc.size)
-        })
+      // db.collection('users')
+      //   .get()
+      //   .then(abc => {
+      //     abc.forEach(e => console.log(e.data().email))
+      //   })
+      //   .catch((error) => console.log(error))
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
     }

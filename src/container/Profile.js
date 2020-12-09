@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 
 import { bindActionCreators } from 'redux';
@@ -10,19 +10,28 @@ import Firebase from '../components/firebase/FirebaseConfig';
 import ls from '../lib/localStorage';
 import * as globalActions from '../reducers/global/globalActions';
 
-class Profile extends React.Component {
+class Profile extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      email: null,
+    }
+  }
+  componentDidMount() {
+        ls.getLoginInfo().then(ls => {
+          this.setState({email: ls.email})
+        })
+  }
   handleSignout = () => {
     Firebase.auth().signOut();
     ls.removeLogin();
     Actions.Login();
   }
-
   render() {
-    // console.log('=====> email',this.props.global.email);
     return (
       <View style={styles.container}>
         <Text>Profile Screen</Text>
-        <Text>{this.props.global.email}</Text>
+        <Text>{this.state.email}</Text>
         <Button title='Logout' onPress={this.handleSignout} />
       </View>
     )
