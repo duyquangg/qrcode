@@ -12,6 +12,7 @@ import {
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import moment from 'moment';
 
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
@@ -24,7 +25,8 @@ import gui from '../lib/gui';
 import ls from '../lib/localStorage';
 import * as globalActions from '../reducers/global/globalActions';
 
-
+// let current = Firebase.auth().currentUser;
+// console.log('====> current', current);
 class Scan extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +38,9 @@ class Scan extends Component {
       fullName: '',
       dataEmail: [],
       uid: null,
-    }
+
+      checkInTime: null,
+    };
   }
   componentDidMount() {
     db.collection('users')
@@ -61,7 +65,15 @@ class Scan extends Component {
           this.setState({ email: ls.email, allData: users, fullName, dataEmail });
         });
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error));
+    // let userId = current.uid;
+    // checkInTime
+    // db.collection('users')
+    //   .doc(`${userId}`)
+    //   .get()
+    //   .then((e) => {
+    //     this.setState({ checkInTime: e.data().checkIn });
+    //   })
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
@@ -72,35 +84,51 @@ class Scan extends Component {
     // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
     // alert(JSON.stringify(e));
 
-    let { email, dataEmail } = this.state;
+    let { email, dataEmail, checkInTime } = this.state;
     if (e.data == 'checkin at PTIT') {
       let check = dataEmail.includes(email);
       check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
       let currentUser = Firebase.auth().currentUser;
       let userId = currentUser.uid;
-      db.collection('users')
-        .doc(`${userId}`)
-        .update({
-          createdAt: Date.now(),
-        })
-        .then((userId) => {
-          // console.log('====> hhhh',userId);
-        })
-        .catch((error) => console.log(error));
-      // db.collection('users')
-      //   .doc(`${userId}`)
-      //   .get()
-      //   .then((e) => {
-      //     console.log('====> hhhh',e.data());
-      //   })
-      //   .catch((error) => console.log(error));
-      db.collection('users')
-        .doc(`${userId}`)
-        .get()
-        .then((e) => {
-          console.log('====> hhhh',e.data());
-        })
-        .catch((error) => console.log(error));
+      if (checkInTime !== null) {
+        db.collection('users')
+          .doc(`${userId}`)
+          .update({
+            checkOut: Date.now(),
+          })
+          .then((userId) => {
+            // console.log('====> ahihi',userId);
+          })
+          .catch((error) => console.log(error));
+          db.collection('users')
+          .doc(`${userId}`)
+          .get()
+          .then((e) => {
+            console.log('====> eeeee',e.data())
+          })
+          .catch((error) => console.log(error));
+      } else {
+        //update checkInTime
+        db.collection('users')
+          .doc(`${userId}`)
+          .update({
+            checkIn: Date.now(),
+          })
+          .then((userId) => {
+            // console.log('====> hhhh',userId);
+          })
+          .catch((error) => console.log(error));
+        //save to state
+        db.collection('users')
+          .doc(`${userId}`)
+          .get()
+          .then((e) => {
+            this.setState({ checkInTime: e.data().checkIn });
+            let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
+            this.props.actions.onGlobalFieldChange('checkIn', formartTime);
+          })
+          .catch((error) => console.log(error));
+      }
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
     }

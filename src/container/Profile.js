@@ -15,7 +15,8 @@ class Profile extends Component {
     super(props);
     this.state = {
       email: null,
-    }
+    };
+    console.log('======> checkIn',props.global.checkIn) //nên lấy từ database ra
   }
   componentDidMount() {
         ls.getLoginInfo().then(ls => {
