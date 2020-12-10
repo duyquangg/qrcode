@@ -17,7 +17,7 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { db } from '../components/firebase/FirebaseConfig';
+import Firebase, { db } from '../components/firebase/FirebaseConfig';
 
 import Loader from '../components/icons/Loader';
 import gui from '../lib/gui';
@@ -76,13 +76,31 @@ class Scan extends Component {
     if (e.data == 'checkin at PTIT') {
       let check = dataEmail.includes(email);
       check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
-
+      let currentUser = Firebase.auth().currentUser;
+      let userId = currentUser.uid;
+      db.collection('users')
+        .doc(`${userId}`)
+        .update({
+          createdAt: Date.now(),
+        })
+        .then((userId) => {
+          // console.log('====> hhhh',userId);
+        })
+        .catch((error) => console.log(error));
       // db.collection('users')
+      //   .doc(`${userId}`)
       //   .get()
-      //   .then(abc => {
-      //     abc.forEach(e => console.log(e.data().email))
+      //   .then((e) => {
+      //     console.log('====> hhhh',e.data());
       //   })
-      //   .catch((error) => console.log(error))
+      //   .catch((error) => console.log(error));
+      db.collection('users')
+        .doc(`${userId}`)
+        .get()
+        .then((e) => {
+          console.log('====> hhhh',e.data());
+        })
+        .catch((error) => console.log(error));
     } else {
       Alert.alert('Thông báo', 'Mã QR không quét được !')
     }
