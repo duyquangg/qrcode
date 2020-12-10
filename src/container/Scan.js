@@ -25,8 +25,6 @@ import gui from '../lib/gui';
 import ls from '../lib/localStorage';
 import * as globalActions from '../reducers/global/globalActions';
 
-// let current = Firebase.auth().currentUser;
-// console.log('====> current', current);
 class Scan extends Component {
   constructor(props) {
     super(props);
@@ -40,9 +38,10 @@ class Scan extends Component {
       uid: null,
 
       checkInTime: null,
+      checkOutTime: null
     };
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     db.collection('users')
       .get()
       .then(snapshot => {
@@ -66,14 +65,16 @@ class Scan extends Component {
         });
       })
       .catch(error => console.log(error));
-    // let userId = current.uid;
     // checkInTime
-    // db.collection('users')
-    //   .doc(`${userId}`)
-    //   .get()
-    //   .then((e) => {
-    //     this.setState({ checkInTime: e.data().checkIn });
-    //   })
+    await Firebase.auth().onAuthStateChanged((user) => {
+      db.collection('users')
+        .doc(`${user.uid}`)
+        .get()
+        .then((e) => {
+          e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
+            : this.setState({ checkInTime: null })
+        })
+    })
   }
   UNSAFE_componentWillReceiveProps(nextProps) {
     console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
@@ -85,28 +86,30 @@ class Scan extends Component {
     // alert(JSON.stringify(e));
 
     let { email, dataEmail, checkInTime } = this.state;
+    // console.log('====> checkInTime',checkInTime);
     if (e.data == 'checkin at PTIT') {
       let check = dataEmail.includes(email);
       check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
       let currentUser = Firebase.auth().currentUser;
       let userId = currentUser.uid;
-      if (checkInTime !== null) {
+      if (checkInTime != null || checkInTime != undefined) {
         db.collection('users')
           .doc(`${userId}`)
           .update({
             checkOut: Date.now(),
           })
           .then((userId) => {
-            // console.log('====> ahihi',userId);
+            // console.log('====> checkOut successfull!');
           })
-          .catch((error) => console.log(error));
-          db.collection('users')
+        db.collection('users')
           .doc(`${userId}`)
           .get()
           .then((e) => {
-            console.log('====> eeeee',e.data())
+            this.setState({ checkOutTime: e.data().checkOut });
+            let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
+            this.props.actions.onGlobalFieldChange('checkOut', formartTime);
+            // console.log('====> checkOut', e.data())
           })
-          .catch((error) => console.log(error));
       } else {
         //update checkInTime
         db.collection('users')
@@ -123,6 +126,7 @@ class Scan extends Component {
           .doc(`${userId}`)
           .get()
           .then((e) => {
+            // console.log('===> checkInTime = null', e.data())
             this.setState({ checkInTime: e.data().checkIn });
             let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
             this.props.actions.onGlobalFieldChange('checkIn', formartTime);
@@ -135,8 +139,9 @@ class Scan extends Component {
   };
 
   render() {
-    let { isCheckCam, typeCam, allData, email, fullName, dataEmail } = this.state;
-    // console.log('=====> dataEmail', dataEmail);
+    let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
+    console.log('=====> checkInTime', checkInTime);
+    console.log('=====> checkOutTime', checkOutTime);
     if (!allData) {
       return <Loader />
     }

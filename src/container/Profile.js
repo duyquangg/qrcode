@@ -24,7 +24,7 @@ class Profile extends Component {
         })
   }
   handleSignout = () => {
-    Firebase.auth().signOut();
+    // Firebase.auth().signOut();
     ls.removeLogin();
     Actions.Login();
   }
