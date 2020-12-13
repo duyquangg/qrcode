@@ -152,7 +152,7 @@ class Scan extends Component {
         reactivateTimeout={3000}
         cameraTimeout={1000}
         cameraType={typeCam && typeCam ? 'front' : 'back'}
-        containerStyle={{ backgroundColor: '#d0e8f2' }}
+        containerStyle={{ backgroundColor: '#cfd3ce' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
           <View>
