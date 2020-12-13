@@ -41,10 +41,10 @@ class Login extends Component {
 			return;
 		};
 	}
-	UNSAFE_componentWillReceiveProps(nextProps) {       
-		console.log("Dataaa"+nextProps.payload.payloadData); // Display [Object Object]
+	UNSAFE_componentWillReceiveProps(nextProps) {
+		console.log("Dataaa" + nextProps.payload.payloadData); // Display [Object Object]
 		console.log(nextProps.payload.payloadData);  //  Display proper list
-	 }
+	}
 	render() {
 		return (
 			<View style={styles.container} >
@@ -55,7 +55,7 @@ class Login extends Component {
 					<Loader loading={this.state.loading} />
 					<Image
 						style={styles.logo}
-					// source={require('../../../assets/icon.png')}
+						source={require('../../assets/images/ptit.png')}
 					/>
 					<TextInput
 						style={styles.input}
@@ -139,7 +139,7 @@ class Login extends Component {
 						.get()
 						.then(firestoreDocument => {
 							if (!firestoreDocument.exists) {
-								Alert.alert('Thông báo','Người dùng không tồn tại !');
+								Alert.alert('Thông báo', 'Người dùng không tồn tại !');
 								this.setState({ loading: false });
 								return; // add return to stop. if no, run -> Actions.Main();
 							}
@@ -150,7 +150,7 @@ class Login extends Component {
 							this.props.actions.onGlobalFieldChange('email', email);
 							ls.setLoginInfo(dto);
 							// Actions.Scan(); // k load dc email
-							Actions.Main({type:'reset'});
+							Actions.Main({ type: 'reset' });
 							this.setState({
 								email: '',
 								password: '',
@@ -188,7 +188,8 @@ const styles = StyleSheet.create({
 		height: 120,
 		width: 90,
 		alignSelf: "center",
-		margin: 30
+		margin: 30,
+		// backgroundColor:'red'
 	},
 	viewInput: {
 		flexDirection: 'row',

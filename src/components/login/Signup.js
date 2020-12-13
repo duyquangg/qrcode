@@ -39,7 +39,7 @@ class Signup extends Component {
                     keyboardShouldPersistTaps="always">
                     <Image
                         style={styles.logo}
-                    // source={require('../../../assets/icon.png')}
+                        source={require('../../assets/images/ptit.png')}
                     />
                     <TextInput
                         style={styles.input}
