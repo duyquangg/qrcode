@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -23,17 +23,32 @@ class Profile extends Component {
           this.setState({email: ls.email})
         })
   }
-  handleSignout = () => {
-    // Firebase.auth().signOut();
-    ls.removeLogin();
-    Actions.Login();
+  onActionsPress() {
+    Alert.alert('Thông báo', 'Bạn có chắc chắn muốn đăng xuất?', [
+      {
+        text: 'Huỷ',
+        onPress: () => console.info('Cancel Pressed'),
+      },
+      {
+        text: 'OK',
+        onPress: () => this.onPressSignOut()
+      }
+    ],
+      { cancelable: false },
+    )
+  }
+
+  onPressSignOut = async () => {
+     // Firebase.auth().signOut();
+    await ls.removeLogin();
+    Actions.Login({ type: 'reset' });
   }
   render() {
     return (
       <View style={styles.container}>
         <Text>Profile Screen</Text>
         <Text>{this.state.email}</Text>
-        <Button title='Logout' onPress={this.handleSignout} />
+        <Button title='Logout' onPress={this.onActionsPress.bind(this)} />
       </View>
     )
   }
