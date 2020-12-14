@@ -78,6 +78,10 @@ class Scan extends Component {
         })
     })
   }
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
+    console.log(nextProps.payload.payloadData);  //  Display proper list
+  }
   componentWillUnmount() {
     // fix Warning: Can't perform a React state update on an unmounted component
     this.setState = (state, callback) => {
