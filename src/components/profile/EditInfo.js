@@ -109,6 +109,29 @@ class EditInfo extends Component {
         this.refs.toastTop.show("Số điện thoại không đúng định dạng!");
         return;
       };
+      db.collection('users')
+      .doc(`${userId}`)
+      .update({
+        fullName: fullName,
+        phone: phone,
+        avatar: avatar,
+        gender: gender,
+        // birthday: birthday,
+      })
+      .then((e) => {
+        let dto = {
+          fullName: fullName,
+          phone: phone,
+          avatar: avatar,
+          gender: gender,
+        };
+        Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
+        this.setState({loading: false}, () => {
+          Actions.pop();
+          ls.setLoginInfo(dto);
+          this.props.doRefresh && this.props.doRefresh(); //refresh data
+        });
+      })
     }
     if (!fullName) {
       this.refs.toastTop.show("Tên không được để trống!");
@@ -121,15 +144,21 @@ class EditInfo extends Component {
       .doc(`${userId}`)
       .update({
         fullName: fullName,
-        phone: phone,
         avatar: avatar,
         gender: gender,
         // birthday: birthday,
       })
       .then((e) => {
+        let dto = {
+          fullName: fullName,
+          phone: phone,
+          avatar: avatar,
+          gender: gender,
+        };
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
         this.setState({loading: false}, () => {
           Actions.pop();
+          ls.setLoginInfo(dto);
           this.props.doRefresh && this.props.doRefresh(); //refresh data
         });
       })
