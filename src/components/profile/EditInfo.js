@@ -20,7 +20,7 @@ import {Map} from 'immutable';
 import CommonHeader from '../header/CommonHeader';
 import ls from '../../lib/localStorage';
 import gui from '../../lib/gui';
-import cfg from '../../cfg';
+import cfg from '../../../cfg';
 
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -45,12 +45,12 @@ function mapDispatchToProps (dispatch) {
 class EditInfo extends Component {
   constructor (props) {
     super (props);
-    const {fullName, phone, email} = this.props.global.currentUser;
+    // const {fullName, phone, email} = this.props.global.currentUser;
     // console.log ('========currentUser', this.props.global.currentUser);
     this.state = {
-      fullName: fullName,
-      email: email,
-      phone: phone,
+      // fullName: fullName,
+      // email: email,
+      // phone: phone,
       avatar: null,
       type: 'male',
 
@@ -68,7 +68,7 @@ class EditInfo extends Component {
     );
   }
   _renderHeader () {
-    let left = require('../../assets/images/left.png');
+    let left = require('../../assets/images/arrowLeft.png');
     return (
       <CommonHeader
           title={"Sửa thông tin"}
@@ -179,11 +179,11 @@ class EditInfo extends Component {
     return (
       <View style={styles.viewInput}>
         <Text style={styles.labelTextInput}>Họ & tên</Text>
-        <TextInput
+        {/* <TextInput
           onChangeText={fullName => this.setState ({fullName})}
           value={this.state.fullName}
           style={styles.titleTextBody}
-        />
+        /> */}
       </View>
     );
   }
@@ -191,11 +191,11 @@ class EditInfo extends Component {
     return (
       <View style={styles.viewInput}>
         <Text style={styles.labelTextInput}>Email</Text>
-        <TextInput
+        {/* <TextInput
           onChangeText={email => this.setState ({email})}
           value={this.state.email}
           style={styles.titleTextBody}
-        />
+        /> */}
       </View>
     );
   }
@@ -205,7 +205,7 @@ class EditInfo extends Component {
         style={[styles.viewInput, {backgroundColor: '#f7f7f9'}, {opacity: 0.7}]}
       >
         <Text style={styles.labelTextInput}>Số điện thoại</Text>
-        <Text style={styles.titleTextBody}>{this.state.phone}</Text>
+        {/* <Text style={styles.titleTextBody}>{this.state.phone}</Text> */}
       </View>
     );
   }

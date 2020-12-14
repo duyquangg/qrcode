@@ -19,7 +19,6 @@ import {Map} from 'immutable';
 import Toast from "../toast/Toast";
 import CommonHeader from '../header/CommonHeader';
 import gui from '../../lib/gui';
-import userApi from '../../lib/userApi';
 import ls from '../../lib/localStorage';
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -74,11 +73,11 @@ class ChangePass extends Component {
     );
   }
   _renderHeader () {
-    let left = require('../../assets/images/left.png');
+    let left = require('../../assets/images/arrowLeft.png');
     return (
       <CommonHeader
           title={"Đổi mật khẩu"}
-          // leftContent={ <Image source={left} />}
+          leftContent={ <Image source={left} />}
           onPressLeft={() => Actions.pop()}
           />
     );
@@ -196,14 +195,14 @@ class ChangePass extends Component {
       userID
     };
 
-    let resChangePass = await userApi.changePassword(dto, token);
-    if(resChangePass.status === 200) {
-      this.refs.toastTop.show('Đổi mật khẩu thành công!');
-      await ls.removeLogin();
-      setTimeout(() => Actions.LoginScreen(), 1000)
-    } else {
-      this.refs.toastTop.show(resChangePass.msg);
-    }
+    // let resChangePass = await userApi.changePassword(dto, token);
+    // if(resChangePass.status === 200) {
+    //   this.refs.toastTop.show('Đổi mật khẩu thành công!');
+    //   await ls.removeLogin();
+    //   setTimeout(() => Actions.LoginScreen(), 1000)
+    // } else {
+    //   this.refs.toastTop.show(resChangePass.msg);
+    // }
   }
 
   onShowOldPass () {
