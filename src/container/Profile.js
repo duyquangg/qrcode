@@ -44,11 +44,9 @@ class Profile extends Component {
       avatar: null,
       email: null,
       data: {},
-      loading: false
     };
   }
   componentDidMount = async () => {
-    this.setState({loading:true})
     ls.getLoginInfo().then(ls => {
       this.setState({ email: ls.email })
     });
@@ -58,7 +56,8 @@ class Profile extends Component {
       .doc(`${userId}`)
       .get()
       .then((e) => {
-        this.setState({ data: e.data(), avatar: e.data().avatar, loading:false })
+        // console.log('====> e.data', e.data())
+        this.setState({ data: e.data(), avatar: e.data().avatar})
       })
       .catch((error) => console.log(error));
   }
@@ -72,46 +71,44 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
         {/* <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}> */}
-          <LinearGradient
-            start={{ x: 0.5, y: 0.5 }}
-            end={{ x: 0.5, y: 0 }}
-            colors={gui.linearMain}
-            style={styles.viewLinear}
+        <LinearGradient
+          start={{ x: 0.5, y: 0.5 }}
+          end={{ x: 0.5, y: 0 }}
+          colors={gui.linearMain}
+          style={styles.viewLinear}
+        >
+          <View
+            style={styles.viewAvatar}
           >
-            <View
-              style={styles.viewAvatar}
-            >
-              <View style={styles.avatar}>
-                {this.state.avatar == null
-                  ? <Image source={AvaUser} style={{ height: 120, width: 120 }} />
-                  : <Image
-                    source={{ uri: this.state.avatar }}
-                    style={[styles.avatar, { marginLeft: 0 }]}
-                  />}
-              </View>
+            <View style={styles.avatar}>
+              {this.state.avatar == null
+                ? <Image source={AvaUser} style={{ height: 120, width: 120 }} />
+                : <Image
+                  source={{ uri: this.state.avatar }}
+                  style={[styles.avatar, { marginLeft: 0 }]}
+                />}
             </View>
-            <Text style={styles.textTitle}>{this.state.email}</Text>
-            {/* <Text style={styles.textPhone}>{phone}</Text> */}
-            <View style={styles.viewBody}>
-              {this._renderBody('history', 'Lịch sử', () => Actions.History())}
-              {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data }))}
+          </View>
+          <Text style={styles.textTitle}>{this.state.email}</Text>
+          {/* <Text style={styles.textPhone}>{phone}</Text> */}
+          <View style={styles.viewBody}>
+            {this._renderBody('history', 'Lịch sử', () => Actions.History())}
+            {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data, doRefresh: this.fetchData.bind(this) }))}
+          </View>
+          <TouchableOpacity style={styles.viewLogout}
+            onPress={this.onActionsPress.bind(this)}>
+            <View style={styles.viewRowLogout}>
+              <Image source={off} style={{ marginRight: 12 }} />
+              <Text style={styles.textLogout}>Đăng xuất</Text>
             </View>
-            <TouchableOpacity style={styles.viewLogout}
-              onPress={this.onActionsPress.bind(this)}>
-              <View style={styles.viewRowLogout}>
-                <Image source={off} style={{ marginRight: 12 }} />
-                <Text style={styles.textLogout}>Đăng xuất</Text>
-              </View>
-              <Image source={next} style={{ marginRight: 12 }} />
-            </TouchableOpacity>
-            <View style={styles.footer}>
-              <Text style={styles.textFooter}>Phiên bản</Text>
-              <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
-            </View>
+            <Image source={next} style={{ marginRight: 12 }} />
+          </TouchableOpacity>
+          <View style={styles.footer}>
+            <Text style={styles.textFooter}>Phiên bản</Text>
+            <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
+          </View>
 
-          </LinearGradient>
-          <Loader loading={this.state.loading} />
-          
+        </LinearGradient>
         {/* </ScrollView> */}
       </View>
     );
@@ -145,6 +142,17 @@ class Profile extends Component {
     await ls.removeLogin();
     Actions.Login({ type: 'reset' });
   }
+  fetchData = async () => {
+    let currentUser = Firebase.auth().currentUser;
+    let userId = currentUser.uid;
+    await db.collection('users')
+      .doc(`${userId}`)
+      .get()
+      .then((e) => {
+        this.setState({ data: e.data(), avatar: e.data().avatar})
+      })
+      .catch((error) => console.log(error));
+  };
 }
 
 const styles = StyleSheet.create({

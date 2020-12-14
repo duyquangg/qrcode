@@ -128,7 +128,10 @@ class EditInfo extends Component {
       })
       .then((e) => {
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
-        this.setState({loading: false}, () => Actions.pop());
+        this.setState({loading: false}, () => {
+          Actions.pop();
+          this.props.doRefresh && this.props.doRefresh(); //refresh data
+        });
       })
   }
   _renderBody() {
