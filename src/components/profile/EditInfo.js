@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Alert
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ImagePicker from 'react-native-image-picker';
@@ -19,6 +20,7 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import CommonHeader from '../header/CommonHeader';
+import Toast from "../toast/Toast";
 import ls from '../../lib/localStorage';
 import Firebase, { db } from '../firebase/FirebaseConfig';
 import gui from '../../lib/gui';
@@ -47,14 +49,14 @@ function mapDispatchToProps(dispatch) {
 class EditInfo extends Component {
   constructor(props) {
     super(props);
-    const { fullName, email, phone } = this.props.data;
+    const { fullName, email, phone, avatar, gender, birthday } = this.props.data;
     // console.log ('========currentUser', this.props.global.currentUser);
     this.state = {
       fullName: fullName,
       email: email,
       phone: phone,
-      avatar: null,
-      type: 'male',
+      avatar: avatar ? avatar : null,
+      gender: gender ? gender : 'male',
 
       date: new Date('2020-06-12T14:42:42'),
       mode: 'date',
@@ -69,6 +71,15 @@ class EditInfo extends Component {
       <View style={styles.container}>
         {this._renderHeader()}
         {this._renderBody()}
+        <Toast
+          ref="toastTop"
+          position='top'
+          positionValue={70}
+          fadeInDuration={1000}
+          fadeOutDuration={2000}
+          opacity={0.85}
+          textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
+        />
       </View>
     );
   }
@@ -81,15 +92,44 @@ class EditInfo extends Component {
         rightContent={
           <Text style={styles.normalTextHeader}>Lưu</Text>
         }
+        onPressRight={this.onSave.bind(this)}
       />
     );
+  }
+  onSave = () => {
+    let { fullName, phone, avatar, gender, birthday } = this.state;
+    console.log('====> phone', phone.length);
+    if (phone) {
+      if (phone.length < 10 && phone.length > 10) {
+        this.refs.toastTop.show("Số điện thoại không đúng định dạng!");
+        return;
+      };
+    }
+    if (!fullName) {
+      this.refs.toastTop.show("Tên không được để trống!");
+      return;
+    }
+    let currentUser = Firebase.auth().currentUser;
+    let userId = currentUser.uid;
+    db.collection('users')
+      .doc(`${userId}`)
+      .update({
+        fullName: fullName,
+        phone: phone,
+        avatar: avatar,
+        gender: gender,
+        // birthday: birthday,
+      })
+      .then((e) => {
+        Alert.alert('hhihi')
+      })
   }
   _renderBody() {
     let AvaUser = require('../../assets/images/user.png');
     let edit = require('../../assets/images/edit.png');
     let oval = require('../../assets/images/oval-copy.png');
     let ovalNone = require('../../assets/images/ovalNone.png');
-    let { type } = this.state;
+    let { gender } = this.state;
     return (
       <View>
         <TouchableOpacity
@@ -114,10 +154,10 @@ class EditInfo extends Component {
           <TouchableOpacity
             style={styles.viewChooseSex}
             onPress={() => {
-              this.setState({ type: 'male' });
+              this.setState({ gender: 'male' });
             }}
           >
-            {type === 'male'
+            {gender === 'male'
               ? <Image source={oval} />
               : <Image source={ovalNone} />}
             <Text style={styles.sexText}>Nam</Text>
@@ -125,10 +165,10 @@ class EditInfo extends Component {
           <TouchableOpacity
             style={styles.viewChooseSex}
             onPress={() => {
-              this.setState({ type: 'female' });
+              this.setState({ gender: 'female' });
             }}
           >
-            {type === 'female'
+            {gender === 'female'
               ? <Image source={oval} />
               : <Image source={ovalNone} />}
             <Text style={styles.sexText}>Nữ</Text>
@@ -186,6 +226,9 @@ class EditInfo extends Component {
         <TextInput
           onChangeText={fullName => this.setState({ fullName })}
           value={this.state.fullName}
+          placeholderTextColor="#a6a9b6"
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
           style={styles.titleTextBody}
         />
       </View>
@@ -198,6 +241,10 @@ class EditInfo extends Component {
         <TextInput
           onChangeText={phone => this.setState({ phone })}
           value={this.state.phone}
+          keyboardType={'phone-pad'}
+          placeholderTextColor="#a6a9b6"
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
           style={styles.titleTextBody}
         />
       </View>
@@ -282,13 +329,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignSelf: 'center',
     marginTop: 45,
-    shadowColor: 'gray',
+    shadowColor: '#a6a9b6',
     shadowOpacity: 1,
+    // overflow: 'hidden'
   },
   avatar: {
     width: 128,
     height: 128,
     borderRadius: 64,
+    top:-1.5
   },
   viewEdit: {
     position: 'absolute',

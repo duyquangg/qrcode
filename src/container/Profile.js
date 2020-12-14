@@ -45,17 +45,17 @@ class Profile extends Component {
       data: {},
     };
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     ls.getLoginInfo().then(ls => {
       this.setState({ email: ls.email })
     });
     let currentUser = Firebase.auth().currentUser;
     let userId = currentUser.uid;
-    db.collection('users')
+    await db.collection('users')
       .doc(`${userId}`)
       .get()
       .then((e) => {
-        this.setState({ data: e.data() })
+        this.setState({ data: e.data(), avatar: e.data().avatar })
       })
       .catch((error) => console.log(error));
   }
@@ -79,7 +79,7 @@ class Profile extends Component {
               style={styles.viewAvatar}
             >
               <View style={styles.avatar}>
-                {this.state.avatar === null
+                {this.state.avatar == null
                   ? <Image source={AvaUser} style={{ height: 120, width: 120 }} />
                   : <Image
                     source={{ uri: this.state.avatar }}
@@ -135,7 +135,7 @@ class Profile extends Component {
   }
 
   onPressSignOut = async () => {
-    //      // Firebase.auth().signOut();
+    // Firebase.auth().signOut();
     await ls.removeLogin();
     Actions.Login({ type: 'reset' });
   }
