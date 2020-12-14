@@ -215,7 +215,8 @@ const styles = StyleSheet.create({
         height: 120,
         width: 90,
         alignSelf: "center",
-        margin: 30
+        margin: 30,
+        marginTop:100,
     },
     viewInput: {
         flexDirection: 'row',

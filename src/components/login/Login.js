@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
 		width: 90,
 		alignSelf: "center",
 		margin: 30,
+		marginTop:100,
 		// backgroundColor:'red'
 	},
 	viewInput: {

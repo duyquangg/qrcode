@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView } fr
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
 import { Actions } from 'react-native-router-flux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -12,6 +13,7 @@ import ls from '../lib/localStorage';
 import gui from '../lib/gui';
 
 import * as globalActions from '../reducers/global/globalActions';
+import Firebase, { db } from '../components/firebase/FirebaseConfig';
 
 const actions = [
   globalActions,
@@ -40,12 +42,22 @@ class Profile extends Component {
     this.state = {
       avatar: null,
       email: null,
+      data: {},
     };
   }
   componentDidMount() {
     ls.getLoginInfo().then(ls => {
       this.setState({ email: ls.email })
-    })
+    });
+    let currentUser = Firebase.auth().currentUser;
+    let userId = currentUser.uid;
+    db.collection('users')
+      .doc(`${userId}`)
+      .get()
+      .then((e) => {
+        this.setState({ data: e.data() })
+      })
+      .catch((error) => console.log(error));
   }
   render() {
     let AvaUser = require('../assets/images/user.png');
@@ -53,7 +65,7 @@ class Profile extends Component {
     let lock = require('../assets/images/lock.png');
     let next = require('../assets/images/next.png');
     let off = require('../assets/images/off.png');
-    // let {fullName, phone} =  this.props.global.currentUser;
+    let data =  this.state.data;
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -78,8 +90,8 @@ class Profile extends Component {
             <Text style={styles.textTitle}>{this.state.email}</Text>
             {/* <Text style={styles.textPhone}>{phone}</Text> */}
             <View style={styles.viewBody}>
-              {this._renderBody(lock, 'Đổi mật khẩu', () => Actions.History())}
-              {this._renderBody(edit, 'Sửa thông tin', () => Actions.EditInfo())}
+              {this._renderBody('history', 'Lịch sử', () => Actions.History())}
+              {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({data}))}
             </View>
             <TouchableOpacity style={styles.viewLogout}
               onPress={this.onActionsPress.bind(this)}>
@@ -101,7 +113,8 @@ class Profile extends Component {
   _renderBody = (source, text, onPress) => {
     return (
       <TouchableOpacity style={styles.viewRowBody} onPress={onPress}>
-        <Image source={source} />
+        {/* <Image source={source} /> */}
+        <FontAwesome name={source} color={'#fff'} size={26} style={{ opacity: 0.9 }} />
         <Text style={styles.normalTextBody}>{text}</Text>
       </TouchableOpacity>
     );
@@ -215,7 +228,7 @@ const styles = StyleSheet.create({
   textFooter: {
     color: '#fff',
     fontSize: 12,
-    opacity: 0.8,
+    opacity: 0.6,
   },
 });
 

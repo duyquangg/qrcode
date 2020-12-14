@@ -4,11 +4,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Linking,
   View,
   Alert,
-  ActivityIndicator
+  Platform,
+  Dimensions
 } from 'react-native';
+const {width, height} = Dimensions.get('window');
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
@@ -155,7 +156,7 @@ class Scan extends Component {
         containerStyle={{ backgroundColor: '#839b97' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
-          <View>
+          <View style={{marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10}}>
             <Text style={styles.centerText}>Xin chào{' '}
               {fullName ?
                 <Text style={styles.textBold}>{fullName} !</Text>
