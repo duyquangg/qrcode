@@ -54,18 +54,17 @@ class AppRouter extends Component {
       isLogin: false,
       data: {}
     };
-    // console.log('====> dât',this.props.data);
   }
   componentDidMount(){
-      Firebase.auth().onAuthStateChanged((user) => {
+    Firebase.auth().onAuthStateChanged((user) => {
 			db.collection('users')
 				.doc(`${user.uid}`)
 				.get()
 				.then((e) => {
-					this.setState({ data: e.data() })
+          // this.setState({ data: e.data() });
+          this.props.actions.onGlobalFieldChange('dataUser',e.data());
 				})
-    });
-    
+		});
     ls.getLoginInfo().then((e) => {
       // console.log('====> e',e);
       if (e) {
@@ -100,6 +99,7 @@ class AppRouter extends Component {
               tabBarPosition="bottom"
               lazy
               tabs
+              // data={this.state.data}
               hideNavBar
               activeBackgroundColor="transperent" //bg khi click vao icon
               tabBarStyle={[styles.bottomTabBar, { backgroundColor: '#fff' }]} // bg bottomBar
@@ -111,14 +111,6 @@ class AppRouter extends Component {
               <Scene
                 key="Scan"
                 component={Scan}
-                // onEnter={() => {
-                //   this.props.actions.onGlobalFieldChange('dataUser',this.state.data);
-                //   this.props.actions.onGlobalFieldChange('tabScan',true);
-                // }}
-                // onExit={() => {
-                //   // this.props.actions.onGlobalFieldChange('dataUser',{});
-                //   this.props.actions.onGlobalFieldChange('tabScan',false);
-                // }}
                 hideNavBar //tự sinh height on Top
                 title="Scan"
                 // initial
@@ -128,14 +120,6 @@ class AppRouter extends Component {
                 key="Profile"
                 // initial
                 component={Profile}
-                // onEnter={() => {
-                //   this.props.actions.onGlobalFieldChange('dataUser',this.state.data);
-                //   this.props.actions.onGlobalFieldChange('tabProfile',true);
-                // }}
-                // onExit={() => {
-                //   this.props.actions.onGlobalFieldChange('dataUser',{});
-                //   this.props.actions.onGlobalFieldChange('tabProfile',false);
-                // }}
                 hideNavBar
                 title="Cá nhân"
                 icon={TabIcon}

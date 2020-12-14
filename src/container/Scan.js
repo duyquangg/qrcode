@@ -29,17 +29,18 @@ import * as globalActions from '../reducers/global/globalActions';
 class Scan extends Component {
   constructor(props) {
     super(props);
+    let {dataUser} = this.props.global;
+    console.log('===> dataUser',dataUser);
     this.state = {
       isCheckCam: false,
       typeCam: false,
       allData: [],
-      email: null,
-      fullName: '',
       dataEmail: [],
-      uid: null,
 
-      checkInTime: null,
-      checkOutTime: null
+      email: dataUser.email ? dataUser.email : null,
+      fullName: dataUser.fullName ? dataUser.fulName : null,
+      checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
+      checkOutTime: dataUser.checkOut ? dataUser.checkOut : null,
     };
   }
   componentDidMount = async () => {
@@ -149,7 +150,6 @@ class Scan extends Component {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
     // console.log('=====> checkInTime', checkInTime);
     // console.log('=====> checkOutTime', checkOutTime);
-    console.log('=====> checkOutTime', this.props.data);
     if (!allData) {
       return <Loader />
     }
@@ -171,6 +171,8 @@ class Scan extends Component {
                 <Text style={styles.textBold}>{email} !</Text>
               }
             </Text>
+            <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
+            <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
           </View>
         }
         bottomContent={
