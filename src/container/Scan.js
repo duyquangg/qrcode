@@ -81,6 +81,12 @@ class Scan extends Component {
     console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
     console.log(nextProps.payload.payloadData);  //  Display proper list
   }
+  componentWillUnmount() {
+		// fix Warning: Can't perform a React state update on an unmounted component
+		this.setState = (state, callback) => {
+			return;
+		};
+	}
   onSuccess = (e) => {
     // checkin at PTIT
     // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
@@ -143,7 +149,7 @@ class Scan extends Component {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
     // console.log('=====> checkInTime', checkInTime);
     // console.log('=====> checkOutTime', checkOutTime);
-    console.log('=====> checkOutTime', this.props.global.dataUser);
+    console.log('=====> checkOutTime', this.props.data);
     if (!allData) {
       return <Loader />
     }
