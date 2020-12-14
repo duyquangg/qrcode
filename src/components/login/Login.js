@@ -41,10 +41,10 @@ class Login extends Component {
 			return;
 		};
 	}
-	UNSAFE_componentWillReceiveProps(nextProps) {
-		console.log("Dataaa" + nextProps.payload.payloadData); // Display [Object Object]
-		console.log(nextProps.payload.payloadData);  //  Display proper list
-	}
+	// UNSAFE_componentWillReceiveProps(nextProps) {
+	// 	console.log("Dataaa" + nextProps.payload.payloadData); // Display [Object Object]
+	// 	console.log(nextProps.payload.payloadData);  //  Display proper list
+	// }
 	render() {
 		return (
 			<View style={styles.container} >

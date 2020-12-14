@@ -9,7 +9,7 @@ import {
   Platform,
   Dimensions
 } from 'react-native';
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
@@ -29,8 +29,8 @@ import * as globalActions from '../reducers/global/globalActions';
 class Scan extends Component {
   constructor(props) {
     super(props);
-    let {dataUser} = this.props.global;
-    console.log('===> dataUser',dataUser);
+    let { dataUser } = this.props.global;
+    console.log('===> dataUser', dataUser);
     this.state = {
       isCheckCam: false,
       typeCam: false,
@@ -78,16 +78,12 @@ class Scan extends Component {
         })
     })
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
-    console.log(nextProps.payload.payloadData);  //  Display proper list
-  }
   componentWillUnmount() {
-		// fix Warning: Can't perform a React state update on an unmounted component
-		this.setState = (state, callback) => {
-			return;
-		};
-	}
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = (state, callback) => {
+      return;
+    };
+  }
   onSuccess = (e) => {
     // checkin at PTIT
     // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
@@ -163,13 +159,9 @@ class Scan extends Component {
         containerStyle={{ backgroundColor: '#839b97' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
-          <View style={{marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10}}>
+          <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
             <Text style={styles.centerText}>Xin chào{' '}
-              {fullName ?
-                <Text style={styles.textBold}>{fullName} !</Text>
-                :
-                <Text style={styles.textBold}>{email} !</Text>
-              }
+              {fullName ? <Text style={styles.textBold}>{fullName} !</Text> : null}
             </Text>
             <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
             <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
