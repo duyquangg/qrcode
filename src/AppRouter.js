@@ -25,7 +25,7 @@ import History from "./components/profile/History";
 
 import gui from './lib/gui';
 import ls from './lib/localStorage';
-
+import Firebase, {db} from './components/firebase/FirebaseConfig';
 
 import * as globalActions from './reducers/global/globalActions';
 const actions = [globalActions];
@@ -51,10 +51,21 @@ class AppRouter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: false
-    }
+      isLogin: false,
+      data: {}
+    };
+    // console.log('====> dât',this.props.data);
   }
   componentDidMount(){
+      Firebase.auth().onAuthStateChanged((user) => {
+			db.collection('users')
+				.doc(`${user.uid}`)
+				.get()
+				.then((e) => {
+					this.setState({ data: e.data() })
+				})
+    });
+    
     ls.getLoginInfo().then((e) => {
       // console.log('====> e',e);
       if (e) {
@@ -63,6 +74,15 @@ class AppRouter extends Component {
     })
     return;
   }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   return false;
+  // }
+  // componentWillUnmount() {
+	// 	// fix Warning: Can't perform a React state update on an unmounted component
+	// 	this.setState = (state, callback) => {
+	// 		return;
+	// 	};
+	// }
   render() {
     let loggedIn = this.props.global.loggedIn;
     return (
@@ -91,6 +111,14 @@ class AppRouter extends Component {
               <Scene
                 key="Scan"
                 component={Scan}
+                // onEnter={() => {
+                //   this.props.actions.onGlobalFieldChange('dataUser',this.state.data);
+                //   this.props.actions.onGlobalFieldChange('tabScan',true);
+                // }}
+                // onExit={() => {
+                //   // this.props.actions.onGlobalFieldChange('dataUser',{});
+                //   this.props.actions.onGlobalFieldChange('tabScan',false);
+                // }}
                 hideNavBar //tự sinh height on Top
                 title="Scan"
                 // initial
@@ -100,6 +128,14 @@ class AppRouter extends Component {
                 key="Profile"
                 // initial
                 component={Profile}
+                // onEnter={() => {
+                //   this.props.actions.onGlobalFieldChange('dataUser',this.state.data);
+                //   this.props.actions.onGlobalFieldChange('tabProfile',true);
+                // }}
+                // onExit={() => {
+                //   this.props.actions.onGlobalFieldChange('dataUser',{});
+                //   this.props.actions.onGlobalFieldChange('tabProfile',false);
+                // }}
                 hideNavBar
                 title="Cá nhân"
                 icon={TabIcon}

@@ -10,7 +10,8 @@ var InitialState = Record({
     checkIn: null,
     checkOut: null,
     dataUser: {},
-    // tabScan: false
+    tabScan: false,
+    tabProfile: false
 });
 
 export default InitialState;

@@ -141,8 +141,9 @@ class Scan extends Component {
 
   render() {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
-    console.log('=====> checkInTime', checkInTime);
-    console.log('=====> checkOutTime', checkOutTime);
+    // console.log('=====> checkInTime', checkInTime);
+    // console.log('=====> checkOutTime', checkOutTime);
+    console.log('=====> checkOutTime', this.props.global.dataUser);
     if (!allData) {
       return <Loader />
     }
