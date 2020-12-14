@@ -128,7 +128,7 @@ class EditInfo extends Component {
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
         this.setState({loading: false}, () => {
           Actions.pop();
-          ls.setLoginInfo(dto);
+          // ls.setLoginInfo(dto);
           this.props.doRefresh && this.props.doRefresh(); //refresh data
         });
       })
@@ -158,7 +158,7 @@ class EditInfo extends Component {
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
         this.setState({loading: false}, () => {
           Actions.pop();
-          ls.setLoginInfo(dto);
+          // ls.setLoginInfo(dto);
           this.props.doRefresh && this.props.doRefresh(); //refresh data
         });
       })
