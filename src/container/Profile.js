@@ -65,7 +65,7 @@ class Profile extends Component {
     let lock = require('../assets/images/lock.png');
     let next = require('../assets/images/next.png');
     let off = require('../assets/images/off.png');
-    let data =  this.state.data;
+    let data = this.state.data;
     return (
       <View style={styles.container}>
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
@@ -91,7 +91,7 @@ class Profile extends Component {
             {/* <Text style={styles.textPhone}>{phone}</Text> */}
             <View style={styles.viewBody}>
               {this._renderBody('history', 'Lịch sử', () => Actions.History())}
-              {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({data}))}
+              {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data }))}
             </View>
             <TouchableOpacity style={styles.viewLogout}
               onPress={this.onActionsPress.bind(this)}>
