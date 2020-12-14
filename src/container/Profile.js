@@ -39,13 +39,13 @@ class Profile extends Component {
     super(props);
     this.state = {
       avatar: null,
-            email: null,
+      email: null,
     };
   }
-    componentDidMount() {
-        ls.getLoginInfo().then(ls => {
-          this.setState({email: ls.email})
-        })
+  componentDidMount() {
+    ls.getLoginInfo().then(ls => {
+      this.setState({ email: ls.email })
+    })
   }
   render() {
     let AvaUser = require('../assets/images/user.png');
@@ -60,7 +60,7 @@ class Profile extends Component {
           <LinearGradient
             start={{ x: 0.5, y: 0.5 }}
             end={{ x: 0.5, y: 0 }}
-            colors={['#cfd3ce', '#c6b497']}
+            colors={gui.linearMain}
             style={styles.viewLinear}
           >
             <View
@@ -76,7 +76,7 @@ class Profile extends Component {
               </View>
             </View>
             <Text style={styles.textTitle}>{this.state.email}</Text>
-                  {/* <Text style={styles.textPhone}>{phone}</Text> */}
+            {/* <Text style={styles.textPhone}>{phone}</Text> */}
             <View style={styles.viewBody}>
               {this._renderBody(edit, 'Sửa thông tin', () => Actions.EditInfo())}
               {this._renderBody(lock, 'Đổi mật khẩu', () => Actions.ChangePass())}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#c6b497',
+    backgroundColor: '#839b97',
   },
   normalTextBody: {
     fontSize: 14,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginTop: 32,
     flexDirection: 'row',
-    backgroundColor: '#c6b497',
+    backgroundColor: '#839b97',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -220,91 +220,3 @@ const styles = StyleSheet.create({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
-
-
-
-// import React, {Component} from 'react';
-// import { View, Text, StyleSheet, Button, Alert } from 'react-native';
-
-// import { bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
-// import { Map } from 'immutable';
-
-// import { Actions } from 'react-native-router-flux';
-// import Firebase from '../components/firebase/FirebaseConfig';
-// import ls from '../lib/localStorage';
-// import * as globalActions from '../reducers/global/globalActions';
-
-// class Profile extends Component {
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       email: null,
-//     };
-//     console.log('======> checkIn',props.global.checkIn) //nên lấy từ database ra
-//   }
-//   componentDidMount() {
-//         ls.getLoginInfo().then(ls => {
-//           this.setState({email: ls.email})
-//         })
-//   }
-//   onActionsPress() {
-//     Alert.alert('Thông báo', 'Bạn có chắc chắn muốn đăng xuất?', [
-//       {
-//         text: 'Huỷ',
-//         onPress: () => console.info('Cancel Pressed'),
-//       },
-//       {
-//         text: 'OK',
-//         onPress: () => this.onPressSignOut()
-//       }
-//     ],
-//       { cancelable: false },
-//     )
-//   }
-
-//   onPressSignOut = async () => {
-//      // Firebase.auth().signOut();
-//     await ls.removeLogin();
-//     Actions.Login({ type: 'reset' });
-//   }
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text>Profile Screen</Text>
-//         <Text>{this.state.email}</Text>
-//         <Button title='Logout' onPress={this.onActionsPress.bind(this)} />
-//       </View>
-//     )
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   }
-// })
-// const actions = [
-//   globalActions
-// ];
-// const mapDispatchToProps = dispatch => {
-//   const creators = Map()
-//     .merge(...actions)
-//     .filter(value => typeof value === 'function')
-//     .toObject();
-
-//   return {
-//     actions: bindActionCreators(creators, dispatch),
-//     dispatch
-//   };
-// }
-// const mapStateToProps = state => {
-//   return {
-//     ...state
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Profile)

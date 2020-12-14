@@ -152,7 +152,7 @@ class Scan extends Component {
         reactivateTimeout={3000}
         cameraTimeout={1000}
         cameraType={typeCam && typeCam ? 'front' : 'back'}
-        containerStyle={{ backgroundColor: '#cfd3ce' }}
+        containerStyle={{ backgroundColor: '#839b97' }}
         flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
         topContent={
           <View>
@@ -189,15 +189,15 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 18,
     padding: 32,
-    color: '#777'
+    color: '#e8e8e8'
   },
   textBold: {
-    fontWeight: '500',
-    color: '#000'
+    fontWeight: 'bold',
+    color: '#fff'
   },
   buttonText: {
     fontSize: 21,
-    color: 'rgb(0,122,255)'
+    color: gui.mainColor
   },
   buttonTouchable: {
     padding: 16

@@ -10,7 +10,6 @@ const CommonHeader = (props) => {
         rightContent,
         title,
         textStyle,
-        heightHeader,
         marginTop,
         noLinear
     } = props;
@@ -90,6 +89,7 @@ const styles = StyleSheet.create({
     titleTextHeader: {
         fontSize: 18,
         fontWeight: '700',
+        color: '#fff'
     },
 });
 

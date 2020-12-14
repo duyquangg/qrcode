@@ -11,6 +11,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ImagePicker from 'react-native-image-picker';
 import {Actions} from 'react-native-router-flux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -73,11 +74,10 @@ class ChangePass extends Component {
     );
   }
   _renderHeader () {
-    let left = require('../../assets/images/arrowLeft.png');
     return (
       <CommonHeader
           title={"Đổi mật khẩu"}
-          leftContent={ <Image source={left} />}
+          leftContent={ <FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
           onPressLeft={() => Actions.pop()}
           />
     );

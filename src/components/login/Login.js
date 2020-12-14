@@ -60,7 +60,7 @@ class Login extends Component {
 					<TextInput
 						style={styles.input}
 						placeholder='Email'
-						placeholderTextColor="#aaaaaa"
+						placeholderTextColor="#a6a9b6"
 						onChangeText={(email) => this.setState({ email })}
 						value={this.state.email}
 						keyboardType={'email-address'}
@@ -70,7 +70,7 @@ class Login extends Component {
 					<View style={styles.viewInput}>
 						<TextInput
 							style={styles.inputPass}
-							placeholderTextColor="#aaaaaa"
+							placeholderTextColor="#a6a9b6"
 							secureTextEntry={this.state.checkPass ? true : false}
 							placeholder='Mật khẩu'
 							onChangeText={(password) => this.setState({ password })}
@@ -90,7 +90,7 @@ class Login extends Component {
 								:
 								<FontAwesome
 									name="eye"
-									color="grey"
+									color="#34626c"
 									size={20}
 								/>
 							}
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
 		height: 48,
 		borderRadius: 5,
 		borderWidth: 1,
-		borderColor: '#788eec',
+		borderColor: '#34626c',
 		paddingHorizontal: 16
 	},
 	inputPass: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		color: '#000',
 		borderWidth: 1,
-		borderColor: '#788eec',
+		borderColor: '#34626c',
 		backgroundColor: 'white',
 		marginTop: 10,
 		marginBottom: 10,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16
 	},
 	button: {
-		backgroundColor: '#788eec',
+		backgroundColor: '#34626c',
 		marginLeft: 30,
 		marginRight: 30,
 		marginTop: 20,
@@ -247,10 +247,10 @@ const styles = StyleSheet.create({
 	},
 	footerText: {
 		fontSize: 16,
-		color: '#2e2e2d'
+		color: '#a6a9b6'
 	},
 	footerLink: {
-		color: "#788eec",
+		color: "#34626c",
 		fontWeight: "bold",
 		fontSize: 16
 	}

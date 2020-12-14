@@ -12,6 +12,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import {Actions} from 'react-native-router-flux';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -68,11 +69,10 @@ class EditInfo extends Component {
     );
   }
   _renderHeader () {
-    let left = require('../../assets/images/arrowLeft.png');
     return (
       <CommonHeader
           title={"Sửa thông tin"}
-          leftContent={ <Image source={left} />}
+          leftContent={ <FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
           onPressLeft={() => Actions.pop()}
           rightContent={
             <Text style={styles.normalTextHeader}>Lưu</Text>
@@ -271,7 +271,7 @@ const styles = StyleSheet.create ({
   },
   normalTextHeader: {
     fontSize: 16,
-    color: '#0e2b5c',
+    color: '#fff',
   },
   viewAvatar: {
     width: 128,

@@ -44,7 +44,7 @@ class Signup extends Component {
                     <TextInput
                         style={styles.input}
                         placeholder='Họ và tên'
-                        placeholderTextColor="#aaaaaa"
+                        placeholderTextColor="#a6a9b6"
                         onChangeText={(fullName) => this.setState({ fullName })}
                         value={this.state.fullName}
                         underlineColorAndroid="transparent"
@@ -54,7 +54,7 @@ class Signup extends Component {
                         style={styles.input}
                         placeholder='Email'
                         keyboardType={'email-address'}
-                        placeholderTextColor="#aaaaaa"
+                        placeholderTextColor="#a6a9b6"
                         onChangeText={(email) => this.setState({ email })}
                         value={this.state.email}
                         underlineColorAndroid="transparent"
@@ -63,7 +63,7 @@ class Signup extends Component {
                     <View style={styles.viewInput}>
                         <TextInput
                             style={styles.inputPass}
-                            placeholderTextColor="#aaaaaa"
+                            placeholderTextColor="#a6a9b6"
                             secureTextEntry={this.state.checkPass ? true : false}
                             placeholder='Mật khẩu'
                             onChangeText={(password) => this.setState({ password })}
@@ -83,7 +83,7 @@ class Signup extends Component {
                                 :
                                 <FontAwesome
                                     name="eye"
-                                    color="grey"
+                                    color="#34626c"
                                     size={20}
                                 />
                             }
@@ -112,18 +112,15 @@ class Signup extends Component {
                                 :
                                 <FontAwesome
                                     name="eye"
-                                    color="grey"
+                                    color="#34626c"
                                     size={20}
                                 />
                             }
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={this.onRegisterPress.bind(this)}
-                    >
-                        <Text style={styles.buttonTitle}>Tạo tài khoản</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity  style={styles.button} onPress={this.onRegisterPress.bind(this)}>
+                            <Text style={styles.buttonTitle}>Tạo tài khoản</Text>
+                        </TouchableOpacity>
                     <View style={styles.footerView}>
                         <Text style={styles.footerText}>Bạn đã có tài khoản? <Text onPress={() => Actions.Login()} style={styles.footerLink}>Đăng nhập</Text></Text>
                     </View>
@@ -179,7 +176,7 @@ class Signup extends Component {
                             ls.setLoginInfo(dto);
                             this.props.actions.onGlobalFieldChange('email', email);
                             // Actions.Scan();
-                            Actions.Main({type:'reset'});
+                            Actions.Main({ type: 'reset' });
                             Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
                             this.setState({
                                 email: '',
@@ -228,7 +225,7 @@ const styles = StyleSheet.create({
         height: 48,
         borderRadius: 5,
         borderWidth: 1,
-        borderColor: '#788eec',
+        borderColor: '#34626c',
         paddingHorizontal: 16
     },
     inputPass: {
@@ -246,7 +243,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         color: '#000',
         borderWidth: 1,
-        borderColor: '#788eec',
+        borderColor: '#34626c',
         marginTop: 10,
         marginBottom: 10,
         marginLeft: 30,
@@ -254,7 +251,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16
     },
     button: {
-        backgroundColor: '#788eec',
+        backgroundColor: '#34626c',
         marginLeft: 30,
         marginRight: 30,
         marginTop: 20,
@@ -275,10 +272,10 @@ const styles = StyleSheet.create({
     },
     footerText: {
         fontSize: 16,
-        color: '#2e2e2d'
+        color: '#a6a9b6'
     },
     footerLink: {
-        color: "#788eec",
+        color: "#34626c",
         fontWeight: "bold",
         fontSize: 16
     }
