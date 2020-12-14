@@ -78,8 +78,8 @@ class Profile extends Component {
             <Text style={styles.textTitle}>{this.state.email}</Text>
             {/* <Text style={styles.textPhone}>{phone}</Text> */}
             <View style={styles.viewBody}>
+              {this._renderBody(lock, 'Đổi mật khẩu', () => Actions.History())}
               {this._renderBody(edit, 'Sửa thông tin', () => Actions.EditInfo())}
-              {this._renderBody(lock, 'Đổi mật khẩu', () => Actions.ChangePass())}
             </View>
             <TouchableOpacity style={styles.viewLogout}
               onPress={this.onActionsPress.bind(this)}>

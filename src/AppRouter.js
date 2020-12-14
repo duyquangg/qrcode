@@ -20,7 +20,6 @@ import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
 //profile
-import ChangePass from "./components/profile/ChangePass";
 import EditInfo from "./components/profile/EditInfo";
 import History from "./components/profile/History";
 
@@ -117,12 +116,6 @@ class AppRouter extends Component {
               // initial
               component={Signup}
               title="Signup"
-            />
-            <Scene
-              key="ChangePass"
-              // initial
-              component={ChangePass}
-              title="ChangePass"
             />
             <Scene
               key="EditInfo"
