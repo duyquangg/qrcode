@@ -37,12 +37,14 @@ class Scan extends Component {
       fullName: '',
       dataEmail: [],
       uid: null,
+      loading: false,
 
       checkInTime: null,
       checkOutTime: null
     };
   }
   componentDidMount = async () => {
+    this.setState({loading: true})
     db.collection('users')
       .get()
       .then(snapshot => {
@@ -62,7 +64,7 @@ class Scan extends Component {
             }
             return;
           });
-          this.setState({ email: ls.email, allData: users, fullName, dataEmail });
+          this.setState({ email: ls.email, allData: users, fullName, dataEmail, loading: false});
         });
       })
       .catch(error => console.log(error));
@@ -72,8 +74,8 @@ class Scan extends Component {
         .doc(`${user.uid}`)
         .get()
         .then((e) => {
-          e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
-            : this.setState({ checkInTime: null })
+          e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn, loading:false })
+            : this.setState({ checkInTime: null, loading:false })
         })
     })
   }
@@ -141,10 +143,10 @@ class Scan extends Component {
 
   render() {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
-    console.log('=====> checkInTime', checkInTime);
-    console.log('=====> checkOutTime', checkOutTime);
+    // console.log('=====> checkInTime', checkInTime);
+    // console.log('=====> checkOutTime', checkOutTime);
     if (!allData) {
-      return <Loader />
+      return <Loader loading={this.state.loading} />
     }
     return (
       <QRCodeScanner

@@ -11,6 +11,7 @@ import { Map } from 'immutable';
 
 import ls from '../lib/localStorage';
 import gui from '../lib/gui';
+import Loader from '../components/icons/Loader';
 
 import * as globalActions from '../reducers/global/globalActions';
 import Firebase, { db } from '../components/firebase/FirebaseConfig';
@@ -43,9 +44,11 @@ class Profile extends Component {
       avatar: null,
       email: null,
       data: {},
+      loading: false
     };
   }
   componentDidMount = async () => {
+    this.setState({loading:true})
     ls.getLoginInfo().then(ls => {
       this.setState({ email: ls.email })
     });
@@ -55,7 +58,7 @@ class Profile extends Component {
       .doc(`${userId}`)
       .get()
       .then((e) => {
-        this.setState({ data: e.data(), avatar: e.data().avatar })
+        this.setState({ data: e.data(), avatar: e.data().avatar, loading:false })
       })
       .catch((error) => console.log(error));
   }
@@ -68,7 +71,7 @@ class Profile extends Component {
     let data = this.state.data;
     return (
       <View style={styles.container}>
-        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+        {/* <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}> */}
           <LinearGradient
             start={{ x: 0.5, y: 0.5 }}
             end={{ x: 0.5, y: 0 }}
@@ -105,8 +108,11 @@ class Profile extends Component {
               <Text style={styles.textFooter}>Phiên bản</Text>
               <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
             </View>
+
           </LinearGradient>
-        </ScrollView>
+          <Loader loading={this.state.loading} />
+          
+        {/* </ScrollView> */}
       </View>
     );
   }

@@ -10,6 +10,7 @@ import {
   Alert
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import { Actions } from 'react-native-router-flux';
@@ -19,12 +20,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
+import Loader from '../icons/Loader';
 import CommonHeader from '../header/CommonHeader';
 import Toast from "../toast/Toast";
 import ls from '../../lib/localStorage';
 import Firebase, { db } from '../firebase/FirebaseConfig';
 import gui from '../../lib/gui';
 import cfg from '../../../cfg';
+import moment from 'moment';
 
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -58,9 +61,11 @@ class EditInfo extends Component {
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
 
-      date: new Date('2020-06-12T14:42:42'),
+      date: moment().format("DD-MM-YYYY"),
       mode: 'date',
-      show: false,
+      showDate: false,
+
+      loading: false,
     };
   }
   componentDidMount() {
@@ -71,6 +76,7 @@ class EditInfo extends Component {
       <View style={styles.container}>
         {this._renderHeader()}
         {this._renderBody()}
+        <Loader loading={this.state.loading} />
         <Toast
           ref="toastTop"
           position='top'
@@ -97,10 +103,9 @@ class EditInfo extends Component {
     );
   }
   onSave = () => {
-    let { fullName, phone, avatar, gender, birthday } = this.state;
-    console.log('====> phone', phone.length);
+    let { fullName, phone, avatar, gender, birthday, loading } = this.state;
     if (phone) {
-      if (phone.length < 10 && phone.length > 10) {
+      if (phone.length !== 10) {
         this.refs.toastTop.show("Số điện thoại không đúng định dạng!");
         return;
       };
@@ -109,6 +114,7 @@ class EditInfo extends Component {
       this.refs.toastTop.show("Tên không được để trống!");
       return;
     }
+    this.setState({loading: true})
     let currentUser = Firebase.auth().currentUser;
     let userId = currentUser.uid;
     db.collection('users')
@@ -121,7 +127,8 @@ class EditInfo extends Component {
         // birthday: birthday,
       })
       .then((e) => {
-        Alert.alert('hhihi')
+        Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
+        this.setState({loading: false}, () => Actions.pop());
       })
   }
   _renderBody() {
@@ -175,7 +182,7 @@ class EditInfo extends Component {
           </TouchableOpacity>
           <View />
         </View>
-        {this._renderBirthDay()}
+        {/* {this._renderBirthDay()} */}
       </View>
     );
   }
@@ -259,7 +266,7 @@ class EditInfo extends Component {
     );
   }
   _renderBirthDay() {
-    const { show, date, mode } = this.state;
+    const { showDate, date, mode } = this.state;
     let calendar = require('../../assets/images/calendar.png');
     return (
       <View style={styles.viewInput}>
@@ -268,36 +275,48 @@ class EditInfo extends Component {
           style={styles.viewChooseBOD}
           onPress={this.datepicker.bind(this)}
         >
-          <Text style={styles.titleTextBody}>17/11/1995</Text>
+          <Text style={styles.titleTextBody}>{this.state.date}</Text>
           <Image source={calendar} />
         </TouchableOpacity>
-        {show &&
+        {showDate &&
+          <DateTimePickerModal
+            headerTextIOS={'Chọn ngày'}
+            confirmTextIOS={'Lưu'}
+            locale="vn-VN" // Use "en_GB" here
+            cancelTextIOS={'Huỷ'}
+            isVisible={showDate}
+            mode="date"
+            onConfirm={this.setDate}
+            onCancel={() => this.setState({ showDate: false })}
+          />
+        }
+        {/* {showDate &&
           <DateTimePicker
             value={date}
             mode={mode}
             display='default'
             onChange={this.setDate}
-          />}
+          />} */}
       </View>
     );
   }
-  setDate = (event, date) => {
-    date = date || this.state.date;
+  setDate = (date) => {
+    console.log('===> date', date);
     this.setState({
-      // show: Platform.OS === 'ios' ? true : false,
       date,
+      showDate: false
     });
   };
 
-  show = mode => {
+  showDate = mode => {
     this.setState({
-      show: true,
+      showDate: true,
       mode,
     });
   };
 
   datepicker = () => {
-    this.show('date');
+    this.setState({ showDate: true })
   };
 }
 const styles = StyleSheet.create({
@@ -337,7 +356,7 @@ const styles = StyleSheet.create({
     width: 128,
     height: 128,
     borderRadius: 64,
-    top:-1.5
+    top: -1.5
   },
   viewEdit: {
     position: 'absolute',

@@ -48,7 +48,7 @@ const CommonHeader = (props) => {
                         <Text style={[styles.titleTextHeader, textStyle]}>{title}</Text>
                     </View>
                     <TouchableOpacity
-                        activeOpacity={1}
+                        // activeOpacity={1}
                         onPress={onPressRight}
                         style={styles.viewRight}>
                         {rightContent}
