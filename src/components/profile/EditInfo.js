@@ -127,8 +127,9 @@ class EditInfo extends Component {
         };
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
         this.setState({loading: false}, () => {
+          // this.props.actions.onGlobalFieldChange('dataUser',dto);
+          // console.log('====> dto phone',dto);
           Actions.pop();
-          this.props.actions.onGlobalFieldChange('dataUser',dto);
           this.props.doRefresh && this.props.doRefresh(); //refresh data
         });
       })
@@ -157,7 +158,8 @@ class EditInfo extends Component {
         };
         Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
         this.setState({loading: false}, () => {
-          this.props.actions.onGlobalFieldChange('dataUser',dto);
+          // this.props.actions.onGlobalFieldChange('dataUser',dto);
+          // console.log('====> dto',dto);
           Actions.pop();
           this.props.doRefresh && this.props.doRefresh(); //refresh data
         });

@@ -73,15 +73,19 @@ class AppRouter extends Component {
     })
     return;
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //   return false;
-  // }
-  // componentWillUnmount() {
-	// 	// fix Warning: Can't perform a React state update on an unmounted component
-	// 	this.setState = (state, callback) => {
-	// 		return;
-	// 	};
-	// }
+  shouldComponentUpdate(nextProps, nextState){
+    let a = true;
+    if(a){
+      return true;
+    }
+    return false;
+  }
+  componentWillUnmount() {
+		// fix Warning: Can't perform a React state update on an unmounted component
+		this.setState = (state, callback) => {
+			return;
+		};
+	}
   render() {
     let loggedIn = this.props.global.loggedIn;
     return (
