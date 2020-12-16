@@ -1,22 +1,22 @@
 import Firebase, { db } from '../../components/firebase/FirebaseConfig';
 
 const {
-	LOGIN,
-	SIGNUP,
-	LOGIN_REQUEST,
-	LOGIN_SUCCESS,
-	LOGIN_FAILURE,
-	ON_GLOBAL_FIELD_CHANGE,
+    LOGIN,
+    SIGNUP,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILURE,
+    ON_GLOBAL_FIELD_CHANGE,
 } = require('../../lib/constants').default;
 import userApi from '../../lib/userApi';
 import ls from "../../lib/localStorage";
 
 
 export function onGlobalFieldChange(field, value) {
-	return {
-		type: ON_GLOBAL_FIELD_CHANGE,
-		payload: { field: field, value: value }
-	};
+    return {
+        type: ON_GLOBAL_FIELD_CHANGE,
+        payload: { field: field, value: value }
+    };
 }
 
 
@@ -42,12 +42,16 @@ export function loginFailure(error) {
 export function login(email, password) {
     return dispatch => {
         dispatch(loginRequest());
+        let dto = {
+            "email": email,
+            "password": password
+        }
         return userApi.login(email, password)
             .then(function (json) {
                 // console.log("Login success data action", json);
-                if (json.status === 200) {
+                if (json.status == 200) {
                     // let token = json.token;
-                    ls.setLoginInfo({ email, password });
+                    ls.setLoginInfo(dto);
                     dispatch(loginSuccess(json));
                 } else {
                     dispatch(loginFailure(json.error));

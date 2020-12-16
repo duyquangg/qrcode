@@ -11,9 +11,11 @@ import { Map } from 'immutable';
 import gui from '../../lib/gui';
 import Loader from '../icons/Loader';
 import ls from '../../lib/localStorage';
+import Toast from '../toast/Toast';
 
 import Firebase, { db } from '../firebase/FirebaseConfig';
 import * as globalActions from '../../reducers/global/globalActions';
+import userApi from '../../lib/userApi';
 
 class Signup extends Component {
     constructor(props) {
@@ -118,86 +120,70 @@ class Signup extends Component {
                             }
                         </TouchableOpacity>
                     </View>
-                        <TouchableOpacity  style={styles.button} onPress={this.onRegisterPress.bind(this)}>
-                            <Text style={styles.buttonTitle}>Tạo tài khoản</Text>
-                        </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={this.onRegisterPress.bind(this)}>
+                        <Text style={styles.buttonTitle}>Tạo tài khoản</Text>
+                    </TouchableOpacity>
                     <View style={styles.footerView}>
                         <Text style={styles.footerText}>Bạn đã có tài khoản? <Text onPress={() => Actions.Login()} style={styles.footerLink}>Đăng nhập</Text></Text>
                     </View>
                     <Loader loading={this.state.loading} />
                 </KeyboardAwareScrollView>
+                <Toast
+                    ref="toastTop"
+                    position='top'
+                    positionValue={70}
+                    fadeInDuration={1000}
+                    fadeOutDuration={2000}
+                    opacity={0.85}
+                    textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
+                />
             </View>
         )
     }
     onRegisterPress = () => {
         let { email, password, confirmPassword, fullName } = this.state;
         if (!fullName) {
-            Alert.alert('Thông báo', 'Họ và tên không được để trống !');
+            this.refs.toastTop.show("Họ và tên không được để trống!");
             return;
         } else if (!email) {
-            Alert.alert('Thông báo', 'Email không được để trống !');
+            this.refs.toastTop.show("Email không được để trống!");
             return;
         } else if (!password) {
-            Alert.alert('Thông báo', 'Mật khẩu không được để trống !');
+            this.refs.toastTop.show("Mật khẩu không được để trống!");
             return;
         }
         if (password.length < 6) {
-            Alert.alert('Thông báo', 'Mật khẩu cần ít nhất 6 ký tự !');
+            this.refs.toastTop.show("Mật khẩu cần ít nhất 6 ký tự!");
             return;
         }
         if (password !== confirmPassword) {
-            Alert.alert('Thông báo', 'Mật khẩu không khớp rồi !')
+            this.refs.toastTop.show("Mật khẩu không khớp rồi!");
             return
         }
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(email) === false) {
             this.setState({ email });
-            Alert.alert('Thông báo', 'Email không đúng định dạng')
+            this.refs.toastTop.show("Email không đúng định dạng!");
             return false;
         } else {
-            this.setState({ loading: true })
-            Firebase
-                .auth()
-                .createUserWithEmailAndPassword(email, password)
-                .then((response) => {
-                    this.setState({ loading: false })
-                    const data = {
-                        email,
-                        fullName,
-                    };
-                    db.collection('users')
-                        .doc(response.user.uid)
-                        .set(data)
-                        .then(() => {
-                            let dto = {
-                                email,
-                                password
-                            };
-                            ls.setLoginInfo(dto);
-                            this.props.actions.onGlobalFieldChange('email', email);
-                            // Actions.Scan();
-                            Actions.Main({ type: 'reset' });
-                            Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công!')
-                            this.setState({
-                                email: '',
-                                password: '',
-                                confirmPassword: '',
-                                fullName: '',
-                                loading: false
-                            })
-                        })
-                        .catch((error) => {
-                            this.setState({ loading: false });
-                            Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
+            userApi.register(email, password, fullName)
+                .then(e => {
+                    this.setState({ loading: true })
+                    if (e.status == 200) {
+                        Alert.alert('Thông báo', 'Bạn đã tạo tài khoản thành công! Mời bạn đăng nhập lại vào hệ thống!');
+                        Actions.Login();
+                        this.setState({
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                            fullName: '',
+                            loading: false
                         });
-                })
-                .catch((error) => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        Alert.alert('Thông báo', 'Email đã tồn tại trong hệ thống !');
                     }
-                    this.setState({ loading: false })
-                    Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
-                });
+                })
+                .catch((res) => {
+					this.refs.toastTop.show("Quá trình đăng ký xảy ra lỗi. Bạn vui lòng thử lại sau");
+				})
         }
     }
 }
@@ -216,7 +202,7 @@ const styles = StyleSheet.create({
         width: 90,
         alignSelf: "center",
         margin: 30,
-        marginTop:100,
+        marginTop: 100,
     },
     viewInput: {
         flexDirection: 'row',

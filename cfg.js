@@ -1,14 +1,14 @@
 var cfg = {
-    server : '203.162.13.227:8001', // dev
-    // local
-    // server : 'dev.landber.com:6001', // UAT
+    server : 'http://localhost', // dev
+    port:3000,
     serverGetDiaChinh: 'landberagent.com'
 };
 
-cfg.rootUrl = `http://${cfg.server}/api`;
-cfg.rootDiaChinhUrl = `https://${cfg.serverGetDiaChinh}/api`;
-cfg.socketUrl = `http://${cfg.server}`;
+// cfg.rootUrl = `http://${cfg.server}/api`;
+// cfg.rootDiaChinhUrl = `https://${cfg.serverGetDiaChinh}/api`;
+// cfg.socketUrl = `http://${cfg.server}`;
 
+cfg.api = `${cfg.server}:${cfg.port}/`;
 
 cfg.maxWidth = 1024;
 cfg.maxHeight = 1024;
