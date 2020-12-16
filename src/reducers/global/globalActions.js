@@ -52,7 +52,6 @@ export function login(email, password) {
                 } else {
                     dispatch(loginFailure(json.error));
                 }
-
                 return json;
             });
     };

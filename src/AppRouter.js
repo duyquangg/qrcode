@@ -31,9 +31,10 @@ const actions = [globalActions];
 
 function mapStateToProps(state) {
   return {
-    userID: state.global.currentUser.userID,
-    currentUser: state.global.currentUser,
-    loggedIn: state.global.loggedIn,
+    // userID: state.global.currentUser.userID,
+    // currentUser: state.global.currentUser,
+    // loggedIn: state.global.loggedIn,
+    ...state
   };
 }
 
@@ -52,18 +53,11 @@ class AppRouter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLogin: false,
-      data: {}
+    
     };
   }
   componentDidMount(){
-    ls.getLoginInfo().then((e) => {
-      // console.log('====> e',e);
-      if (e) {
-        this.setState({isLogin: true});
-      }
-    })
-    return;
+  
   }
   // shouldComponentUpdate(nextProps, nextState){
   //   let a = true;
@@ -79,9 +73,9 @@ class AppRouter extends Component {
 	// 	};
 	// }
   render() {
-    let loggedIn = this.props.loggedIn;
-    let currentUser = this.props.currentUser;
-    console.log('===> currentUser',currentUser)
+    let loggedIn = this.props.global.loggedIn;
+    // let currentUser = this.props.currentUser;
+    console.log('===> loggedIn',loggedIn)
     return (
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />
@@ -104,7 +98,7 @@ class AppRouter extends Component {
               labelStyle={styles.bottomTabTitle}
               activeTintColor={gui.mainColor} //cùng màu với màu icons
               inactiveTintColor={'#4b515d'}
-              initial={this.state.isLogin}
+              initial={loggedIn}
             >
               <Scene
                 key="Scan"
@@ -126,7 +120,7 @@ class AppRouter extends Component {
             <Scene
               key="Login"
               component={Login}
-              initial={!this.state.isLogin}
+              initial={!loggedIn}
               title="Login"
             />
             <Scene

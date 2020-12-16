@@ -6,7 +6,7 @@ import configureStore from './src/lib/configureStore';
 import globalInitialState from './src/reducers/global/globalInitialState';
 import ls from './src/lib/localStorage';
 import Firebase, { db } from './src/components/firebase/FirebaseConfig';
-
+import {login} from './src/reducers/global/globalActions';
 
 function getInitialState() {
 	const _initState = {
@@ -22,14 +22,24 @@ export default class App extends Component {
 		this.state = {
 		}
 	}
-	componentDidMount = async () => {
+	componentDidMount() {
 		let state = store.getState();
-		// console.log('====> state',state);
-	};
-	componentWillUnmount() {
-		// fix Warning: Can't perform a React state update on an unmounted component
-		this.setState = (state, callback) => {
-			return;
+		if (state.global) {
+			ls.getLoginInfo().then( (ret)=> {
+				if (ret){
+					store.dispatch(login(ret.email, ret.password)).then((json) => {
+						console.log('====> json',json)
+						// if (json.login === true) {
+						// 	userInfo.userID = json.userID;
+						// }
+						// this.hideSplashScreen();
+					});
+				} else {
+					// this.hideSplashScreen();
+				}
+			});
+		} else {
+			// this.hideSplashScreen();
 		};
 	};
 	render() {
