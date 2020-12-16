@@ -31,9 +31,6 @@ const actions = [globalActions];
 
 function mapStateToProps(state) {
   return {
-    // userID: state.global.currentUser.userID,
-    // currentUser: state.global.currentUser,
-    // loggedIn: state.global.loggedIn,
     ...state
   };
 }
@@ -53,29 +50,25 @@ class AppRouter extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    
+
     };
   }
-  componentDidMount(){
-  
+  componentDidMount() {
+
   }
   // shouldComponentUpdate(nextProps, nextState){
-  //   let a = true;
-  //   if(a){
-  //     return true;
-  //   }
   //   return false;
   // }
   // componentWillUnmount() {
-	// 	// fix Warning: Can't perform a React state update on an unmounted component
-	// 	this.setState = (state, callback) => {
-	// 		return;
-	// 	};
-	// }
+  // 	// fix Warning: Can't perform a React state update on an unmounted component
+  // 	this.setState = (state, callback) => {
+  // 		return;
+  // 	};
+  // }
   render() {
     let loggedIn = this.props.global.loggedIn;
-    // let currentUser = this.props.currentUser;
-    console.log('===> loggedIn',loggedIn)
+    let currentUser = this.props.global.currentUser;
+    // console.log('===> currentUser', currentUser)
     return (
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />
@@ -173,7 +166,7 @@ const styles = StyleSheet.create({
   },
   bottomTabBar: {
     height: 55,
-    marginBottom:5,
+    marginBottom: 5,
     borderTopWidth: Platform.OS === "ios" ? 1 : 0.8,
     borderTopColor: "gray",
     paddingVertical: 10,

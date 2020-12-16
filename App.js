@@ -28,7 +28,7 @@ export default class App extends Component {
 			ls.getLoginInfo().then( (ret)=> {
 				if (ret){
 					store.dispatch(login(ret.email, ret.password)).then((json) => {
-						console.log('====> json',json)
+						// console.log('====> json',json)
 						// if (json.login === true) {
 						// 	userInfo.userID = json.userID;
 						// }

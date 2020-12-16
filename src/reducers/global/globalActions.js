@@ -44,7 +44,7 @@ export function login(email, password) {
         dispatch(loginRequest());
         return userApi.login(email, password)
             .then(function (json) {
-                console.log("Login success data action", json);
+                // console.log("Login success data action", json);
                 if (json.status === 200) {
                     // let token = json.token;
                     ls.setLoginInfo({ email, password });

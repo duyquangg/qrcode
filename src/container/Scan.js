@@ -157,47 +157,45 @@ class Scan extends Component {
 
   render() {
     let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
+    let {currentUser} = this.props.global;
     // console.log('=====> checkInTime', checkInTime);
     // console.log('=====> checkOutTime', checkOutTime);
     if (!allData) {
       return <Loader />
     }
     return (
-      // <QRCodeScanner
-      //   reactivate={true}
-      //   onRead={this.onSuccess}
-      //   reactivateTimeout={3000}
-      //   cameraTimeout={1000}
-      //   cameraType={typeCam && typeCam ? 'front' : 'back'}
-      //   containerStyle={{ backgroundColor: '#839b97' }}
-      //   flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-      //   topContent={
-      //     <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
-      //       <Text style={styles.centerText}>Xin chào{' '}
-      //         {fullName ? <Text style={styles.textBold}>{fullName} !</Text> : null}
-      //       </Text>
-      //       <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-      //       <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-      //     </View>
-      //   }
-      //   bottomContent={
-      //     <View>
-      //       <TouchableOpacity disabled={this.state.typeCam} onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
-      //         style={styles.buttonTouchable}
-      //       >
-      //         <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>
-      //       </TouchableOpacity>
-      //       <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
-      //         style={styles.buttonTouchable}
-      //       >
-      //         <Text style={styles.buttonText}>{this.state.typeCam ? 'Back camera' : 'Front camera'} </Text>
-      //       </TouchableOpacity>
-      //     </View>
-      //   }
-      // />
-      <View>
-        <Text>aaaa</Text>
-      </View>
+      <QRCodeScanner
+        reactivate={true}
+        onRead={this.onSuccess}
+        reactivateTimeout={3000}
+        cameraTimeout={1000}
+        cameraType={typeCam && typeCam ? 'front' : 'back'}
+        containerStyle={{ backgroundColor: '#839b97' }}
+        flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
+        topContent={
+          <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
+            <Text style={styles.centerText}>Xin chào{' '}
+              {currentUser ? <Text style={styles.textBold}>{currentUser.fullName} !</Text> : null}
+            </Text>
+            <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
+            <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
+          </View>
+        }
+        bottomContent={
+          <View>
+            <TouchableOpacity disabled={this.state.typeCam} onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
+              style={styles.buttonTouchable}
+            >
+              <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
+              style={styles.buttonTouchable}
+            >
+              <Text style={styles.buttonText}>{this.state.typeCam ? 'Back camera' : 'Front camera'} </Text>
+            </TouchableOpacity>
+          </View>
+        }
+      />
     );
   }
 }

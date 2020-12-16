@@ -31,7 +31,7 @@ export default function globalReducer(state = initialState, action) {
         }
         case LOGIN_SUCCESS: {
             let data = action.payload.data;
-            console.log('====> data success',data);
+            // console.log('====> data success',data);
             let newState = state
                 .setIn(['currentUser','userID'], data.id)
                 .setIn(["currentUser", "email"], data.email)
