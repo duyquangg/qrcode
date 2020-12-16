@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet, Alert } from 'react-native'
+import { Image, Text, TextInput, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,8 +9,9 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import gui from '../../lib/gui';
+import userApi from '../../lib/userApi';
 
-import Firebase, { db } from '../firebase/FirebaseConfig';
+import Toast from '../toast/Toast';
 import Loader from '../icons/Loader';
 import ls from '../../lib/localStorage';
 import * as globalActions from '../../reducers/global/globalActions';
@@ -105,72 +106,59 @@ class Login extends Component {
 						<Text style={styles.footerText}>Bạn chưa có tài khoản? <Text onPress={() => Actions.Signup()} style={styles.footerLink}>Đăng ký</Text></Text>
 					</View>
 				</KeyboardAwareScrollView>
+				<Toast
+					ref="toastTop"
+					position='top'
+					positionValue={70}
+					fadeInDuration={1000}
+					fadeOutDuration={2000}
+					opacity={0.85}
+					textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
+				/>
 			</View>
 		)
 	};
-	onLoginPress = (user) => {
+	onLoginPress = async () => {
 		let { email, password } = this.state;
 		if (!email) {
-			Alert.alert('Thông báo', 'Email trước không được để trống !');
+			this.refs.toastTop.show("Email không được để trống!");
 			return;
 		} else if (!password) {
-			Alert.alert('Thông báo', 'Mật khẩu không được để trống !');
+			this.refs.toastTop.show("Mật khẩu không được để trống!");
 			return;
 		}
 		if (password.length < 6) {
-			Alert.alert('Thông báo', 'Mật khẩu cần ít nhất 6 ký tự !');
+			this.refs.toastTop.show("Mật khẩu cần ít nhất 6 ký tự!");
 			return;
 		}
-		//done validated
 		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 		if (reg.test(email) === false) {
 			this.setState({ email });
-			Alert.alert('Thông báo', 'Email không đúng định dạng')
+			this.refs.toastTop.show("Email không đúng định dạng!");
 			return false;
 		} else {
 			this.setState({ loading: true });
-			Firebase
-				.auth()
-				.signInWithEmailAndPassword(email, password)
-				.then((response) => {
-					const uid = response.user.uid
-					Firebase.firestore().collection('users')
-						.doc(uid)
-						.get()
-						.then(firestoreDocument => {
-							if (!firestoreDocument.exists) {
-								Alert.alert('Thông báo', 'Người dùng không tồn tại !');
-								this.setState({ loading: false });
-								return; // add return to stop. if no, run -> Actions.Main();
-							}
-							let dto = {
-								email,
-								password
-							}
-							this.props.actions.onGlobalFieldChange('email', email);
-							ls.setLoginInfo(dto);
-							// Actions.Scan(); // k load dc email
-							Actions.Main({ type: 'reset' });
-							this.setState({
-								email: '',
-								password: '',
-								loading: false
-							})
-						})
-						.catch(error => {
-							this.setState({ loading: false });
-							Alert.alert('Thông báoaaa', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
+			let dto = {
+				email,
+				password
+			}
+			this.props.actions.login(dto.email, dto.password)
+				.then(res => {
+					if (res.status === 200) {
+						ls.setLoginInfo(dto);
+						this.setState({
+							email: '',
+							password: '',
+							loading: false
 						});
-				})
-				.catch(error => {
-					if (error.code === 'auth/user-not-found') {
-						Alert.alert('Thông báo', 'Email không tồn tài trong hệ thống !');
-						this.setState({ loading: false });
-					} else if (error.code === 'auth/wrong-password') {
-						Alert.alert('Thông báo', 'Bạn nhập sai mật khẩu rồi !');
+						Actions.Main({ type: 'reset' });
+					} else {
+						this.refs.toastTop.show("Mật khẩu hoặc tài khoản không đúng! Bạn vui lòng thử lại");
 						this.setState({ loading: false });
 					}
-					// Alert.alert('Thông báo', JSON.stringify(error)); //not Alert.alert(error) cuz it's an obj
+				})
+				.catch((res) => {
+					this.refs.toastTop.show("Quá trình đăng nhập xảy ra lỗi. Bạn vui lòng thử lại sau");
 				})
 		}
 	}
@@ -189,7 +177,7 @@ const styles = StyleSheet.create({
 		width: 90,
 		alignSelf: "center",
 		margin: 30,
-		marginTop:100,
+		marginTop: 100,
 		// backgroundColor:'red'
 	},
 	viewInput: {

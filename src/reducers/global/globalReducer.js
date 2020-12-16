@@ -17,36 +17,34 @@ export default function globalReducer(state = initialState, action) {
             let nextState = state.set(field, value);
             return nextState;
 		}
-		case LOGIN:
-			return action.payload
-		case SIGNUP:
-			return action.payload
 		case LOGIN_REQUEST: {
-			let newState = state
-				.set("isLoggin", true);
-			;
-			return newState;
-		}
-		case LOGIN_FAILURE: {
-			let newState = state
-				.set("isLoggin", false);
-			;
-			return newState;
-		}
-		case LOGIN_SUCCESS: {
-			let data = action.payload.user;
-			// console.log('====> data',data.email)
-			let newState = state
-				// .setIn(["currentUser", "username"], data.username)
-				// .setIn(["currentUser", "phone"], data.phone)
-				// .setIn(['currentUser', 'email'], data.email)
-				// .setIn(['currentUser', 'fullName'], data.fullName)
-				.set("email", data.email)
-				.setIn("password", data.password)
-				.set("loggedIn", true)
-				.set("isLoggin", false)
-			return newState;
-		}
+            let newState = state
+                .set("isLoggin", true);
+            ;
+            return newState;
+        }
+        case LOGIN_FAILURE: {
+            let newState = state
+                .set("isLoggin", false);
+            ;
+            return newState;
+        }
+        case LOGIN_SUCCESS: {
+            let data = action.payload.data;
+            let newState = state
+                .setIn(['currentUser','userID'], data.id)
+                .setIn(["currentUser", "username"], data.email)
+                .setIn(["currentUser", "phone"], data.phone)
+                .setIn(['currentUser','email'], data.email)
+                .setIn(['currentUser','fullName'], data.fullName)
+                .setIn(['currentUser','avatar'], data.avatar)
+                .setIn(['currentUser','role'], data.role)
+                .set("loggedIn", true)
+                .set("isLoggin", false)
+
+
+            return newState;
+        }
 		default:
 			return state
 	}
