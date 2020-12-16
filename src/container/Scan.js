@@ -73,6 +73,7 @@ class Scan extends Component {
         .doc(`${user.uid}`)
         .get()
         .then((e) => {
+          console.log('====> dataTime',e.data().history)
           e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
             : this.setState({ checkInTime: null })
         })
@@ -101,10 +102,16 @@ class Scan extends Component {
       let currentUser = Firebase.auth().currentUser;
       let userId = currentUser.uid;
       if (checkInTime != null || checkInTime != undefined) {
+        let dataHistory = [];
+        dataHistory.push({
+          checkOut: Date.now(),
+          checkIn: checkInTime,
+        });
         db.collection('users')  //insert
           .doc(`${userId}`)
-          .update({
+          .add({
             checkOut: Date.now(),
+            history: dataHistory,
           })
           .then((userId) => {
             // console.log('====> checkOut successfull!');
@@ -122,8 +129,11 @@ class Scan extends Component {
         //update checkInTime
         db.collection('users') //ínert nếu k có checkOut
           .doc(`${userId}`)
-          .update({
+          .add({
             checkIn: Date.now(),
+            history: [{
+              checkIn: Date.now(),
+            }]
           })
           .then((userId) => {
             // console.log('====> hhhh',userId);
@@ -134,7 +144,6 @@ class Scan extends Component {
           .doc(`${userId}`)
           .get()
           .then((e) => {
-            // console.log('===> checkInTime = null', e.data())
             this.setState({ checkInTime: e.data().checkIn });
             let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
             this.props.actions.onGlobalFieldChange('checkIn', formartTime);
