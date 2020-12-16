@@ -112,7 +112,7 @@ class Login extends Component {
 			</View>
 		)
 	};
-	onLoginPress = async () => {
+	onLoginPress = () => {
 		let { email, password } = this.state;
 		if (!email) {
 			this.refs.toastTop.show("Email không được để trống!");

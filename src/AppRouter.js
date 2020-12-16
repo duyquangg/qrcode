@@ -54,7 +54,7 @@ class AppRouter extends Component {
     };
   }
   componentDidMount() {
-
+    ls.getLoginInfo(e => console.log('====>ls',e));
   }
   // shouldComponentUpdate(nextProps, nextState){
   //   return false;
