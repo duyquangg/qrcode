@@ -24,6 +24,7 @@ import Firebase, { db } from '../components/firebase/FirebaseConfig';
 import Loader from '../components/icons/Loader';
 import gui from '../lib/gui';
 import ls from '../lib/localStorage';
+import userApi from '../lib/userApi';
 import * as globalActions from '../reducers/global/globalActions';
 
 class Scan extends Component {
@@ -37,6 +38,8 @@ class Scan extends Component {
       allData: [],
       dataEmail: [],
 
+      dataUser: {},
+
       email: dataUser.email ? dataUser.email : null,
       fullName: dataUser.fullName ? dataUser.fulName : null,
       checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
@@ -44,7 +47,14 @@ class Scan extends Component {
     };
   }
   componentDidMount = async () => {
-    console.log('====> aaaa',this.props.global.fullName)
+    let dto = {
+      userID: this.props.global.currentUser.userID
+    }
+    let resApi = await userApi.getByID(dto);
+    if (resApi.status == 200) {
+      this.setState({ dataUser: resApi.data });
+    }
+
     db.collection('users')
       .get()
       .then(snapshot => {
@@ -157,10 +167,11 @@ class Scan extends Component {
   };
 
   render() {
-    let { isCheckCam, typeCam, allData, email, fullName, dataEmail, checkInTime, checkOutTime } = this.state;
+    let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime } = this.state;
     let {currentUser} = this.props.global;
     // console.log('=====> checkInTime', checkInTime);
     // console.log('=====> checkOutTime', checkOutTime);
+    console.log('====> dataUser',dataUser);
     if (!allData) {
       return <Loader />
     }
@@ -176,7 +187,7 @@ class Scan extends Component {
         topContent={
           <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
             <Text style={styles.centerText}>Xin chào{' '}
-              {this.props.global.fullName ? <Text style={styles.textBold}>{this.props.global.fullName} !</Text> : null}
+              {dataUser.fullName ? <Text style={styles.textBold}>{dataUser.fullName} !</Text> : null}
             </Text>
             <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
             <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
