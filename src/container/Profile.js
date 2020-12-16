@@ -15,6 +15,7 @@ import Loader from '../components/icons/Loader';
 
 import * as globalActions from '../reducers/global/globalActions';
 import Firebase, { db } from '../components/firebase/FirebaseConfig';
+import userApi from '../lib/userApi';
 
 const actions = [
   globalActions,
@@ -41,29 +42,26 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatar: null,
-      email: null,
       data: {},
     };
   }
   componentDidMount = async () => {
-    // let dto = {
-    //   userID: this.props.global.currentUser.userID
-    // }
-    // let resApi = await userApi.getByID(dto);
-
-    // console.log('====> resApi', resApi);
-    ls.getLoginInfo().then(ls => {
-      this.setState({ email: ls.email })
-    });
+    let dto = {
+      userID: this.props.global.currentUser.userID
+    }
+    let resApi = await userApi.getByID(dto);
+    if (resApi.status == 200) {
+      this.setState({ data: resApi.data });
+    }
   }
   render() {
     let AvaUser = require('../assets/images/user.png');
-    let edit = require('../assets/images/editInfo.png');
-    let lock = require('../assets/images/lock.png');
     let next = require('../assets/images/next.png');
     let off = require('../assets/images/off.png');
-    let data = this.state.data;
+    let { fullName, email, gender, phone, birthDate, avatar } = this.state.data;
+    if (!this.state.data) {
+      return <Loader />
+    }
     return (
       <View style={styles.container}>
         {/* <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}> */}
@@ -77,19 +75,19 @@ class Profile extends Component {
             style={styles.viewAvatar}
           >
             <View style={styles.avatar}>
-              {this.state.avatar == null
+              {avatar == null
                 ? <Image source={AvaUser} style={{ height: 120, width: 120 }} />
                 : <Image
-                  source={{ uri: this.state.avatar }}
+                  source={{ uri: avatar }}
                   style={[styles.avatar, { marginLeft: 0 }]}
                 />}
             </View>
           </View>
-          <Text style={styles.textTitle}>{this.state.email}</Text>
+          <Text style={styles.textTitle}>{email}</Text>
           {/* <Text style={styles.textPhone}>{phone}</Text> */}
           <View style={styles.viewBody}>
             {this._renderBody('history', 'Lịch sử', () => Actions.History())}
-            {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data, doRefresh: this.fetchData.bind(this) }))}
+            {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data: this.state.data, doRefresh: this.fetchData.bind(this) }))}
           </View>
           <TouchableOpacity style={styles.viewLogout}
             onPress={this.onActionsPress.bind(this)}>
@@ -138,15 +136,15 @@ class Profile extends Component {
     Actions.Login({ type: 'reset' });
   }
   fetchData = async () => {
-    // let currentUser = Firebase.auth().currentUser;
-    // let userId = currentUser.uid;
-    // await db.collection('users')
-    //   .doc(`${userId}`)
-    //   .get()
-    //   .then((e) => {
-    //     this.setState({ data: e.data(), avatar: e.data().avatar})
-    //   })
-    //   .catch((error) => console.log(error));
+    let dto = {
+      userID: this.props.global.currentUser.userID
+    }
+    let resApi = await userApi.getByID(dto);
+    if (resApi.status == 200) {
+      this.props.actions.onGlobalFieldChange('fullName', resApi.data.fullName);
+      this.setState({ data: resApi.data });
+    }
+    console.log('====> after updated', resApi);
   };
 }
 

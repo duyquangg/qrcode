@@ -12,6 +12,7 @@ var InitialState = Record({
         gender: '',
         avatar: '',
     })),
+    fullName: '',
     loggedIn : false,
     isLoggin : false,
 

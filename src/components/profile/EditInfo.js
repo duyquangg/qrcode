@@ -53,14 +53,13 @@ function mapDispatchToProps(dispatch) {
 class EditInfo extends Component {
   constructor(props) {
     super(props);
-    const { fullName, email, phone, avatar, gender, userID } = this.props.global.currentUser;
+    let { fullName, email, gender, phone, birthDate, avatar } = this.props.data;
     this.state = {
       fullName: fullName,
       email: email,
       phone: phone,
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
-      userID: userID,
 
       date: moment().format("DD-MM-YYYY"),
       mode: 'date',
@@ -111,7 +110,7 @@ class EditInfo extends Component {
     );
   }
   onSave = () => {
-    let { fullName, phone, avatar, gender, birthday, loading, userID } = this.state;
+    let { fullName, phone, avatar, gender, birthday, loading } = this.state;
     if (!fullName) {
       this.refs.toastTop.show("Tên không được để trống!");
       return;
@@ -121,19 +120,31 @@ class EditInfo extends Component {
       return;
     };
     this.setState({ loading: true });
-    userApi.updateByID({ id: userID }).then(e => {
-      if (e.status == 200) {
-        Alert.alert("Thông báo", "Sửa đổi thông tin thành công!");
-        this.setState({ loading: false }, () => {
-          // Actions.pop();
-          let dto = {
-            userID
-          }
-          userApi.getByID(dto).then(e => console.log('===> updated e',e))
-          // this.props.doRefresh && this.props.doRefresh(); //refresh data
-        });
-      }
-    })
+    let dto = {
+      id: this.props.global.currentUser.userID, fullName, phone, avatar, gender
+    }
+    userApi.updateByID(dto)
+      .then(e => {
+        if (e.status == 200) {
+          Alert.alert("Thông báo", "Sửa đổi thông tin thành công!");
+          this.setState({ loading: false }, () => {
+            let dto = {
+              userID: this.props.global.currentUser.userID
+            }
+            userApi.getByID(dto).then(e => {
+              console.log('===> updated e', e);
+              if (e.status == 200) {
+                Actions.pop();
+                this.props.doRefresh && this.props.doRefresh(); //refresh data
+              }
+            })
+          });
+        }
+      })
+      .catch(e => {
+        Alert.alert('Thông báo', 'Hệ thống đang lỗi, vui lòng thử lại sau!');
+        this.setState({ loading: false });
+      })
   };
   _renderBody() {
     let AvaUser = require('../../assets/images/user.png');

@@ -44,6 +44,7 @@ class Scan extends Component {
     };
   }
   componentDidMount = async () => {
+    console.log('====> aaaa',this.props.global.fullName)
     db.collection('users')
       .get()
       .then(snapshot => {
@@ -175,7 +176,7 @@ class Scan extends Component {
         topContent={
           <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
             <Text style={styles.centerText}>Xin chào{' '}
-              {currentUser ? <Text style={styles.textBold}>{currentUser.fullName} !</Text> : null}
+              {this.props.global.fullName ? <Text style={styles.textBold}>{this.props.global.fullName} !</Text> : null}
             </Text>
             <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
             <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
