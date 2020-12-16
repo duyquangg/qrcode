@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
 import gui from '../../lib/gui';
-import userApi from '../../lib/userApi';
 
 import Toast from '../toast/Toast';
 import Loader from '../icons/Loader';
@@ -29,12 +28,7 @@ class Login extends Component {
 		}
 	}
 	componentDidMount() {
-		// Firebase.auth().onAuthStateChanged(user => {
-		// 	if (user) {
-		// 		this.setState({ checkLogin: false })
-		// 		this.onLoginPress.bind(this, user);
-		// 	}
-		// })
+	
 	}
 	componentWillUnmount() {
 		// fix Warning: Can't perform a React state update on an unmounted component
@@ -42,10 +36,10 @@ class Login extends Component {
 			return;
 		};
 	}
-	UNSAFE_componentWillReceiveProps(nextProps) {
-		console.log("Dataaa" + nextProps.payload.payloadData); // Display [Object Object]
-		console.log(nextProps.payload.payloadData);  //  Display proper list
-	}
+	// UNSAFE_componentWillReceiveProps(nextProps) {
+	// 	console.log("Dataaa" + nextProps.payload.payloadData); // Display [Object Object]
+	// 	console.log(nextProps.payload.payloadData);  //  Display proper list
+	// }
 	render() {
 		return (
 			<View style={styles.container} >
@@ -145,7 +139,6 @@ class Login extends Component {
 			this.props.actions.login(dto.email, dto.password)
 				.then(res => {
 					if (res.status === 200) {
-						ls.setLoginInfo(dto);
 						this.setState({
 							email: '',
 							password: '',

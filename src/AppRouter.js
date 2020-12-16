@@ -25,14 +25,15 @@ import History from "./components/profile/History";
 
 import gui from './lib/gui';
 import ls from './lib/localStorage';
-import Firebase, {db} from './components/firebase/FirebaseConfig';
 
 import * as globalActions from './reducers/global/globalActions';
 const actions = [globalActions];
 
 function mapStateToProps(state) {
   return {
-    ...state
+    userID: state.global.currentUser.userID,
+    currentUser: state.global.currentUser,
+    loggedIn: state.global.loggedIn,
   };
 }
 
@@ -56,15 +57,6 @@ class AppRouter extends Component {
     };
   }
   componentDidMount(){
-    // Firebase.auth().onAuthStateChanged((user) => {
-		// 	db.collection('users')
-		// 		.doc(`${user.uid}`)
-		// 		.get()
-		// 		.then((e) => {
-    //       // this.setState({ data: e.data() });
-    //       this.props.actions.onGlobalFieldChange('dataUser',e.data());
-		// 		})
-		// });
     ls.getLoginInfo().then((e) => {
       // console.log('====> e',e);
       if (e) {
@@ -73,21 +65,23 @@ class AppRouter extends Component {
     })
     return;
   }
-  shouldComponentUpdate(nextProps, nextState){
-    let a = true;
-    if(a){
-      return true;
-    }
-    return false;
-  }
-  componentWillUnmount() {
-		// fix Warning: Can't perform a React state update on an unmounted component
-		this.setState = (state, callback) => {
-			return;
-		};
-	}
+  // shouldComponentUpdate(nextProps, nextState){
+  //   let a = true;
+  //   if(a){
+  //     return true;
+  //   }
+  //   return false;
+  // }
+  // componentWillUnmount() {
+	// 	// fix Warning: Can't perform a React state update on an unmounted component
+	// 	this.setState = (state, callback) => {
+	// 		return;
+	// 	};
+	// }
   render() {
-    let loggedIn = this.props.global.loggedIn;
+    let loggedIn = this.props.loggedIn;
+    let currentUser = this.props.currentUser;
+    console.log('===> currentUser',currentUser)
     return (
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />

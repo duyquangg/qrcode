@@ -46,8 +46,8 @@ export function login(email, password) {
             .then(function (json) {
                 console.log("Login success data action", json);
                 if (json.status === 200) {
-                    let token = json.token;
-                    ls.setLoginInfo({ email, password, token });
+                    // let token = json.token;
+                    ls.setLoginInfo({ email, password });
                     dispatch(loginSuccess(json));
                 } else {
                     dispatch(loginFailure(json.error));

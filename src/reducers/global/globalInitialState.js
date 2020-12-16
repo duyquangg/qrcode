@@ -5,12 +5,9 @@ import {Record} from 'immutable';
 var InitialState = Record({
     currentUser: new (Record({
         userID : null,
-        username: '',
         fullName : '',
-        phone : '',
         email: '',
-        avatar:'',
-        role: [],
+        role: '',
     })),
     loggedIn : false,
     isLoggin : false,

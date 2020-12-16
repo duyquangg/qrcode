@@ -30,7 +30,7 @@ class Scan extends Component {
   constructor(props) {
     super(props);
     let { dataUser } = this.props.global;
-    console.log('===> dataUser', dataUser);
+    // console.log('===> dataUser', dataUser);
     this.state = {
       isCheckCam: false,
       typeCam: false,
@@ -73,7 +73,7 @@ class Scan extends Component {
         .doc(`${user.uid}`)
         .get()
         .then((e) => {
-          console.log('====> dataTime',e.data().history)
+          // console.log('====> dataTime',e.data().history)
           e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
             : this.setState({ checkInTime: null })
         })

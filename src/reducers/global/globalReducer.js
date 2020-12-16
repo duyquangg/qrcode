@@ -31,18 +31,14 @@ export default function globalReducer(state = initialState, action) {
         }
         case LOGIN_SUCCESS: {
             let data = action.payload.data;
+            console.log('====> data success',data);
             let newState = state
                 .setIn(['currentUser','userID'], data.id)
-                .setIn(["currentUser", "username"], data.email)
-                .setIn(["currentUser", "phone"], data.phone)
-                .setIn(['currentUser','email'], data.email)
+                .setIn(["currentUser", "email"], data.email)
+                .setIn(["currentUser", "role"], data.role)
                 .setIn(['currentUser','fullName'], data.fullName)
-                .setIn(['currentUser','avatar'], data.avatar)
-                .setIn(['currentUser','role'], data.role)
                 .set("loggedIn", true)
                 .set("isLoggin", false)
-
-
             return newState;
         }
 		default:
