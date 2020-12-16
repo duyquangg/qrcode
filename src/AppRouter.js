@@ -54,7 +54,6 @@ class AppRouter extends Component {
     };
   }
   componentDidMount() {
-    ls.getLoginInfo(e => console.log('====>ls',e));
   }
   // shouldComponentUpdate(nextProps, nextState){
   //   return false;
@@ -103,7 +102,7 @@ class AppRouter extends Component {
               />
               <Scene
                 key="Profile"
-                // initial
+                initial
                 component={Profile}
                 hideNavBar
                 title="Cá nhân"

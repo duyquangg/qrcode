@@ -47,19 +47,15 @@ class Profile extends Component {
     };
   }
   componentDidMount = async () => {
+    // let dto = {
+    //   userID: this.props.global.currentUser.userID
+    // }
+    // let resApi = await userApi.getByID(dto);
+
+    // console.log('====> resApi', resApi);
     ls.getLoginInfo().then(ls => {
       this.setState({ email: ls.email })
     });
-    let currentUser = Firebase.auth().currentUser;
-    let userId = currentUser.uid;
-    await db.collection('users')
-      .doc(`${userId}`)
-      .get()
-      .then((e) => {
-        // console.log('====> e.data', e.data())
-        this.setState({ data: e.data(), avatar: e.data().avatar})
-      })
-      .catch((error) => console.log(error));
   }
   render() {
     let AvaUser = require('../assets/images/user.png');
@@ -138,20 +134,19 @@ class Profile extends Component {
   }
 
   onPressSignOut = async () => {
-    // Firebase.auth().signOut();
     await ls.removeLogin();
     Actions.Login({ type: 'reset' });
   }
   fetchData = async () => {
-    let currentUser = Firebase.auth().currentUser;
-    let userId = currentUser.uid;
-    await db.collection('users')
-      .doc(`${userId}`)
-      .get()
-      .then((e) => {
-        this.setState({ data: e.data(), avatar: e.data().avatar})
-      })
-      .catch((error) => console.log(error));
+    // let currentUser = Firebase.auth().currentUser;
+    // let userId = currentUser.uid;
+    // await db.collection('users')
+    //   .doc(`${userId}`)
+    //   .get()
+    //   .then((e) => {
+    //     this.setState({ data: e.data(), avatar: e.data().avatar})
+    //   })
+    //   .catch((error) => console.log(error));
   };
 }
 

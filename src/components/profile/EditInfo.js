@@ -28,6 +28,7 @@ import Firebase, { db } from '../firebase/FirebaseConfig';
 import gui from '../../lib/gui';
 import cfg from '../../../cfg';
 import moment from 'moment';
+import userApi from '../../lib/userApi';
 
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -52,14 +53,14 @@ function mapDispatchToProps(dispatch) {
 class EditInfo extends Component {
   constructor(props) {
     super(props);
-    const { fullName, email, phone, avatar, gender, birthday } = this.props.data;
-    // console.log ('========currentUser', this.props.global.currentUser);
+    const { fullName, email, phone, avatar, gender, userID } = this.props.global.currentUser;
     this.state = {
       fullName: fullName,
       email: email,
       phone: phone,
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
+      userID: userID,
 
       date: moment().format("DD-MM-YYYY"),
       mode: 'date',
@@ -69,7 +70,14 @@ class EditInfo extends Component {
     };
   }
   componentDidMount() {
-
+    // this.fetchData();
+  }
+  fetchData = async () => {
+    // let dto = {
+    //   userID: this.props.global.currentUser.userID
+    // }
+    // let resApi = await userApi.getByID(dto);
+    // console.log('====> resApi', resApi);
   }
   render() {
     return (
@@ -103,68 +111,30 @@ class EditInfo extends Component {
     );
   }
   onSave = () => {
-    let { fullName, phone, avatar, gender, birthday, loading } = this.state;
-    if (phone) {
-      if (phone.length !== 10) {
-        this.refs.toastTop.show("Số điện thoại không đúng định dạng!");
-        return;
-      };
-      db.collection('users')
-      .doc(`${userId}`)
-      .update({
-        fullName: fullName,
-        phone: phone,
-        avatar: avatar,
-        gender: gender,
-        // birthday: birthday,
-      })
-      .then((e) => {
-        let dto = {
-          fullName: fullName,
-          phone: phone,
-          avatar: avatar,
-          gender: gender,
-        };
-        Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
-        this.setState({loading: false}, () => {
-          // this.props.actions.onGlobalFieldChange('dataUser',dto);
-          // console.log('====> dto phone',dto);
-          Actions.pop();
-          this.props.doRefresh && this.props.doRefresh(); //refresh data
-        });
-      })
-    }
+    let { fullName, phone, avatar, gender, birthday, loading, userID } = this.state;
     if (!fullName) {
       this.refs.toastTop.show("Tên không được để trống!");
       return;
     }
-    this.setState({loading: true})
-    let currentUser = Firebase.auth().currentUser;
-    let userId = currentUser.uid;
-    db.collection('users')
-      .doc(`${userId}`)
-      .update({
-        fullName: fullName,
-        avatar: avatar,
-        gender: gender,
-        // birthday: birthday,
-      })
-      .then((e) => {
-        let dto = {
-          fullName: fullName,
-          phone: phone,
-          avatar: avatar,
-          gender: gender,
-        };
-        Alert.alert("Thông báo","Sửa đổi thông tin thành công!");
-        this.setState({loading: false}, () => {
-          // this.props.actions.onGlobalFieldChange('dataUser',dto);
-          // console.log('====> dto',dto);
-          Actions.pop();
-          this.props.doRefresh && this.props.doRefresh(); //refresh data
+    if (phone && phone.length !== 10) {
+      this.refs.toastTop.show("Số điện thoại không đúng định dạng!");
+      return;
+    };
+    this.setState({ loading: true });
+    userApi.updateByID({ id: userID }).then(e => {
+      if (e.status == 200) {
+        Alert.alert("Thông báo", "Sửa đổi thông tin thành công!");
+        this.setState({ loading: false }, () => {
+          // Actions.pop();
+          let dto = {
+            userID
+          }
+          userApi.getByID(dto).then(e => console.log('===> updated e',e))
+          // this.props.doRefresh && this.props.doRefresh(); //refresh data
         });
-      })
-  }
+      }
+    })
+  };
   _renderBody() {
     let AvaUser = require('../../assets/images/user.png');
     let edit = require('../../assets/images/edit.png');

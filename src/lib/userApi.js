@@ -3,8 +3,10 @@ import cfg from '../../cfg';
 var loginUrl = cfg.api + "login";
 var createUrl = cfg.api + "user/create";
 
-//edit info
+//info user
 var getByIDUrl = cfg.api + "user/getByID";
+var updateByIDUrl = cfg.api + "user/updateByID";
+var deleteByIDUrl = cfg.api + "user/deleteByID";
 
 var userApi = {
     login(email, password) {
@@ -46,7 +48,7 @@ var userApi = {
             });
     },
 
-    getByIDUrl(userID) {
+    getByID(userID) {
         // console.log('========= CALL getByIDUrl======', userID);
         return fetch(getByIDUrl,
             {
@@ -62,7 +64,27 @@ var userApi = {
                 return response.json()
             })
             .catch(e => {
-                log.warn("Error in me", e);
+                console.log("Error in getByID", e);
+            }
+            );
+    },
+    updateByID(id) {
+        // console.log('========= CALL updateByIDUrl======', userID);
+        return fetch(updateByIDUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
+                },
+                body: JSON.stringify(id)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in updateByID", e);
             }
             );
     },
