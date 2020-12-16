@@ -56,15 +56,15 @@ class AppRouter extends Component {
     };
   }
   componentDidMount(){
-    Firebase.auth().onAuthStateChanged((user) => {
-			db.collection('users')
-				.doc(`${user.uid}`)
-				.get()
-				.then((e) => {
-          // this.setState({ data: e.data() });
-          this.props.actions.onGlobalFieldChange('dataUser',e.data());
-				})
-		});
+    // Firebase.auth().onAuthStateChanged((user) => {
+		// 	db.collection('users')
+		// 		.doc(`${user.uid}`)
+		// 		.get()
+		// 		.then((e) => {
+    //       // this.setState({ data: e.data() });
+    //       this.props.actions.onGlobalFieldChange('dataUser',e.data());
+		// 		})
+		// });
     ls.getLoginInfo().then((e) => {
       // console.log('====> e',e);
       if (e) {

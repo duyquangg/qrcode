@@ -101,7 +101,7 @@ class Scan extends Component {
       let currentUser = Firebase.auth().currentUser;
       let userId = currentUser.uid;
       if (checkInTime != null || checkInTime != undefined) {
-        db.collection('users')
+        db.collection('users')  //insert
           .doc(`${userId}`)
           .update({
             checkOut: Date.now(),
@@ -109,7 +109,7 @@ class Scan extends Component {
           .then((userId) => {
             // console.log('====> checkOut successfull!');
           })
-        db.collection('users')
+        db.collection('users') //get data user
           .doc(`${userId}`)
           .get()
           .then((e) => {
@@ -120,7 +120,7 @@ class Scan extends Component {
           })
       } else {
         //update checkInTime
-        db.collection('users')
+        db.collection('users') //ínert nếu k có checkOut
           .doc(`${userId}`)
           .update({
             checkIn: Date.now(),
@@ -129,8 +129,8 @@ class Scan extends Component {
             // console.log('====> hhhh',userId);
           })
           .catch((error) => console.log(error));
-        //save to state
-        db.collection('users')
+
+        db.collection('users')  //save to state
           .doc(`${userId}`)
           .get()
           .then((e) => {
