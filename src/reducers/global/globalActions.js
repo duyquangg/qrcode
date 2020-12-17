@@ -7,6 +7,7 @@ const {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     ON_GLOBAL_FIELD_CHANGE,
+    ON_USER_FIELD_CHANGE
 } = require('../../lib/constants').default;
 import userApi from '../../lib/userApi';
 import ls from "../../lib/localStorage";
@@ -19,6 +20,12 @@ export function onGlobalFieldChange(field, value) {
     };
 }
 
+export function onUserFieldChange(field, value) {
+    return {
+        type: ON_USER_FIELD_CHANGE,
+        payload: { field: field, value: value }
+    };
+}
 
 export function loginRequest() {
     return {

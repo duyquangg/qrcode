@@ -30,7 +30,7 @@ import * as globalActions from '../reducers/global/globalActions';
 class Scan extends Component {
   constructor(props) {
     super(props);
-    let { dataUser } = this.props.global;
+    // let { dataUser } = this.props.global;
     // console.log('===> dataUser', dataUser);
     this.state = {
       isCheckCam: false,
@@ -40,55 +40,60 @@ class Scan extends Component {
 
       dataUser: {},
 
-      email: dataUser.email ? dataUser.email : null,
-      fullName: dataUser.fullName ? dataUser.fulName : null,
-      checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
-      checkOutTime: dataUser.checkOut ? dataUser.checkOut : null,
+      // email: dataUser.email ? dataUser.email : null,
+      // fullName: dataUser.fullName ? dataUser.fulName : null,
+      // checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
+      // checkOutTime: dataUser.checkOut ? dataUser.checkOut : null,
     };
   }
   componentDidMount = async () => {
-    let dto = {
-      userID: this.props.global.currentUser.userID
-    }
-    let resApi = await userApi.getByID(dto);
-    if (resApi.status == 200) {
-      this.setState({ dataUser: resApi.data });
-    }
+    // let dto = {
+    //   userID: this.props.global.currentUser.userID
+    // }
+    // let resApi = await userApi.getByID(dto);
+    // if (resApi.status == 200) {
+    //   this.setState({ dataUser: resApi.data });
+    // }
+    let {currentUser} = this.props.global;
+    // console.log('====> currentUser',currentUser);
+    // this.setState({
 
-    db.collection('users')
-      .get()
-      .then(snapshot => {
-        let users = [];
-        let dataEmail = [];
-        snapshot.forEach(e => {
-          let data = e.data();
-          users.push(data);
-          dataEmail.push(data.email);
-        });
-        ls.getLoginInfo().then(ls => {
-          let email = ls.email;
-          let fullName = null;
-          users.forEach(e => {
-            if (e.email == email) {
-              return fullName = e.fullName;
-            }
-            return;
-          });
-          this.setState({ email: ls.email, allData: users, fullName, dataEmail });
-        });
-      })
-      .catch(error => console.log(error));
-    // checkInTime
-    await Firebase.auth().onAuthStateChanged((user) => {
-      db.collection('users')
-        .doc(`${user.uid}`)
-        .get()
-        .then((e) => {
-          // console.log('====> dataTime',e.data().history)
-          e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
-            : this.setState({ checkInTime: null })
-        })
-    })
+    // })
+
+    // db.collection('users')
+    //   .get()
+    //   .then(snapshot => {
+    //     let users = [];
+    //     let dataEmail = [];
+    //     snapshot.forEach(e => {
+    //       let data = e.data();
+    //       users.push(data);
+    //       dataEmail.push(data.email);
+    //     });
+    //     ls.getLoginInfo().then(ls => {
+    //       let email = ls.email;
+    //       let fullName = null;
+    //       users.forEach(e => {
+    //         if (e.email == email) {
+    //           return fullName = e.fullName;
+    //         }
+    //         return;
+    //       });
+    //       this.setState({ email: ls.email, allData: users, fullName, dataEmail });
+    //     });
+    //   })
+    //   .catch(error => console.log(error));
+    // // checkInTime
+    // await Firebase.auth().onAuthStateChanged((user) => {
+    //   db.collection('users')
+    //     .doc(`${user.uid}`)
+    //     .get()
+    //     .then((e) => {
+    //       // console.log('====> dataTime',e.data().history)
+    //       e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
+    //         : this.setState({ checkInTime: null })
+    //     })
+    // })
   }
   // UNSAFE_componentWillReceiveProps(nextProps) {
   //   console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
@@ -112,66 +117,64 @@ class Scan extends Component {
       check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
       let currentUser = Firebase.auth().currentUser;
       let userId = currentUser.uid;
-      if (checkInTime != null || checkInTime != undefined) {
-        let dataHistory = [];
-        dataHistory.push({
-          checkOut: Date.now(),
-          checkIn: checkInTime,
-        });
-        db.collection('users')  //insert
-          .doc(`${userId}`)
-          .add({
-            checkOut: Date.now(),
-            history: dataHistory,
-          })
-          .then((userId) => {
-            // console.log('====> checkOut successfull!');
-          })
-        db.collection('users') //get data user
-          .doc(`${userId}`)
-          .get()
-          .then((e) => {
-            this.setState({ checkOutTime: e.data().checkOut });
-            let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
-            this.props.actions.onGlobalFieldChange('checkOut', formartTime);
-            // console.log('====> checkOut', e.data())
-          })
-      } else {
-        //update checkInTime
-        db.collection('users') //ínert nếu k có checkOut
-          .doc(`${userId}`)
-          .add({
-            checkIn: Date.now(),
-            history: [{
-              checkIn: Date.now(),
-            }]
-          })
-          .then((userId) => {
-            // console.log('====> hhhh',userId);
-          })
-          .catch((error) => console.log(error));
+    //   if (checkInTime != null || checkInTime != undefined) {
+    //     let dataHistory = [];
+    //     dataHistory.push({
+    //       checkOut: Date.now(),
+    //       checkIn: checkInTime,
+    //     });
+    //     db.collection('users')  //insert
+    //       .doc(`${userId}`)
+    //       .add({
+    //         checkOut: Date.now(),
+    //         history: dataHistory,
+    //       })
+    //       .then((userId) => {
+    //         // console.log('====> checkOut successfull!');
+    //       })
+    //     db.collection('users') //get data user
+    //       .doc(`${userId}`)
+    //       .get()
+    //       .then((e) => {
+    //         this.setState({ checkOutTime: e.data().checkOut });
+    //         let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
+    //         this.props.actions.onGlobalFieldChange('checkOut', formartTime);
+    //         // console.log('====> checkOut', e.data())
+    //       })
+    //   } else {
+    //     //update checkInTime
+    //     db.collection('users') //ínert nếu k có checkOut
+    //       .doc(`${userId}`)
+    //       .add({
+    //         checkIn: Date.now(),
+    //         history: [{
+    //           checkIn: Date.now(),
+    //         }]
+    //       })
+    //       .then((userId) => {
+    //         // console.log('====> hhhh',userId);
+    //       })
+    //       .catch((error) => console.log(error));
 
-        db.collection('users')  //save to state
-          .doc(`${userId}`)
-          .get()
-          .then((e) => {
-            this.setState({ checkInTime: e.data().checkIn });
-            let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
-            this.props.actions.onGlobalFieldChange('checkIn', formartTime);
-          })
-          .catch((error) => console.log(error));
-      }
-    } else {
-      Alert.alert('Thông báo', 'Mã QR không quét được !')
+    //     db.collection('users')  //save to state
+    //       .doc(`${userId}`)
+    //       .get()
+    //       .then((e) => {
+    //         this.setState({ checkInTime: e.data().checkIn });
+    //         let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
+    //         this.props.actions.onGlobalFieldChange('checkIn', formartTime);
+    //       })
+    //       .catch((error) => console.log(error));
+    //   }
+    // } else {
+    //   Alert.alert('Thông báo', 'Mã QR không quét được !')
     }
   };
 
   render() {
     let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime } = this.state;
     let {currentUser} = this.props.global;
-    // console.log('=====> checkInTime', checkInTime);
-    // console.log('=====> checkOutTime', checkOutTime);
-    console.log('====> dataUser',dataUser);
+    // console.log('====> dataUser',dataUser);
     if (!allData) {
       return <Loader />
     }
@@ -187,7 +190,7 @@ class Scan extends Component {
         topContent={
           <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
             <Text style={styles.centerText}>Xin chào{' '}
-              {dataUser.fullName ? <Text style={styles.textBold}>{dataUser.fullName} !</Text> : null}
+              {this.props.global.currentUser.fullName ? <Text style={styles.textBold}>{this.props.global.currentUser.fullName} !</Text> : null}
             </Text>
             <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
             <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>

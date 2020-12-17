@@ -54,6 +54,8 @@ class AppRouter extends Component {
     };
   }
   componentDidMount() {
+    let currentUser = this.props.global.currentUser;
+    console.log('===> currentUser', currentUser)
   }
   // shouldComponentUpdate(nextProps, nextState){
   //   return false;
@@ -66,7 +68,7 @@ class AppRouter extends Component {
   // }
   render() {
     let loggedIn = this.props.global.loggedIn;
-    let currentUser = this.props.global.currentUser;
+    // let currentUser = this.props.global.currentUser;
     // console.log('===> currentUser', currentUser)
     return (
       <View style={styles.container}>

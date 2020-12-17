@@ -10,5 +10,6 @@ export default keyMirror({
 
     ON_RECEIVE_ALERT: null,
     ON_GLOBAL_FIELD_CHANGE: null,
+    ON_USER_FIELD_CHANGE: null
 
 });

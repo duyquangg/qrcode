@@ -141,8 +141,9 @@ class Profile extends Component {
     }
     let resApi = await userApi.getByID(dto);
     if (resApi.status == 200) {
-      this.props.actions.onGlobalFieldChange('fullName', resApi.data.fullName);
-      this.setState({ data: resApi.data });
+      this.setState({ data: resApi.data }, () => {
+        this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
+      });
     }
     console.log('====> after updated', resApi);
   };
