@@ -20,7 +20,7 @@ export default function globalReducer(state = initialState, action) {
         }
         case ON_USER_FIELD_CHANGE: {
             const {field, value} = action.payload;
-            let nextState = state.set(['currentUser',field], value);
+            let nextState = state.setIn(['currentUser',field], value);
             return nextState;
 		}
 		case LOGIN_REQUEST: {

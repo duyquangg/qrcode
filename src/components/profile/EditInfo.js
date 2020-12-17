@@ -69,14 +69,6 @@ class EditInfo extends Component {
     };
   }
   componentDidMount() {
-    // this.fetchData();
-  }
-  fetchData = async () => {
-    // let dto = {
-    //   userID: this.props.global.currentUser.userID
-    // }
-    // let resApi = await userApi.getByID(dto);
-    // console.log('====> resApi', resApi);
   }
   render() {
     return (
@@ -132,7 +124,7 @@ class EditInfo extends Component {
               userID: this.props.global.currentUser.userID
             }
             userApi.getByID(dto).then(e => {
-              console.log('===> updated e', e);
+              // console.log('===> updated e', e);
               if (e.status == 200) {
                 Actions.pop();
                 this.props.doRefresh && this.props.doRefresh(); //refresh data

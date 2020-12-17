@@ -54,6 +54,10 @@ class Profile extends Component {
       this.setState({ data: resApi.data });
     }
   }
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log('===> prevState componentDidUpdate', prevState)
+  //   console.log('===> prevProps componentDidUpdate', prevProps.global.currentUser.fullName)
+  // }
   render() {
     let AvaUser = require('../assets/images/user.png');
     let next = require('../assets/images/next.png');
@@ -145,7 +149,7 @@ class Profile extends Component {
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
       });
     }
-    console.log('====> after updated', resApi);
+    // console.log('====> after updated', resApi);
   };
 }
 

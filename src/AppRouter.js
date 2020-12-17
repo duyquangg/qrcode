@@ -54,22 +54,20 @@ class AppRouter extends Component {
     };
   }
   componentDidMount() {
-    let currentUser = this.props.global.currentUser;
-    console.log('===> currentUser', currentUser)
+    // let currentUser = this.props.global.currentUser;
+    // console.log('===> currentUser', currentUser);
   }
-  // shouldComponentUpdate(nextProps, nextState){
-  //   return false;
-  // }
-  // componentWillUnmount() {
-  // 	// fix Warning: Can't perform a React state update on an unmounted component
-  // 	this.setState = (state, callback) => {
-  // 		return;
-  // 	};
-  // }
+  shouldComponentUpdate(nextProps, nextState){
+    // console.log('====> aaa',this.props.global);
+    // console.log('====> nextProps',nextProps.global);
+    if(nextProps.global.loggedIn !== this.props.global.loggedIn){
+      return nextProps;
+    }
+    return false;
+  }
+
   render() {
     let loggedIn = this.props.global.loggedIn;
-    // let currentUser = this.props.global.currentUser;
-    // console.log('===> currentUser', currentUser)
     return (
       <View style={styles.container}>
         <StatusBar barStyle={"dark-content"} />

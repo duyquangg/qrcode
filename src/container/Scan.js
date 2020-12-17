@@ -30,18 +30,16 @@ import * as globalActions from '../reducers/global/globalActions';
 class Scan extends Component {
   constructor(props) {
     super(props);
-    // let { dataUser } = this.props.global;
-    // console.log('===> dataUser', dataUser);
     this.state = {
       isCheckCam: false,
       typeCam: false,
       allData: [],
       dataEmail: [],
 
-      dataUser: {},
 
-      // email: dataUser.email ? dataUser.email : null,
-      // fullName: dataUser.fullName ? dataUser.fulName : null,
+      dataUser: this.props.global.currentUser,
+
+
       // checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
       // checkOutTime: dataUser.checkOut ? dataUser.checkOut : null,
     };
