@@ -75,6 +75,7 @@ class EditInfo extends Component {
       <View style={styles.container}>
         {this._renderHeader()}
         {this._renderBody()}
+        {this._renderFooter()}
         <Loader loading={this.state.loading} />
         <Toast
           ref="toastTop"
@@ -88,15 +89,26 @@ class EditInfo extends Component {
       </View>
     );
   }
+  _renderFooter() {
+    return (
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.viewButton}
+          onPress={this.onSave.bind(this)}
+        >
+          <Text style={styles.footerText}>Lưu</Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
   _renderHeader() {
     return (
       <CommonHeader
         title={"Sửa thông tin"}
         leftContent={<FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
         onPressLeft={() => Actions.pop()}
-        rightContent={
-          <Text style={styles.normalTextHeader}>Lưu</Text>
-        }
+        // rightContent={
+        //   <Text style={styles.normalTextHeader}>Lưu</Text>
+        // }
         onPressRight={this.onSave.bind(this)}
       />
     );
@@ -422,6 +434,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 14,
     justifyContent: 'space-between',
+  },
+  footer: {
+    height: 68,
+    width: gui.screenWidth,
+    position: 'absolute',
+    bottom: 0,
+    alignItems: 'center',
+    paddingTop: 8,
+    backgroundColor: '#fff'
+  },
+  footerText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  viewButton: {
+    height: 48,
+    width: gui.screenWidth - 32,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#34626c'
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(EditInfo);
