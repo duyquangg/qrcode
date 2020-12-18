@@ -19,6 +19,10 @@ import Profile from "./container/Profile";
 import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
+//scan
+import checkIn from "./components/scan/checkIn";
+import checkOut from "./components/scan/checkOut";
+
 //profile
 import EditInfo from "./components/profile/EditInfo";
 import History from "./components/profile/History";
@@ -120,6 +124,18 @@ class AppRouter extends Component {
               // initial
               component={Signup}
               title="Signup"
+            />
+            <Scene
+              key="checkIn"
+              // initial
+              component={checkIn}
+              title="checkIn"
+            />
+            <Scene
+              key="checkOut"
+              // initial
+              component={checkOut}
+              title="checkOut"
             />
             <Scene
               key="EditInfo"

@@ -11,36 +11,26 @@ import {
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
-import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
 import moment from 'moment';
 
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Firebase, { db } from '../components/firebase/FirebaseConfig';
 
 import Loader from '../components/icons/Loader';
 import gui from '../lib/gui';
 import ls from '../lib/localStorage';
 import userApi from '../lib/userApi';
 import * as globalActions from '../reducers/global/globalActions';
+import { Actions } from 'react-native-router-flux';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCheckCam: false,
-      typeCam: false,
-      allData: [],
-      dataEmail: [],
-
-
       dataUser: this.props.global.currentUser,
-
-      dataTimeCheck: {},
-      idCheckin: null,
+      dataCheck: {},
     };
   }
   componentDidMount = async () => {
@@ -49,175 +39,54 @@ class Scan extends Component {
     };
     let resGetTimeByUser = await userApi.timeGetByUserID(dto);
     if (resGetTimeByUser.status == 200) {
+      let data = resGetTimeByUser.data[0];
       this.setState({
-        dataTimeCheck: resGetTimeByUser.data[0],
-        idCheckin: resGetTimeByUser.data[0].id
+        dataCheck: data,
       })
     }
-
-    // let dtoCreate = {
-    //   userID: this.props.global.currentUser.userID,
-    //   checkInTime: 1608122768078,
-    // }
-    // let resTimeCreate = await userApi.timeCreate(dtoCreate);
-    // console.log('===> resTimeCreate',resTimeCreate);
-
-    let dtoUpdate = {
-      id: this.props.global.currentUser.userID,
-      checkOutTime: 1608260870,
-    }
-    let resTimeUpdate = await userApi.timeUpdateByID(dtoUpdate);
-    console.log('===> resTimeUpdate', resTimeUpdate);
-
   }
-  // UNSAFE_componentWillReceiveProps(nextProps) {
-  //   console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
-  //   console.log(nextProps.payload.payloadData);  //  Display proper list
-  // }
-  componentWillUnmount() {
-    // fix Warning: Can't perform a React state update on an unmounted component
-    this.setState = (state, callback) => {
-      return;
-    };
-  }
-  onSuccess = (e) => {
-    // checkin at PTIT
-    // let data = JSON.parse(e.data) // [{"name":"John", "age":30},{"name":"Quang", "age":20}]
-    // alert(JSON.stringify(e));
-
-    let { email, dataEmail, checkInTime } = this.state;
-    // console.log('====> checkInTime',checkInTime);
-    if (e.data == 'checkin at PTIT') {
-      // let check = dataEmail.includes(email);
-      // check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
-      // let currentUser = Firebase.auth().currentUser;
-      // let userId = currentUser.uid;
-      //   if (checkInTime != null || checkInTime != undefined) {
-      //     let dataHistory = [];
-      //     dataHistory.push({
-      //       checkOut: Date.now(),
-      //       checkIn: checkInTime,
-      //     });
-      //     db.collection('users')  //insert
-      //       .doc(`${userId}`)
-      //       .add({
-      //         checkOut: Date.now(),
-      //         history: dataHistory,
-      //       })
-      //       .then((userId) => {
-      //         // console.log('====> checkOut successfull!');
-      //       })
-      //     db.collection('users') //get data user
-      //       .doc(`${userId}`)
-      //       .get()
-      //       .then((e) => {
-      //         this.setState({ checkOutTime: e.data().checkOut });
-      //         let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
-      //         this.props.actions.onGlobalFieldChange('checkOut', formartTime);
-      //         // console.log('====> checkOut', e.data())
-      //       })
-      //   } else {
-      //     //update checkInTime
-      //     db.collection('users') //ínert nếu k có checkOut
-      //       .doc(`${userId}`)
-      //       .add({
-      //         checkIn: Date.now(),
-      //         history: [{
-      //           checkIn: Date.now(),
-      //         }]
-      //       })
-      //       .then((userId) => {
-      //         // console.log('====> hhhh',userId);
-      //       })
-      //       .catch((error) => console.log(error));
-
-      //     db.collection('users')  //save to state
-      //       .doc(`${userId}`)
-      //       .get()
-      //       .then((e) => {
-      //         this.setState({ checkInTime: e.data().checkIn });
-      //         let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
-      //         this.props.actions.onGlobalFieldChange('checkIn', formartTime);
-      //       })
-      //       .catch((error) => console.log(error));
-      //   }
-      // } else {
-      //   Alert.alert('Thông báo', 'Mã QR không quét được !')
-    }
-  };
-
   render() {
-    let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime, dataTimeCheck, idCheckin } = this.state;
-    let { currentUser } = this.props.global;
-    console.log('====> dataTimeCheck', dataTimeCheck);
-    console.log('====> idCheckin', idCheckin);
-    if (!allData) {
-      return <Loader />
-    }
+    let {dataUser, dataCheck, idCheck} = this.state;
+    let timeCheckin = null;
+    let timeCheckout = null;
+    dataCheck ? timeCheckin = dataCheck.checkInTime : null;
+    dataCheck ? timeCheckout = dataCheck.checkOutTime : null;
     return (
-      <QRCodeScanner
-        reactivate={true}
-        onRead={this.onSuccess}
-        reactivateTimeout={3000}
-        cameraTimeout={1000}
-        cameraType={typeCam && typeCam ? 'front' : 'back'}
-        containerStyle={{ backgroundColor: '#839b97' }}
-        flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-        topContent={
-          <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
-            <Text style={styles.centerText}>Xin chào{' '}
-              {this.props.global.currentUser.fullName ? <Text style={styles.textBold}>{this.props.global.currentUser.fullName} !</Text> : null}
-            </Text>
-            <Text>{moment(checkInTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-            <Text>{moment(checkOutTime).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-          </View>
-        }
-        bottomContent={
-          <View>
-            <TouchableOpacity disabled={this.state.typeCam} onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
-              style={styles.buttonTouchable}
-            >
-              <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.setState({ typeCam: !this.state.typeCam })}
-              style={styles.buttonTouchable}
-            >
-              <Text style={styles.buttonText}>{this.state.typeCam ? 'Back camera' : 'Front camera'} </Text>
-            </TouchableOpacity>
-          </View>
-        }
-      />
+      <View style={styles.container}>
+        <Text style={{marginTop:100}}>Xin chào {dataUser.fullName}</Text>
+        <Text style={{marginTop:10}}>Hôm nay bạn checkin lúc {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
+        <Text style={{marginTop:5}}>Hôm nay bạn checkout lúc {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
+        <TouchableOpacity style={styles.viewPress} onPress={() => Actions.checkIn({dataCheck})}>
+          <Text>Checkin</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
+          <Text>Checkout</Text>
+        </TouchableOpacity>
+      </View>
     );
+  }
+  checkOut = () => {
+    let {dataCheck} = this.state;
+    if(dataCheck == null){
+     return alert('Bạn phải checkIn trước đã!');
+    }
+    Actions.checkOut({dataCheck});
   }
 }
 
 const styles = StyleSheet.create({
-  centerText: {
+  container: {
     flex: 1,
-    fontSize: 18,
-    padding: 32,
-    color: '#e8e8e8'
+    backgroundColor: '#fff'
   },
-  textBold: {
-    fontWeight: 'bold',
-    color: '#fff'
-  },
-  buttonText: {
-    fontSize: 21,
-    color: gui.mainColor
-  },
-  buttonTouchable: {
-    padding: 16
-  },
-  viewLoading: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  viewPress: {
+    height: 60,
+    marginTop:20,
+    justifyContent:'center',
+    alignItems:'center',
+    backgroundColor:'#34626c'
+  }
+
 });
 const actions = [
   globalActions
