@@ -106,10 +106,6 @@ class EditInfo extends Component {
         title={"Sửa thông tin"}
         leftContent={<FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
         onPressLeft={() => Actions.pop()}
-        // rightContent={
-        //   <Text style={styles.normalTextHeader}>Lưu</Text>
-        // }
-        onPressRight={this.onSave.bind(this)}
       />
     );
   }

@@ -8,6 +8,11 @@ var getByIDUrl = cfg.api + "user/getByID";
 var updateByIDUrl = cfg.api + "user/updateByID";
 var deleteByIDUrl = cfg.api + "user/deleteByID";
 
+//timeLine
+var timeCreateUrl = cfg.api + "timeLine/create";
+var timeGetByUserIDUrl = cfg.api + "timeLine/getByUserID";
+var timeUpdateByIDUrl = cfg.api + "timeLine/updateByID";
+
 var userApi = {
     login(email, password) {
         var params = {
@@ -85,6 +90,66 @@ var userApi = {
             })
             .catch(e => {
                 console.log("Error in updateByID", e);
+            }
+            );
+    },
+    timeGetByUserID(id) {
+        // console.log('========= CALL timeGetByUserIDUrl======', userID);
+        return fetch(timeGetByUserIDUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
+                },
+                body: JSON.stringify(id)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in timeGetByUserID", e);
+            }
+            );
+    },
+    timeCreate(id) {
+        // console.log('========= CALL timeCreateUrl======', userID);
+        return fetch(timeCreateUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
+                },
+                body: JSON.stringify(id)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in timeCreate", e);
+            }
+            );
+    },
+    timeUpdateByID(id) {
+        // console.log('========= CALL timeUpdateByIDUrl======', userID);
+        return fetch(timeUpdateByIDUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
+                },
+                body: JSON.stringify(id)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in timeUpdateByID", e);
             }
             );
     },
