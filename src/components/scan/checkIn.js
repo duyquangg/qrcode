@@ -63,12 +63,15 @@ class Scan extends Component {
   onSuccess = async (e) => {
     let { checkInTime } = this.state;
     if (e.data == 'checkin at PTIT') {
+      alert('Checkin thành công!')
       let dtoCreate = {
         userID: this.props.global.currentUser.userID,
         checkInTime: Date.now(),
       }
       let resTimeCreate = await userApi.timeCreate(dtoCreate);
       console.log('===> resTimeCreate', resTimeCreate);
+    }else {
+      alert('Mã QR không hợp lệ!')
     }
   };
 

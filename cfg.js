@@ -8,8 +8,8 @@ var cfg = {
 // cfg.rootDiaChinhUrl = `https://${cfg.serverGetDiaChinh}/api`;
 // cfg.socketUrl = `http://${cfg.server}`;
 
-cfg.api = `${cfg.server}:${cfg.port}/`;
-// cfg.api = `${cfg.serverGetDiaChinh}/`;
+// cfg.api = `${cfg.server}:${cfg.port}/`;
+cfg.api = `${cfg.serverGetDiaChinh}/`;
 
 cfg.maxWidth = 1024;
 cfg.maxHeight = 1024;

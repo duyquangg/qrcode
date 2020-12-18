@@ -29,11 +29,13 @@ class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataUser: this.props.global.currentUser,
+      dataUser: props.global.currentUser,
       dataCheck: {},
+      loading: false
     };
   }
   componentDidMount = async () => {
+    this.setState({ loading: true })
     let dto = {
       userID: this.props.global.currentUser.userID
     };
@@ -42,35 +44,47 @@ class Scan extends Component {
       let data = resGetTimeByUser.data[0];
       this.setState({
         dataCheck: data,
+        loading: false
       })
     }
   }
   render() {
-    let {dataUser, dataCheck, idCheck} = this.state;
+    let { dataUser, dataCheck, idCheck } = this.state;
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
     dataCheck ? timeCheckout = dataCheck.checkOutTime : null;
     return (
       <View style={styles.container}>
-        <Text style={{marginTop:100}}>Xin chào {dataUser.fullName}</Text>
-        <Text style={{marginTop:10}}>Hôm nay bạn checkin lúc {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-        <Text style={{marginTop:5}}>Hôm nay bạn checkout lúc {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}</Text>
-        <TouchableOpacity style={styles.viewPress} onPress={() => Actions.checkIn({dataCheck})}>
+        <Text style={{ marginTop: 100 }}>Xin chào {this.props.global.currentUser.fullName}</Text>
+        {timeCheckin ?
+          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc
+              {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
+          </Text>
+          : <Text style={{ marginTop: 100 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
+        }
+        {timeCheckout ?
+          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc
+              {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
+          </Text>
+          : <Text />
+        }
+        <TouchableOpacity style={styles.viewPress} onPress={() => Actions.checkIn({ dataCheck })}>
           <Text>Checkin</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
           <Text>Checkout</Text>
         </TouchableOpacity>
+        <Loader loading={this.state.loading} />
       </View>
     );
   }
   checkOut = () => {
-    let {dataCheck} = this.state;
-    if(dataCheck == null){
-     return alert('Bạn phải checkIn trước đã!');
+    let { dataCheck } = this.state;
+    if (dataCheck == null) {
+      return alert('Bạn phải checkIn trước đã!');
     }
-    Actions.checkOut({dataCheck});
+    Actions.checkOut({ dataCheck });
   }
 }
 
@@ -81,10 +95,10 @@ const styles = StyleSheet.create({
   },
   viewPress: {
     height: 60,
-    marginTop:20,
-    justifyContent:'center',
-    alignItems:'center',
-    backgroundColor:'#34626c'
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#34626c'
   }
 
 });
