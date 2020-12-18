@@ -19,8 +19,8 @@ import { bindActionCreators } from 'redux';
 
 
 import Loader from '../components/icons/Loader';
+import Toast from "../components/toast/Toast";
 import gui from '../lib/gui';
-import ls from '../lib/localStorage';
 import userApi from '../lib/userApi';
 import * as globalActions from '../reducers/global/globalActions';
 import { Actions } from 'react-native-router-flux';
@@ -53,7 +53,7 @@ class Scan extends Component {
   }
   render() {
     let { dataUser, dataCheck } = this.state;
-    console.log('===? dataCheck',dataCheck);
+    console.log('===? dataCheck', dataCheck);
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
@@ -73,13 +73,23 @@ class Scan extends Component {
           </Text>
           : <Text />
         }
-        <TouchableOpacity style={styles.viewPress} onPress={this.checkIn.bind(this)}>
-          <Text>Checkin</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
-          <Text>Checkout</Text>
-        </TouchableOpacity>
-        {/* <Loader loading={this.state.loading} /> */}
+        <View style={styles.viewButton}>
+          <TouchableOpacity style={styles.viewPress} onPress={this.checkIn.bind(this)}>
+            <Text style={{ color: '#fff' }}>Checkin</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
+            <Text style={{ color: '#fff' }}>Checkout</Text>
+          </TouchableOpacity>
+        </View>
+        <Toast
+          ref="toastTop"
+          position='top'
+          positionValue={70}
+          fadeInDuration={1000}
+          fadeOutDuration={2000}
+          opacity={0.85}
+          textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
+        />
       </View>
     );
   }
@@ -88,13 +98,13 @@ class Scan extends Component {
     if (dataCheck == null) {
       Actions.checkIn({ dataCheck, doRefresh: this.fetchData.bind(this) });
     } else {
-      alert('Bạn đã checkIn ngày hôm nay rồi!');
+      this.refs.toastTop.show("Bạn đã checkIn ngày hôm nay rồi!");
     }
   }
   checkOut = () => {
     let { dataCheck } = this.state;
     if (dataCheck == null) {
-      return alert('Bạn phải checkIn trước đã!');
+      return this.refs.toastTop.show("Bạn phải checkIn trước đã!");
     }
     Actions.checkOut({ dataCheck, doRefresh: this.fetchData.bind(this) });
   }
@@ -105,9 +115,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
-  viewPress: {
+  viewButton: {
     height: 60,
     marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: gui.screenWidth - 32,
+    marginLeft: 16
+  },
+  viewPress: {
+    height: 60,
+    width: (gui.screenWidth - 32 - 20) / 2,
+    marginTop: 20,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#34626c'

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import ImagePicker from 'react-native-image-picker';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -14,7 +13,6 @@ import gui from '../lib/gui';
 import Loader from '../components/icons/Loader';
 
 import * as globalActions from '../reducers/global/globalActions';
-import Firebase, { db } from '../components/firebase/FirebaseConfig';
 import userApi from '../lib/userApi';
 
 const actions = [
@@ -32,7 +30,6 @@ function mapDispatchToProps(dispatch) {
     .merge(...actions)
     .filter(value => typeof value === 'function')
     .toObject();
-
   return {
     actions: bindActionCreators(creators, dispatch),
     dispatch
