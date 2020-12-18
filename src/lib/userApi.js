@@ -113,7 +113,7 @@ var userApi = {
             }
             );
     },
-    timeCreate(checkInTime, checkOutTime, userID) {
+    timeCreate(userID) {
         // console.log('========= CALL timeCreateUrl======', userID);
         return fetch(timeCreateUrl,
             {
@@ -121,8 +121,9 @@ var userApi = {
                 headers: {
                     "Accept": "*/*",
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + userID
                 },
-                body: JSON.stringify({ checkInTime, checkOutTime, userID })
+                body: JSON.stringify(userID)
             })
             .then(response => {
                 return response.json()
@@ -132,7 +133,7 @@ var userApi = {
             }
             );
     },
-    timeUpdateByID(id, checkOutTime) {
+    timeUpdateByID(id) {
         // console.log('========= CALL timeUpdateByIDUrl======', userID);
         return fetch(timeUpdateByIDUrl,
             {
@@ -140,8 +141,9 @@ var userApi = {
                 headers: {
                     "Accept": "*/*",
                     'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
                 },
-                body: JSON.stringify({ id, checkOutTime })
+                body: JSON.stringify(id)
             })
             .then(response => {
                 return response.json()

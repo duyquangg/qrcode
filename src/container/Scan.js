@@ -39,7 +39,8 @@ class Scan extends Component {
 
       dataUser: this.props.global.currentUser,
 
-      dataTime: {},
+      dataTimeCheck: {},
+      idCheckin: null,
     };
   }
   componentDidMount = async () => {
@@ -47,57 +48,27 @@ class Scan extends Component {
       userID: this.props.global.currentUser.userID
     };
     let resGetTimeByUser = await userApi.timeGetByUserID(dto);
-    console.log('====> resGetTimeByUser',resGetTimeByUser);
-
-    let dtoCreate = {
-      checkInTime: 1608260870,
-      // checkOutTime: 1608260878,
-      userID: this.props.global.currentUser.userID,
+    if (resGetTimeByUser.status == 200) {
+      this.setState({
+        dataTimeCheck: resGetTimeByUser.data[0],
+        idCheckin: resGetTimeByUser.data[0].id
+      })
     }
-    let resTimeCreate = await userApi.timeCreate(dtoCreate);
-    console.log('===> resTimeCreate',resTimeCreate);
+
+    // let dtoCreate = {
+    //   userID: this.props.global.currentUser.userID,
+    //   checkInTime: 1608122768078,
+    // }
+    // let resTimeCreate = await userApi.timeCreate(dtoCreate);
+    // console.log('===> resTimeCreate',resTimeCreate);
 
     let dtoUpdate = {
       id: this.props.global.currentUser.userID,
       checkOutTime: 1608260870,
     }
     let resTimeUpdate = await userApi.timeUpdateByID(dtoUpdate);
-    console.log('===> resTimeUpdate',resTimeUpdate);
-    
-    // db.collection('users')
-    //   .get()
-    //   .then(snapshot => {
-    //     let users = [];
-    //     let dataEmail = [];
-    //     snapshot.forEach(e => {
-    //       let data = e.data();
-    //       users.push(data);
-    //       dataEmail.push(data.email);
-    //     });
-    //     ls.getLoginInfo().then(ls => {
-    //       let email = ls.email;
-    //       let fullName = null;
-    //       users.forEach(e => {
-    //         if (e.email == email) {
-    //           return fullName = e.fullName;
-    //         }
-    //         return;
-    //       });
-    //       this.setState({ email: ls.email, allData: users, fullName, dataEmail });
-    //     });
-    //   })
-    //   .catch(error => console.log(error));
-    // // checkInTime
-    // await Firebase.auth().onAuthStateChanged((user) => {
-    //   db.collection('users')
-    //     .doc(`${user.uid}`)
-    //     .get()
-    //     .then((e) => {
-    //       // console.log('====> dataTime',e.data().history)
-    //       e.data().checkIn ? this.setState({ checkInTime: e.data().checkIn })
-    //         : this.setState({ checkInTime: null })
-    //     })
-    // })
+    console.log('===> resTimeUpdate', resTimeUpdate);
+
   }
   // UNSAFE_componentWillReceiveProps(nextProps) {
   //   console.log("Data" + nextProps.payload.payloadData); // Display [Object Object]
@@ -176,9 +147,10 @@ class Scan extends Component {
   };
 
   render() {
-    let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime } = this.state;
+    let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime, dataTimeCheck, idCheckin } = this.state;
     let { currentUser } = this.props.global;
-    // console.log('====> dataUser',dataUser);
+    console.log('====> dataTimeCheck', dataTimeCheck);
+    console.log('====> idCheckin', idCheckin);
     if (!allData) {
       return <Loader />
     }
