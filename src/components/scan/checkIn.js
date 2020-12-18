@@ -69,10 +69,7 @@ class Scan extends Component {
         checkInTime: Date.now(),
       }
       await userApi.timeCreate(dtoCreate).then(e => {
-        if(e.status == 200){
-          console.log('====> eee',e);
-          this.props.actions.onGlobalFieldChange('checkInTime', e.data.checkInTime);
-        }
+        console.log('====> e',e);
       })
     }else {
       alert('Mã QR không hợp lệ!')
@@ -124,7 +121,10 @@ class Scan extends Component {
       <CommonHeader
         title={"Checkin"}
         leftContent={<FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
-        onPressLeft={() => Actions.pop()}
+        onPressLeft={() => {
+          Actions.pop();
+          this.props.doRefresh && this.props.doRefresh();
+        }}
       />
     )
   }

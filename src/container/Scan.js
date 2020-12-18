@@ -34,8 +34,11 @@ class Scan extends Component {
       loading: false
     };
   }
-  componentDidMount = async () => {
-    this.setState({ loading: true })
+  componentDidMount() {
+    this.fetchData();
+  }
+  fetchData = async () => {
+    // this.setState({ loading: true })
     let dto = {
       userID: this.props.global.currentUser.userID
     };
@@ -44,12 +47,13 @@ class Scan extends Component {
       let data = resGetTimeByUser.data[0];
       this.setState({
         dataCheck: data,
-        loading: false
+        // loading: false
       })
     }
   }
   render() {
     let { dataUser, dataCheck } = this.state;
+    console.log('===? dataCheck',dataCheck);
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
@@ -59,13 +63,13 @@ class Scan extends Component {
         <Text style={{ marginTop: 100 }}>Xin chào {this.props.global.currentUser.fullName}</Text>
         {timeCheckin ?
           <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
-              {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
+            {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
           : <Text style={{ marginTop: 10 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
         }
         {timeCheckout ?
           <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
-              {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
+            {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
           : <Text />
         }
@@ -75,14 +79,14 @@ class Scan extends Component {
         <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
           <Text>Checkout</Text>
         </TouchableOpacity>
-        <Loader loading={this.state.loading} />
+        {/* <Loader loading={this.state.loading} /> */}
       </View>
     );
   }
   checkIn = () => {
     let { dataCheck } = this.state;
     if (dataCheck == null) {
-      Actions.checkIn({ dataCheck });
+      Actions.checkIn({ dataCheck, doRefresh: this.fetchData.bind(this) });
     } else {
       alert('Bạn đã checkIn ngày hôm nay rồi!');
     }
@@ -92,7 +96,7 @@ class Scan extends Component {
     if (dataCheck == null) {
       return alert('Bạn phải checkIn trước đã!');
     }
-    Actions.checkOut({ dataCheck });
+    Actions.checkOut({ dataCheck, doRefresh: this.fetchData.bind(this) });
   }
 }
 

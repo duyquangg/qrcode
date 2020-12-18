@@ -27,7 +27,7 @@ import userApi from '../../lib/userApi';
 import * as globalActions from '../../reducers/global/globalActions';
 import { Actions } from 'react-native-router-flux';
 
-class Scan extends Component {
+class checkOut extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class Scan extends Component {
       allData: [],
 
 
-      dataUser: this.props.global.currentUser,
+      dataUser: props.global.currentUser,
 
       dataTimeCheck: {},
       idCheckin: null,
@@ -44,13 +44,6 @@ class Scan extends Component {
     };
   }
   componentDidMount = async () => {
-    // let dtoCreate = {
-    //   userID: this.props.global.currentUser.userID,
-    //   checkInTime: 1608122768078,
-    // }
-    // let resTimeCreate = await userApi.timeCreate(dtoCreate);
-    // // console.log('===> resTimeCreate', resTimeCreate);
-
 
     // // console.log('====> testId', testId);
     // let dtoUpdate = {
@@ -67,16 +60,26 @@ class Scan extends Component {
       return;
     };
   }
-  onSuccess = (e) => {
-    let { checkInTime } = this.state;
-    // console.log('====> checkInTime',checkInTime);
+  onSuccess = async (e) => {
+    let { dataCheck } = this.state;
+    let id = dataCheck.id;
     if (e.data == 'checkin at PTIT') {
+      alert('checkOut thành công!')
+      let dtoUpdated = {
+        id,
+        checkOutTime: Date.now(),
+      }
+      await userApi.timeUpdateByID(dtoUpdated).then(e => {
+        console.log('====> Updated Checkout', e);
+      })
+    } else {
+      alert('Mã QR không hợp lệ!')
     }
   };
 
   render() {
     let { isCheckCam, typeCam, allData, dataUser, dataCheck } = this.state;
-    console.log('===> data checkOut', dataCheck);
+    // console.log('===> data checkOut', dataCheck.id);
     if (!allData) {
       return <Loader />
     }
@@ -119,7 +122,10 @@ class Scan extends Component {
       <CommonHeader
         title={"Checkout"}
         leftContent={<FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
-        onPressLeft={() => Actions.pop()}
+        onPressLeft={() => {
+          Actions.pop();
+          this.props.doRefresh && this.props.doRefresh();
+        }}
       />
     )
   }
@@ -172,4 +178,4 @@ const mapStateToProps = state => {
     ...state
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Scan);
+export default connect(mapStateToProps, mapDispatchToProps)(checkOut);
