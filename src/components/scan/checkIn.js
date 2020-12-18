@@ -68,8 +68,12 @@ class Scan extends Component {
         userID: this.props.global.currentUser.userID,
         checkInTime: Date.now(),
       }
-      let resTimeCreate = await userApi.timeCreate(dtoCreate);
-      console.log('===> resTimeCreate', resTimeCreate);
+      await userApi.timeCreate(dtoCreate).then(e => {
+        if(e.status == 200){
+          console.log('====> eee',e);
+          this.props.actions.onGlobalFieldChange('checkInTime', e.data.checkInTime);
+        }
+      })
     }else {
       alert('Mã QR không hợp lệ!')
     }

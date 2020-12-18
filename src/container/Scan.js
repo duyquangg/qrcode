@@ -49,7 +49,7 @@ class Scan extends Component {
     }
   }
   render() {
-    let { dataUser, dataCheck, idCheck } = this.state;
+    let { dataUser, dataCheck } = this.state;
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
@@ -58,18 +58,18 @@ class Scan extends Component {
       <View style={styles.container}>
         <Text style={{ marginTop: 100 }}>Xin chào {this.props.global.currentUser.fullName}</Text>
         {timeCheckin ?
-          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc
+          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
               {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
-          : <Text style={{ marginTop: 100 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
+          : <Text style={{ marginTop: 10 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
         }
         {timeCheckout ?
-          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc
+          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
               {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
           : <Text />
         }
-        <TouchableOpacity style={styles.viewPress} onPress={() => Actions.checkIn({ dataCheck })}>
+        <TouchableOpacity style={styles.viewPress} onPress={this.checkIn.bind(this)}>
           <Text>Checkin</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.viewPress} onPress={this.checkOut.bind(this)}>
@@ -78,6 +78,14 @@ class Scan extends Component {
         <Loader loading={this.state.loading} />
       </View>
     );
+  }
+  checkIn = () => {
+    let { dataCheck } = this.state;
+    if (dataCheck == null) {
+      Actions.checkIn({ dataCheck });
+    } else {
+      alert('Bạn đã checkIn ngày hôm nay rồi!');
+    }
   }
   checkOut = () => {
     let { dataCheck } = this.state;
