@@ -93,7 +93,7 @@ var userApi = {
             }
             );
     },
-    timeGetByUserID(id) {
+    timeGetByUserID(userID) {
         // console.log('========= CALL timeGetByUserIDUrl======', userID);
         return fetch(timeGetByUserIDUrl,
             {
@@ -101,9 +101,9 @@ var userApi = {
                 headers: {
                     "Accept": "*/*",
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + id
+                    'Authorization': 'Bearer ' + userID
                 },
-                body: JSON.stringify(id)
+                body: JSON.stringify(userID)
             })
             .then(response => {
                 return response.json()
@@ -113,7 +113,7 @@ var userApi = {
             }
             );
     },
-    timeCreate(id) {
+    timeCreate(checkInTime, checkOutTime, userID) {
         // console.log('========= CALL timeCreateUrl======', userID);
         return fetch(timeCreateUrl,
             {
@@ -121,9 +121,8 @@ var userApi = {
                 headers: {
                     "Accept": "*/*",
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + id
                 },
-                body: JSON.stringify(id)
+                body: JSON.stringify({ checkInTime, checkOutTime, userID })
             })
             .then(response => {
                 return response.json()
@@ -133,7 +132,7 @@ var userApi = {
             }
             );
     },
-    timeUpdateByID(id) {
+    timeUpdateByID(id, checkOutTime) {
         // console.log('========= CALL timeUpdateByIDUrl======', userID);
         return fetch(timeUpdateByIDUrl,
             {
@@ -141,9 +140,8 @@ var userApi = {
                 headers: {
                     "Accept": "*/*",
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + id
                 },
-                body: JSON.stringify(id)
+                body: JSON.stringify({ id, checkOutTime })
             })
             .then(response => {
                 return response.json()

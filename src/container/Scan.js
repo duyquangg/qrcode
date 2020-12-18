@@ -39,25 +39,31 @@ class Scan extends Component {
 
       dataUser: this.props.global.currentUser,
 
-
-      // checkInTime: dataUser.checkIn ? dataUser.checkIn : null,
-      // checkOutTime: dataUser.checkOut ? dataUser.checkOut : null,
+      dataTime: {},
     };
   }
   componentDidMount = async () => {
-    // let dto = {
-    //   userID: this.props.global.currentUser.userID
-    // }
-    // let resApi = await userApi.getByID(dto);
-    // if (resApi.status == 200) {
-    //   this.setState({ dataUser: resApi.data });
-    // }
-    let {currentUser} = this.props.global;
-    // console.log('====> currentUser',currentUser);
-    // this.setState({
+    let dto = {
+      userID: this.props.global.currentUser.userID
+    };
+    let resGetTimeByUser = await userApi.timeGetByUserID(dto);
+    console.log('====> resGetTimeByUser',resGetTimeByUser);
 
-    // })
+    let dtoCreate = {
+      checkInTime: 1608260870,
+      // checkOutTime: 1608260878,
+      userID: this.props.global.currentUser.userID,
+    }
+    let resTimeCreate = await userApi.timeCreate(dtoCreate);
+    console.log('===> resTimeCreate',resTimeCreate);
 
+    let dtoUpdate = {
+      id: this.props.global.currentUser.userID,
+      checkOutTime: 1608260870,
+    }
+    let resTimeUpdate = await userApi.timeUpdateByID(dtoUpdate);
+    console.log('===> resTimeUpdate',resTimeUpdate);
+    
     // db.collection('users')
     //   .get()
     //   .then(snapshot => {
@@ -111,67 +117,67 @@ class Scan extends Component {
     let { email, dataEmail, checkInTime } = this.state;
     // console.log('====> checkInTime',checkInTime);
     if (e.data == 'checkin at PTIT') {
-      let check = dataEmail.includes(email);
-      check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
-      let currentUser = Firebase.auth().currentUser;
-      let userId = currentUser.uid;
-    //   if (checkInTime != null || checkInTime != undefined) {
-    //     let dataHistory = [];
-    //     dataHistory.push({
-    //       checkOut: Date.now(),
-    //       checkIn: checkInTime,
-    //     });
-    //     db.collection('users')  //insert
-    //       .doc(`${userId}`)
-    //       .add({
-    //         checkOut: Date.now(),
-    //         history: dataHistory,
-    //       })
-    //       .then((userId) => {
-    //         // console.log('====> checkOut successfull!');
-    //       })
-    //     db.collection('users') //get data user
-    //       .doc(`${userId}`)
-    //       .get()
-    //       .then((e) => {
-    //         this.setState({ checkOutTime: e.data().checkOut });
-    //         let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
-    //         this.props.actions.onGlobalFieldChange('checkOut', formartTime);
-    //         // console.log('====> checkOut', e.data())
-    //       })
-    //   } else {
-    //     //update checkInTime
-    //     db.collection('users') //ínert nếu k có checkOut
-    //       .doc(`${userId}`)
-    //       .add({
-    //         checkIn: Date.now(),
-    //         history: [{
-    //           checkIn: Date.now(),
-    //         }]
-    //       })
-    //       .then((userId) => {
-    //         // console.log('====> hhhh',userId);
-    //       })
-    //       .catch((error) => console.log(error));
+      // let check = dataEmail.includes(email);
+      // check ? Alert.alert('Thông báo', 'Quét mã QR thành công !') : Alert.alert('Thông báo', 'Quét mã QR thất bại !');
+      // let currentUser = Firebase.auth().currentUser;
+      // let userId = currentUser.uid;
+      //   if (checkInTime != null || checkInTime != undefined) {
+      //     let dataHistory = [];
+      //     dataHistory.push({
+      //       checkOut: Date.now(),
+      //       checkIn: checkInTime,
+      //     });
+      //     db.collection('users')  //insert
+      //       .doc(`${userId}`)
+      //       .add({
+      //         checkOut: Date.now(),
+      //         history: dataHistory,
+      //       })
+      //       .then((userId) => {
+      //         // console.log('====> checkOut successfull!');
+      //       })
+      //     db.collection('users') //get data user
+      //       .doc(`${userId}`)
+      //       .get()
+      //       .then((e) => {
+      //         this.setState({ checkOutTime: e.data().checkOut });
+      //         let formartTime = moment(e.data().checkOut).format('LT' + ' - ' + 'DD/MM/YYYY');
+      //         this.props.actions.onGlobalFieldChange('checkOut', formartTime);
+      //         // console.log('====> checkOut', e.data())
+      //       })
+      //   } else {
+      //     //update checkInTime
+      //     db.collection('users') //ínert nếu k có checkOut
+      //       .doc(`${userId}`)
+      //       .add({
+      //         checkIn: Date.now(),
+      //         history: [{
+      //           checkIn: Date.now(),
+      //         }]
+      //       })
+      //       .then((userId) => {
+      //         // console.log('====> hhhh',userId);
+      //       })
+      //       .catch((error) => console.log(error));
 
-    //     db.collection('users')  //save to state
-    //       .doc(`${userId}`)
-    //       .get()
-    //       .then((e) => {
-    //         this.setState({ checkInTime: e.data().checkIn });
-    //         let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
-    //         this.props.actions.onGlobalFieldChange('checkIn', formartTime);
-    //       })
-    //       .catch((error) => console.log(error));
-    //   }
-    // } else {
-    //   Alert.alert('Thông báo', 'Mã QR không quét được !')
+      //     db.collection('users')  //save to state
+      //       .doc(`${userId}`)
+      //       .get()
+      //       .then((e) => {
+      //         this.setState({ checkInTime: e.data().checkIn });
+      //         let formartTime = moment(e.data().checkIn).format('LT' + ' - ' + 'DD/MM/YYYY');
+      //         this.props.actions.onGlobalFieldChange('checkIn', formartTime);
+      //       })
+      //       .catch((error) => console.log(error));
+      //   }
+      // } else {
+      //   Alert.alert('Thông báo', 'Mã QR không quét được !')
     }
   };
 
   render() {
     let { isCheckCam, typeCam, allData, dataUser, checkInTime, checkOutTime } = this.state;
-    let {currentUser} = this.props.global;
+    let { currentUser } = this.props.global;
     // console.log('====> dataUser',dataUser);
     if (!allData) {
       return <Loader />
