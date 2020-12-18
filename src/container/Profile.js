@@ -139,6 +139,7 @@ class Profile extends Component {
     if (resApi.status == 200) {
       this.setState({ dataUser: resApi.data }, () => {
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
+        this.props.actions.onUserFieldChange('avatar', resApi.data.avatar);
       });
     }
     // console.log('====> after updated', resApi.data);

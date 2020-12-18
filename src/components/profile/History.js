@@ -47,8 +47,19 @@ function mapDispatchToProps(dispatch) {
 class History extends Component {
   constructor(props) {
     super(props);
+    let data = [
+      {
+
+      },
+      {
+        checkInTime: 1608318229,
+        checkOutTime: 1608318649
+      }
+    ]
     this.state = {
-      dataCheck: {}
+      dataCheck: {},
+      
+      
     };
   }
   componentDidMount() {

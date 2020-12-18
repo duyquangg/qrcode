@@ -65,10 +65,12 @@ class Scan extends Component {
     );
   }
   _renderHeader = () => {
+    let title = this.props.global.currentUser.fullName ? this.props.global.currentUser.fullName : null;
+    let avatar = this.props.global.currentUser.avatar ? this.props.global.currentUser.avatar : null;
     return (
       <HeaderScan
-        titleHome={this.props.global.currentUser.fullName + '!'}
-        source={this.props.global.currentUser.avatar}
+        titleScan={title + '!'}
+        source={avatar}
       />
     )
   };
@@ -127,7 +129,6 @@ const styles = StyleSheet.create({
   },
   viewButton: {
     height: 60,
-    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: gui.screenWidth - 32,

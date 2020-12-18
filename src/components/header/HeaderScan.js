@@ -2,17 +2,25 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import gui from '../../lib/gui';
 import LinearGradient from 'react-native-linear-gradient';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 class HeaderScan extends Component {
     render() {
-        let { source, titleHome } = this.props;
+        let { source, titleScan } = this.props;
+        let image = require('../../assets/images/user.png');
         return (
             <LinearGradient
                 colors={gui.linearMain}
                 style={styles.header}>
                 <View style={styles.mainItem}>
                     <View style={styles.leftHeader}>
-                        <Image source={{ uri: source }} style={styles.image} resizeMode={'cover'} />
-                        <Text style={styles.titleTextHeader}>Xin chào {titleHome}</Text>
+                        {source ?
+                            <Image source={{ uri: source }} style={styles.image} resizeMode={'cover'} />
+                            :
+                            <View style={styles.viewIcon}>
+                                <FontAwesome name={'user'} color={"#34626c"} size={20} />
+                            </View>
+                        }
+                        <Text style={styles.titleTextHeader}>Xin chào {titleScan}</Text>
                     </View>
                 </View>
             </LinearGradient>
@@ -46,6 +54,14 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#fff',
         marginLeft: 10
+    },
+    viewIcon: {
+        height: 30,
+        width: 30,
+        borderRadius: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     image: {
         height: 30,
