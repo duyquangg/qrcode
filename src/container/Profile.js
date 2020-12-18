@@ -40,6 +40,7 @@ class Profile extends Component {
     super(props);
     this.state = {
       data: {},
+      dataUser: props.global.currentUser,
     };
   }
   componentDidMount = async () => {
@@ -57,10 +58,8 @@ class Profile extends Component {
   // }
   render() {
     let AvaUser = require('../assets/images/user.png');
-    let next = require('../assets/images/next.png');
-    let off = require('../assets/images/off.png');
-    let { fullName, email, gender, phone, birthDate, avatar } = this.state.data;
-    if (!this.state.data) {
+    let { email, avatar } = this.state.dataUser;
+    if (!this.state.dataUser) {
       return <Loader />
     }
     return (
@@ -72,9 +71,7 @@ class Profile extends Component {
           colors={gui.linearMain}
           style={styles.viewLinear}
         >
-          <View
-            style={styles.viewAvatar}
-          >
+          <View style={styles.viewAvatar}>
             <View style={styles.avatar}>
               {avatar == null
                 ? <Image source={AvaUser} style={{ height: 120, width: 120 }} />
@@ -88,21 +85,20 @@ class Profile extends Component {
           {/* <Text style={styles.textPhone}>{phone}</Text> */}
           <View style={styles.viewBody}>
             {this._renderBody('history', 'Lịch sử', () => Actions.History())}
-            {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data: this.state.data, doRefresh: this.fetchData.bind(this) }))}
+            {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data: this.state.dataUser, doRefresh: this.fetchData.bind(this) }))}
           </View>
           <TouchableOpacity style={styles.viewLogout}
             onPress={this.onActionsPress.bind(this)}>
             <View style={styles.viewRowLogout}>
-              <Image source={off} style={{ marginRight: 12 }} />
+              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
               <Text style={styles.textLogout}>Đăng xuất</Text>
             </View>
-            <Image source={next} style={{ marginRight: 12 }} />
+            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
           <View style={styles.footer}>
             <Text style={styles.textFooter}>Phiên bản</Text>
             <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
           </View>
-
         </LinearGradient>
         {/* </ScrollView> */}
       </View>
@@ -111,8 +107,7 @@ class Profile extends Component {
   _renderBody = (source, text, onPress) => {
     return (
       <TouchableOpacity style={styles.viewRowBody} onPress={onPress}>
-        {/* <Image source={source} /> */}
-        <FontAwesome name={source} color={'#fff'} size={26} style={{ opacity: 0.9 }} />
+        <FontAwesome name={source} color={'#fff'} size={26} />
         <Text style={styles.normalTextBody}>{text}</Text>
       </TouchableOpacity>
     );
@@ -142,11 +137,11 @@ class Profile extends Component {
     }
     let resApi = await userApi.getByID(dto);
     if (resApi.status == 200) {
-      this.setState({ data: resApi.data }, () => {
+      this.setState({ dataUser: resApi.data }, () => {
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
       });
     }
-    // console.log('====> after updated', resApi);
+    // console.log('====> after updated', resApi.data);
   };
 }
 
@@ -226,6 +221,7 @@ const styles = StyleSheet.create({
   },
   textLogout: {
     fontSize: 17,
+    marginLeft: 10,
     fontWeight: 'bold',
     color: '#fff',
   },

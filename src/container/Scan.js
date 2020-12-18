@@ -12,6 +12,7 @@ import {
 const { width, height } = Dimensions.get('window');
 
 import moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 import { Map } from 'immutable';
 import { connect } from 'react-redux';
@@ -19,17 +20,16 @@ import { bindActionCreators } from 'redux';
 
 
 import Loader from '../components/icons/Loader';
+import HeaderScan from '../components/header/HeaderScan';
 import Toast from "../components/toast/Toast";
 import gui from '../lib/gui';
 import userApi from '../lib/userApi';
 import * as globalActions from '../reducers/global/globalActions';
-import { Actions } from 'react-native-router-flux';
 
 class Scan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataUser: props.global.currentUser,
       dataCheck: {},
       loading: false
     };
@@ -38,29 +38,48 @@ class Scan extends Component {
     this.fetchData();
   }
   fetchData = async () => {
-    // this.setState({ loading: true })
     let dto = {
       userID: this.props.global.currentUser.userID
     };
     let resGetTimeByUser = await userApi.timeGetByUserID(dto);
     if (resGetTimeByUser.status == 200) {
       let data = resGetTimeByUser.data[0];
-      this.setState({
-        dataCheck: data,
-        // loading: false
-      })
+      this.setState({ dataCheck: data })
     }
   }
   render() {
-    let { dataUser, dataCheck } = this.state;
-    console.log('===? dataCheck', dataCheck);
+    return (
+      <View style={styles.container}>
+        {this._renderHeader()}
+        {this._renderBody()}
+        <Toast
+          ref="toastTop"
+          position='top'
+          positionValue={70}
+          fadeInDuration={1000}
+          fadeOutDuration={2000}
+          opacity={0.85}
+          textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
+        />
+      </View>
+    );
+  }
+  _renderHeader = () => {
+    return (
+      <HeaderScan
+        titleHome={this.props.global.currentUser.fullName + '!'}
+        source={this.props.global.currentUser.avatar}
+      />
+    )
+  };
+  _renderBody = () => {
+    let { dataCheck } = this.state;
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
     dataCheck ? timeCheckout = dataCheck.checkOutTime : null;
     return (
-      <View style={styles.container}>
-        <Text style={{ marginTop: 100 }}>Xin chào {this.props.global.currentUser.fullName}</Text>
+      <View>
         {timeCheckin ?
           <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
             {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
@@ -81,17 +100,8 @@ class Scan extends Component {
             <Text style={{ color: '#fff' }}>Checkout</Text>
           </TouchableOpacity>
         </View>
-        <Toast
-          ref="toastTop"
-          position='top'
-          positionValue={70}
-          fadeInDuration={1000}
-          fadeOutDuration={2000}
-          opacity={0.85}
-          textStyle={{ color: 'white', fontWeight: '600', textAlign: 'center' }}
-        />
       </View>
-    );
+    )
   }
   checkIn = () => {
     let { dataCheck } = this.state;
