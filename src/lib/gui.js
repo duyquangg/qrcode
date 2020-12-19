@@ -16,7 +16,7 @@ export const gui = {
     titleFontSize: 17,
     screenWidth: width < height ? width : height,
     screenHeight: width < height ? height : width,
-    navBarHeight: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 80 : 64) : 44, // check navBarHeight iphone X, Xm
+    navBarHeight: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 90 : 75) : 44, // check navBarHeight iphone X, Xm
     marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 34 : 18) : 6,
     iconTop: Platform.OS === 'ios' ? 28 : 12,
     ERR_NoInternetConnection: "Không có kết nối internet!",

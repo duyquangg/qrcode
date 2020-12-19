@@ -9,7 +9,6 @@ import {
   TextInput,
   Alert
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
@@ -23,8 +22,6 @@ import { Map } from 'immutable';
 import Loader from '../icons/Loader';
 import CommonHeader from '../header/CommonHeader';
 import Toast from "../toast/Toast";
-import ls from '../../lib/localStorage';
-import Firebase, { db } from '../firebase/FirebaseConfig';
 import gui from '../../lib/gui';
 import cfg from '../../../cfg';
 import moment from 'moment';
@@ -197,7 +194,7 @@ class EditInfo extends Component {
           </TouchableOpacity>
           <View />
         </View>
-        {/* {this._renderBirthDay()} */}
+        {this._renderBirthDay()}
       </View>
     );
   }
@@ -301,6 +298,7 @@ class EditInfo extends Component {
             cancelTextIOS={'Huỷ'}
             isVisible={showDate}
             mode="date"
+            titleStyle={{color:'red'}}
             onConfirm={this.setDate}
             onCancel={() => this.setState({ showDate: false })}
           />

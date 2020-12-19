@@ -13,12 +13,10 @@ class HeaderScan extends Component {
                 style={styles.header}>
                 <View style={styles.mainItem}>
                     <View style={styles.leftHeader}>
-                        {source ?
-                            <Image source={{ uri: source }} style={styles.image} resizeMode={'cover'} />
+                        {source == '' ?
+                            <Image source={image} style={styles.image} resizeMode={'cover'} />
                             :
-                            <View style={styles.viewIcon}>
-                                <FontAwesome name={'user'} color={"#34626c"} size={20} />
-                            </View>
+                            <Image source={{ uri: source }} style={styles.image} resizeMode={'cover'} />
                         }
                         <Text style={styles.titleTextHeader}>Xin chào {titleScan}</Text>
                     </View>
@@ -51,22 +49,14 @@ const styles = StyleSheet.create({
     },
     titleTextHeader: {
         fontSize: 18,
-        fontWeight: '600',
+        fontWeight: '700',
         color: '#fff',
-        marginLeft: 10
-    },
-    viewIcon: {
-        height: 30,
-        width: 30,
-        borderRadius: 15,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff'
+        marginLeft: 15
     },
     image: {
-        height: 30,
-        width: 30,
-        borderRadius: 15,
+        height: 32,
+        width: 32,
+        borderRadius: 16,
     }
 });
 
