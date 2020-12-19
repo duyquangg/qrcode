@@ -62,8 +62,6 @@ class AppRouter extends Component {
     // console.log('===> currentUser', currentUser);
   }
   shouldComponentUpdate(nextProps, nextState){
-    // console.log('====> aaa',this.props.global);
-    // console.log('====> nextProps',nextProps.global);
     if(nextProps.global.loggedIn !== this.props.global.loggedIn){
       return nextProps;
     }
@@ -106,7 +104,7 @@ class AppRouter extends Component {
               />
               <Scene
                 key="Profile"
-                initial
+                // initial
                 component={Profile}
                 hideNavBar
                 title="Cá nhân"

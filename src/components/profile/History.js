@@ -47,23 +47,8 @@ function mapDispatchToProps(dispatch) {
 class History extends Component {
   constructor(props) {
     super(props);
-    let data = [
-      {
-        checkInTime: 1608279019,
-        checkOutTime: 1608291249,
-      },
-      {
-        checkInTime: 1608320923,
-        checkOutTime: 1608245649,
-      },
-      {
-        checkInTime: 1608526649,
-        checkOutTime: 1601462649
-      }
-    ]
     this.state = {
-      dataCheck: {},
-      data,
+      dataUser: [],
       loading: false
     };
   }
@@ -71,18 +56,19 @@ class History extends Component {
     this.fetchData();
   }
   fetchData = async () => {
-    let dto = {
-      userID: this.props.global.currentUser.userID
+    let dtoUser = {
+      userID: this.props.global.currentUser.userID,
+      role: this.props.global.currentUser.role,
     };
-    let resGetTimeByUser = await userApi.timeGetByUserID(dto);
-    if (resGetTimeByUser.status == 200) {
-      let data = resGetTimeByUser.data[0];
-      this.setState({ dataCheck: data })
+    let resGetHistory = await userApi.getHistory(dtoUser);
+    console.log('===> resGetHistory',resGetHistory.data)
+    if (resGetHistory.status == 200) {
+      let data = resGetHistory.data;
+      this.setState({ dataUser: data })
     }
   }
   render() {
-    let { dataCheck, data } = this.state;
-    console.log('====> data', data);
+    let { dataUser } = this.state;
     return (
       <View style={styles.container}>
         {this._renderHeader()}
@@ -111,18 +97,19 @@ class History extends Component {
   _renderBody() {
     let checkRole = this.props.global.currentUser.role;
     console.log('===> checkRole', checkRole);
-    let { data } = this.state;
+    let {dataUser } = this.state;
     return (
       <FlatList
         refreshControl={
           <RefreshControl
             refreshing={false}
-          // onRefresh={this._onRefresh.bind(this)}
+            onRefresh={this.fetchData.bind(this)}
+            tintColor={'#34626c'}
           />
         }
         style={{ backgroundColor: '#fff', flex: 1 }}
         contentContainerStyle={{ paddingTop: 10, marginBottom: 10 }}
-        data={data}
+        data={dataUser}
         renderItem={({ item, index }) => {
           return (
             <FlatListItem item={item} index={index}
@@ -130,8 +117,8 @@ class History extends Component {
             />
           );
         }}
-        keyExtractor={(item, index) => item.id}
-        // ListFooterComponent={this.ListFooterComponent()}
+        keyExtractor={(item, index) => item.id.toString()}
+        ListFooterComponent={this.ListFooterComponent()}
         removeClippedSubviews={false}
         enableEmptySections
         maxToRenderPerBatch={10}
@@ -144,7 +131,7 @@ class History extends Component {
   };
 
   ListFooterComponent = () => {
-    showReadMoreJSX = (
+    let showReadMoreJSX = (
       <TouchableOpacity
         style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 16 }}
       >
@@ -165,27 +152,25 @@ class FlatListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // background: this.props.item.read ? '#fff' : '#f2e9e1',
-      // select: null,
-      // countDetail: 0,
+    
     };
   }
 
   render() {
     let { item, index, doRefreshData } = this.props;
-    let { checkInTime, checkOutTime } = item;
-    console.log('===> item',item);
+    console.log('===> item', item);
     return (
       <View
-        // key={item.id}
+        key={item.id}
         activeOpacity={1}
       // onPress={this._onPress.bind(this, item, index)}
       >
         <View>
-          <Text>{moment(checkInTime).format('L')}</Text>
-          <Text>{moment(checkOutTime).format('L')}</Text>
+          <Text>{item.fullName}</Text>
+          <Text>{moment(item.checkInTime).format('LLLL')}</Text>
+          <Text>{moment(item.checkOutTime).format('LLLL')}</Text>
         </View>
-        <View style={{ height: 1, backgroundColor: '#000', marginTop: 3 }} />
+        <View style={{ height: 1, backgroundColor: 'gray', marginTop: 3 }} />
       </View>
     );
   }

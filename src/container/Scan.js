@@ -7,7 +7,9 @@ import {
   View,
   Alert,
   Platform,
-  Dimensions
+  Dimensions,
+  ScrollView,
+  RefreshControl
 } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
@@ -51,7 +53,17 @@ class Scan extends Component {
     return (
       <View style={styles.container}>
         {this._renderHeader()}
-        {this._renderBody()}
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={this.fetchData.bind(this)}
+              tintColor={'#34626c'}
+            />
+          }
+        >
+          {this._renderBody()}
+        </ScrollView>
         <Toast
           ref="toastTop"
           position='top'
@@ -83,13 +95,13 @@ class Scan extends Component {
     return (
       <View>
         {timeCheckin ?
-          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
+          <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn checkin lúc {''}
             {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
-          : <Text style={{ marginTop: 10 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
+          : <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
         }
         {timeCheckout ?
-          <Text style={{ marginTop: 10 }}>Hôm nay bạn checkin lúc {''}
+          <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn checkout lúc {''}
             {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
           : <Text />

@@ -12,6 +12,7 @@ var deleteByIDUrl = cfg.api + "user/deleteByID";
 var timeCreateUrl = cfg.api + "timeLine/create";
 var timeGetByUserIDUrl = cfg.api + "timeLine/getByUserID";
 var timeUpdateByIDUrl = cfg.api + "timeLine/updateByID";
+var getHistoryUrl = cfg.api + "timeLine/getHistory";
 
 var userApi = {
     login(email, password) {
@@ -150,6 +151,26 @@ var userApi = {
             })
             .catch(e => {
                 console.log("Error in timeUpdateByID", e);
+            }
+            );
+    },
+    getHistory(id) {
+        // console.log('========= CALL getHistoryUrl======', userID);
+        return fetch(getHistoryUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + id
+                },
+                body: JSON.stringify(id)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in getHistory", e);
             }
             );
     },
