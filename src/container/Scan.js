@@ -95,13 +95,13 @@ class Scan extends Component {
     return (
       <View>
         {timeCheckin ?
-          <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn checkin lúc {''}
+          <Text style={{ marginTop: 10, marginHorizontal: 16 }}>Hôm nay bạn checkin lúc {''}
             {moment(timeCheckin).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
-          : <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
+          : <Text style={{ marginTop: 10, marginHorizontal: 16 }}>Hôm nay bạn chưa checkin rồiiii!</Text>
         }
         {timeCheckout ?
-          <Text style={{ marginTop: 10, marginLeft: 16 }}>Hôm nay bạn checkout lúc {''}
+          <Text style={{ marginTop: 10, marginHorizontal: 16 }}>Hôm nay bạn checkout lúc {''}
             {moment(timeCheckout).format('LT' + ' - ' + 'DD/MM/YYYY')}
           </Text>
           : <Text />

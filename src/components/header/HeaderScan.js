@@ -13,7 +13,7 @@ class HeaderScan extends Component {
                 style={styles.header}>
                 <View style={styles.mainItem}>
                     <View style={styles.leftHeader}>
-                        {source == '' ?
+                        {source == null ?
                             <Image source={image} style={styles.image} resizeMode={'cover'} />
                             :
                             <Image source={{ uri: source }} style={styles.image} resizeMode={'cover'} />

@@ -104,7 +104,7 @@ class AppRouter extends Component {
               />
               <Scene
                 key="Profile"
-                // initial
+                initial
                 component={Profile}
                 hideNavBar
                 title="Cá nhân"
@@ -126,12 +126,14 @@ class AppRouter extends Component {
             <Scene
               key="checkIn"
               // initial
+              gesturesEnabled= {false} //k cho back lại
               component={checkIn}
               title="checkIn"
             />
             <Scene
               key="checkOut"
               // initial
+              gesturesEnabled= {false} //k cho back lại
               component={checkOut}
               title="checkOut"
             />
