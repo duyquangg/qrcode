@@ -20,6 +20,7 @@ import Toast from "../toast/Toast";
 import CommonHeader from '../header/CommonHeader';
 import gui from '../../lib/gui';
 import userApi from '../../lib/userApi';
+import utils from '../../lib/utils';
 
 import * as globalActions from '../../reducers/global/globalActions';
 
@@ -61,14 +62,12 @@ class History extends Component {
       role: this.props.global.currentUser.role,
     };
     let resGetHistory = await userApi.getHistory(dtoUser);
-    console.log('===> resGetHistory',resGetHistory.data)
     if (resGetHistory.status == 200) {
       let data = resGetHistory.data;
       this.setState({ dataUser: data })
     }
   }
   render() {
-    let { dataUser } = this.state;
     return (
       <View style={styles.container}>
         {this._renderHeader()}
@@ -95,9 +94,19 @@ class History extends Component {
     );
   }
   _renderBody() {
-    let checkRole = this.props.global.currentUser.role;
-    console.log('===> checkRole', checkRole);
-    let {dataUser } = this.state;
+    let { dataUser } = this.state;
+    // console.log('===> dataUser', dataUser);
+    // let check1 = null;
+    // let dataNew = null;
+    // dataUser.forEach(e => {
+    //   let date = moment(e.checkInTime).format('DD-MM-YYYY');
+    //   if(date !== moment(e.checkInTime).format('DD-MM-YYYY')){
+    //     dataNew.push(e);
+    //   }
+    // });
+    // console.log('===> dataNew',dataNew);
+    // console.log('===> dataUser',dataUser);
+
     return (
       <FlatList
         refreshControl={
@@ -117,8 +126,14 @@ class History extends Component {
             />
           );
         }}
+
         keyExtractor={(item, index) => item.id.toString()}
         ListFooterComponent={this.ListFooterComponent()}
+        // ListHeaderComponent={() => {
+        //   return (
+        //     <Text>vv</Text>
+        //   )
+        // }}
         removeClippedSubviews={false}
         enableEmptySections
         maxToRenderPerBatch={10}
@@ -152,27 +167,55 @@ class FlatListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    
+
     };
   }
 
   render() {
     let { item, index, doRefreshData } = this.props;
-    console.log('===> item', item);
+    let imageDefault = require('../../assets/images/user.png');
+    // console.log('===> item', item);
+    let time = moment(item.checkInTime).format('HH:mm');
+    let correctTime = "09:00";
+    let minus = utils.parseTime(time) - utils.parseTime(correctTime);
+    let afterCheckTime = minus > 0 ? utils.convertMinsToHrsMins(minus) : null;
     return (
       <View
+        style={styles.viewItem}
         key={item.id}
         activeOpacity={1}
       // onPress={this._onPress.bind(this, item, index)}
       >
-        <View>
-          <Text>{item.fullName}</Text>
-          <Text>{moment(item.checkInTime).format('LLLL')}</Text>
-          <Text>{moment(item.checkOutTime).format('LLLL')}</Text>
+        <View style={styles.viewInItem}>
+          <View style={styles.viewRowTime}>
+            <View style={{ marginLeft: 10 }}>
+              <Text style={styles.textName}>{item.fullName}</Text>
+              {this._renderRowTime('caret-right', `${moment(item.checkInTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)}
+              {this._renderRowTime('caret-left', `${moment(item.checkOutTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)}
+            </View>
+          </View>
+          {minus > 0 ?
+            <View style={styles.viewWarming}>
+              <FontAwesome name={'exclamation'} color={'red'} size={15} />
+              <Text style={styles.textWarming}>Muộn {afterCheckTime}</Text>
+            </View>
+            : null
+          }
         </View>
-        <View style={{ height: 1, backgroundColor: 'gray', marginTop: 3 }} />
+        <View style={styles.viewLine} />
       </View>
     );
+  }
+  _renderRowTime = (name, value) => {
+    return (
+      <View style={styles.viewRowTime}>
+        <FontAwesome name={name} color={'gray'} size={20} />
+        {value ?
+          <Text style={styles.timeText}>{value}</Text>
+          : <Text />
+        }
+      </View>
+    )
   }
 }
 const styles = StyleSheet.create({
@@ -180,5 +223,48 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  viewItem: {
+    // marginHorizontal: 16,
+    marginTop: 10,
+    // backgroundColor: 'yellow'
+  },
+  viewInItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // backgroundColor: 'green'
+  },
+  textName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5
+  },
+  viewImage: {
+    height: 40,
+    width: 40,
+    borderRadius: 20
+  },
+  viewRowTime: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  timeText: {
+    marginLeft: 8
+  },
+  viewWarming: {
+    alignItems: 'center',
+    marginRight: 16
+  },
+  textWarming: {
+    fontStyle: 'italic',
+    fontSize: 13,
+    color: '#ff4646'
+  },
+  viewLine: {
+    height: 1,
+    backgroundColor: 'gray',
+    marginTop: 3,
+    width: gui.screenWidth
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(History);

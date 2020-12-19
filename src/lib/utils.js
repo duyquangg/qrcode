@@ -1,53 +1,6 @@
 import moment from 'moment';
 let utils = {};
 import gui from '../lib/gui';
-utils.getIconNameDefault = function (typeCategory) {
-    let image = null;
-    switch (typeCategory) {
-        case "congviec":
-            image = require("../assets/images/tab_congviec_off.png");
-            break;
-        case "giaoxe":
-            image = require("../assets/images/tab_giaoxe_off.png");
-            break;
-        case "scan":
-            image = require("../assets/images/tab_scan.png");
-            break;
-        case "noti":
-            image = require("../assets/images/tab_noti_off.png");
-            break;
-        case "taikhoan":
-            image = require("../assets/images/tab_taikhoan_off.png");
-            break;
-        default:
-            image = null;
-    }
-    return image;
-}
-
-utils.getSelectedIconName = function (typeCategory) {
-    let image = null;
-    switch (typeCategory) {
-        case "congviec":
-            image = require("../assets/images/tab_congviec_on.png");
-            break;
-        case "giaoxe":
-            image = require("../assets/images/tab_giaoxe_on.png");
-            break;
-        case "scan":
-            image = require("../assets/images/tab_scan.png");
-            break;
-        case "noti":
-            image = require("../assets/images/tab_noti_on.png");
-            break;
-        case "taikhoan":
-            image = require("../assets/images/tab_taikhoan_on.png");
-            break;
-        default:
-            image = null;
-    }
-    return image;
-}
 utils.getStatusColor = function (status) {
     let color;
     switch (status) {
@@ -174,7 +127,7 @@ utils.getStatusColorQLK = function (status) {
         case "autoInactive":
             color = '#333';
             break;
-            
+
         default:
             color = 'gray';
     }
@@ -206,17 +159,17 @@ utils.getDeliveryColor = function (status) {
             break;
         case "error":
             color = 'red';
-            break;    
+            break;
         case "checkout":
             color = 'skyblue';
-            break;    
+            break;
         default:
             color = 'darkgray';
     }
     return color;
 }
 
-utils.getTimeFmt = function(time) {
+utils.getTimeFmt = function (time) {
 
     let m = moment().valueOf() - Number(time);
 
@@ -240,29 +193,41 @@ utils.getTimeFmt = function(time) {
         }
         return seconds + ' giây trước';
     }
-     if (minutes < 60) {
+    if (minutes < 60) {
         return minutes + ' phút trước';
-    } 
-     if (hours < 24) {
+    }
+    if (hours < 24) {
         return hours + ' giờ trước';
-    } 
-     if (days < 7) {
+    }
+    if (days < 7) {
         return days + ' ngày trước';
-    } 
-     if (weeks < 4) {
+    }
+    if (weeks < 4) {
         return weeks + ' tuần trước';
-    } 
-     if (months < 12) {
+    }
+    if (months < 12) {
         return months + ' tháng trước'
-    } 
-     if (years < 100) {
+    }
+    if (years < 100) {
         return years + ' năm trước'
     }
 }
 
-utils.clearDot = function(str) {
+utils.clearDot = function (str) {
     str = str.replace(".", "");
     return str;
+}
+
+utils.parseTime = function (s) {
+    var c = s.split(':');
+    return parseInt(c[0]) * 60 + parseInt(c[1]);
+}
+utils.convertMinsToHrsMins = (mins) => {
+    let h = Math.floor(mins / 60);
+    let m = mins % 60;
+    h = h < 10 ? '0' + h : h;
+    m = m < 10 ? '0' + m : m;
+    return `${h}:${m}`;
 }
 
 export default utils;

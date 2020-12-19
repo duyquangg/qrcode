@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Alert
+  Alert,
+  ScrollView
 } from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ImagePicker from 'react-native-image-picker';
@@ -71,7 +72,9 @@ class EditInfo extends Component {
     return (
       <View style={styles.container}>
         {this._renderHeader()}
-        {this._renderBody()}
+        <ScrollView contentContainerStyle={{ marginBottom: 150 }} style={{ flex: 1 }}>
+          {this._renderBody()}
+        </ScrollView>
         {this._renderFooter()}
         <Loader loading={this.state.loading} />
         <Toast
@@ -298,7 +301,7 @@ class EditInfo extends Component {
             cancelTextIOS={'Huỷ'}
             isVisible={showDate}
             mode="date"
-            titleStyle={{color:'red'}}
+            titleStyle={{ color: 'red' }}
             onConfirm={this.setDate}
             onCancel={() => this.setState({ showDate: false })}
           />

@@ -145,7 +145,7 @@ class AppRouter extends Component {
             />
             <Scene
               key="History"
-              // initial
+              initial
               component={History}
               title="History"
             />
