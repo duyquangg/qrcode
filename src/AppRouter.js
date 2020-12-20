@@ -104,7 +104,7 @@ class AppRouter extends Component {
               />
               <Scene
                 key="Profile"
-                initial
+                // initial
                 component={Profile}
                 hideNavBar
                 title="Cá nhân"
@@ -145,7 +145,7 @@ class AppRouter extends Component {
             />
             <Scene
               key="History"
-              initial
+              // initial
               component={History}
               title="History"
             />

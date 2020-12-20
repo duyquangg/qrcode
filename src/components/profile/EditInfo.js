@@ -197,7 +197,7 @@ class EditInfo extends Component {
           </TouchableOpacity>
           <View />
         </View>
-        {this._renderBirthDay()}
+        {/* {this._renderBirthDay()} */}
       </View>
     );
   }

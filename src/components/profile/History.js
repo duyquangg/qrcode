@@ -191,13 +191,16 @@ class FlatListItem extends Component {
             <View style={{ marginLeft: 10 }}>
               <Text style={styles.textName}>{item.fullName}</Text>
               {this._renderRowTime('caret-right', `${moment(item.checkInTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)}
-              {this._renderRowTime('caret-left', `${moment(item.checkOutTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)}
+              {item.checkOutTime ?
+                this._renderRowTime('caret-left', `${moment(item.checkOutTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)
+                : null
+              }
             </View>
           </View>
           {minus > 0 ?
             <View style={styles.viewWarming}>
               <FontAwesome name={'exclamation'} color={'red'} size={15} />
-              <Text style={styles.textWarming}>Muộn {afterCheckTime}</Text>
+              <Text style={styles.textWarming}>Muộn {afterCheckTime}'</Text>
             </View>
             : null
           }
