@@ -20,7 +20,7 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Loader from '../../components/icons/Loader';
+import Loader from '../icons/Loader';
 import CommonHeader from '../header/CommonHeader';
 import gui from '../../lib/gui';
 import userApi from '../../lib/userApi';

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import gui from '../../lib/gui';
+import { Actions } from 'react-native-router-flux';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from 'react-native-vector-icons/MaterialIcons';
 class HeaderScan extends Component {
     render() {
-        let { source, titleScan } = this.props;
+        let { source, titleScan, onPressRight } = this.props;
         let image = require('../../assets/images/user.png');
         return (
             <LinearGradient
@@ -20,6 +21,12 @@ class HeaderScan extends Component {
                         }
                         <Text style={styles.titleTextHeader}>Xin chào {titleScan}</Text>
                     </View>
+                    <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={onPressRight}
+                        style={styles.viewRight}>
+                        <FontAwesome name={"add"} color={'#fff'} size={25}  />
+                    </TouchableOpacity>
                 </View>
             </LinearGradient>
         );
@@ -57,7 +64,13 @@ const styles = StyleSheet.create({
         height: 32,
         width: 32,
         borderRadius: 16,
-    }
+    },
+    viewRight: {
+        width: 90,
+        height: 30,
+        justifyContent: 'center',
+        alignItems: 'flex-end',
+    },
 });
 
 export default HeaderScan;

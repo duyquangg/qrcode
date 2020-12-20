@@ -20,8 +20,9 @@ import Login from "./components/login/Login";
 import Signup from "./components/login/Signup";
 
 //scan
-import checkIn from "./components/scan/checkIn";
-import checkOut from "./components/scan/checkOut";
+import CheckIn from "./components/scan/CheckIn";
+import CheckOut from "./components/scan/CheckOut";
+import AddReason from "./components/scan/AddReason";
 
 //profile
 import EditInfo from "./components/profile/EditInfo";
@@ -124,18 +125,25 @@ class AppRouter extends Component {
               title="Signup"
             />
             <Scene
-              key="checkIn"
+              key="CheckIn"
               // initial
               gesturesEnabled= {false} //k cho back lại
-              component={checkIn}
-              title="checkIn"
+              component={CheckIn}
+              title="CheckIn"
             />
             <Scene
-              key="checkOut"
+              key="CheckOut"
               // initial
               gesturesEnabled= {false} //k cho back lại
-              component={checkOut}
-              title="checkOut"
+              component={CheckOut}
+              title="CheckOut"
+            />
+            <Scene
+              key="AddReason"
+              // initial
+              gesturesEnabled= {false} //k cho back lại
+              component={AddReason}
+              title="AddReason"
             />
             <Scene
               key="EditInfo"

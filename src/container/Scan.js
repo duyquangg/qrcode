@@ -83,6 +83,7 @@ class Scan extends Component {
       <HeaderScan
         titleScan={title + '!'}
         source={avatar}
+        onPressRight={() => Actions.AddReason()}
       />
     )
   };
@@ -120,7 +121,7 @@ class Scan extends Component {
   checkIn = () => {
     let { dataCheck } = this.state;
     if (dataCheck == null) {
-      Actions.checkIn({ dataCheck, doRefresh: this.fetchData.bind(this) });
+      Actions.CheckIn({ dataCheck, doRefresh: this.fetchData.bind(this) });
     } else {
       this.refs.toastTop.show("Bạn đã checkIn ngày hôm nay rồi!");
     }
@@ -130,7 +131,7 @@ class Scan extends Component {
     if (dataCheck == null) {
       return this.refs.toastTop.show("Bạn phải checkIn trước đã!");
     }
-    Actions.checkOut({ dataCheck, doRefresh: this.fetchData.bind(this) });
+    Actions.CheckOut({ dataCheck, doRefresh: this.fetchData.bind(this) });
   }
 }
 
