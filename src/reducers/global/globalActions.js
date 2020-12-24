@@ -1,8 +1,4 @@
-import Firebase, { db } from '../../components/firebase/FirebaseConfig';
-
 const {
-    LOGIN,
-    SIGNUP,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
@@ -57,7 +53,6 @@ export function login(email, password) {
             .then(function (json) {
                 // console.log("Login success data action", json);
                 if (json.status == 200) {
-                    // let token = json.token;
                     ls.setLoginInfo(dto);
                     dispatch(loginSuccess(json));
                 } else {
