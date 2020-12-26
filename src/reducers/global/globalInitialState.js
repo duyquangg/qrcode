@@ -11,6 +11,7 @@ var InitialState = Record({
         phone: '',
         gender: '',
         avatar: '',
+        birthDate: '',
     })),
     checkInTime: '',
     checkOutTime: '',

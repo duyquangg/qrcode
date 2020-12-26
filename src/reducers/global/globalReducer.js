@@ -46,6 +46,7 @@ export default function globalReducer(state = initialState, action) {
                 .setIn(['currentUser','phone'], data.phone)
                 .setIn(['currentUser','gender'], data.gender)
                 .setIn(['currentUser','avatar'], data.avatar)
+                .setIn(['currentUser','birthDate'], data.birthDate)
                 .set("loggedIn", true)
                 .set("isLoggin", false)
             return newState;

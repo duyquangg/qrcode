@@ -59,7 +59,7 @@ class EditInfo extends Component {
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
 
-      date: moment().format("DD-MM-YYYY"),
+      birthDate: birthDate ? moment(birthDate).format('DD-MM-YYYY') : null,
       mode: 'date',
       showDate: false,
 
@@ -72,9 +72,7 @@ class EditInfo extends Component {
     return (
       <View style={styles.container}>
         {this._renderHeader()}
-        <ScrollView contentContainerStyle={{ marginBottom: 150 }} style={{ flex: 1 }}>
-          {this._renderBody()}
-        </ScrollView>
+        {this._renderBody()}
         {this._renderFooter()}
         <Loader loading={this.state.loading} />
         <Toast
@@ -110,7 +108,8 @@ class EditInfo extends Component {
     );
   }
   onSave = () => {
-    let { fullName, phone, avatar, gender, birthday, loading } = this.state;
+    let { fullName, phone, avatar, gender, birthDate } = this.state;
+    let checkDate = birthDate ? new Date(birthDate).getTime() : '';
     if (!fullName) {
       this.refs.toastTop.show("Tên không được để trống!");
       return;
@@ -121,7 +120,12 @@ class EditInfo extends Component {
     };
     this.setState({ loading: true });
     let dto = {
-      id: this.props.global.currentUser.userID, fullName, phone, avatar, gender
+      id: this.props.global.currentUser.userID, 
+      fullName, 
+      phone, 
+      avatar,
+      gender, 
+      birthDate: checkDate
     }
     userApi.updateByID(dto)
       .then(e => {
@@ -154,27 +158,27 @@ class EditInfo extends Component {
     let { gender } = this.state;
     let _renderGender = (type, title) => {
       return (
-          <TouchableOpacity
-              style={styles.viewChooseSex}
-              onPress={() => {
-                  this.setState({ gender: type });
-              }}
-          >
-              {gender == type
-                  ? <Image source={oval} />
-                  : <Image source={ovalNone} />}
-              <Text style={styles.sexText}>{title}</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.viewChooseSex}
+          onPress={() => {
+            this.setState({ gender: type });
+          }}
+        >
+          {gender == type
+            ? <Image source={oval} />
+            : <Image source={ovalNone} />}
+          <Text style={styles.sexText}>{title}</Text>
+        </TouchableOpacity>
       )
-  }
+    }
     return (
-      <View>
+      <ScrollView style={{ flex: 1, marginBottom: 70 }}>
         <TouchableOpacity
           style={styles.viewAvatar}
           onPress={this.selectPhotoTapped.bind(this)}
         >
           <View style={styles.avatar}>
-            {this.state.avatar === null
+            {this.state.avatar == null
               ? <Image source={AvaUser} style={{ height: 128, width: 128 }} />
               : <Image
                 source={{ uri: this.state.avatar }}
@@ -183,7 +187,7 @@ class EditInfo extends Component {
             <Image source={edit} style={styles.viewEdit} />
           </View>
         </TouchableOpacity>
-        {this._renderFullName()}
+        {/* {this._renderFullName()} */}
         {this._renderPhone()}
         {this._renderEmail()}
         <Text style={styles.labelText}>Giới tính</Text>
@@ -192,8 +196,8 @@ class EditInfo extends Component {
           {_renderGender('female', 'Nữ')}
           <View />
         </View>
-        {/* {this._renderBirthDay()} */}
-      </View>
+        {this._renderBirthDay()}
+      </ScrollView>
     );
   }
   selectPhotoTapped() {
@@ -276,7 +280,7 @@ class EditInfo extends Component {
     );
   }
   _renderBirthDay() {
-    const { showDate, date, mode } = this.state;
+    const { showDate, birthDate } = this.state;
     let calendar = require('../../assets/images/calendar.png');
     return (
       <View style={styles.viewInput}>
@@ -285,44 +289,32 @@ class EditInfo extends Component {
           style={styles.viewChooseBOD}
           onPress={this.datepicker.bind(this)}
         >
-          <Text style={styles.titleTextBody}>{this.state.date}</Text>
+          <Text style={styles.titleTextBody}>{birthDate}</Text>
           <Image source={calendar} />
         </TouchableOpacity>
-        {showDate &&
           <DateTimePickerModal
-            headerTextIOS={'Chọn ngày'}
+            headerTextIOS={'Chọn ngày sinh'}
             confirmTextIOS={'Lưu'}
             locale="vn-VN" // Use "en_GB" here
             cancelTextIOS={'Huỷ'}
             isVisible={showDate}
             mode="date"
             titleStyle={{ color: 'red' }}
-            onConfirm={this.setDate}
+            onConfirm={this.setDate.bind(this)}
             onCancel={() => this.setState({ showDate: false })}
           />
-        }
-        {/* {showDate &&
-          <DateTimePicker
-            value={date}
-            mode={mode}
-            display='default'
-            onChange={this.setDate}
-          />} */}
       </View>
     );
   }
-  setDate = (date) => {
-    console.log('===> date', date);
+  setDate = (valueDate) => {
+    let checkDate = moment(valueDate).format("DD-MM-YYYY");
+    if(valueDate > new Date().getTime()){
+      this.refs.toastTop.show('Không được chọn lớn hơn ngày hiện tại!');
+      return;
+    }
     this.setState({
-      date,
+      birthDate: checkDate,
       showDate: false
-    });
-  };
-
-  showDate = mode => {
-    this.setState({
-      showDate: true,
-      mode,
     });
   };
 

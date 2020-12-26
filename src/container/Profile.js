@@ -138,8 +138,10 @@ class Profile extends Component {
     let resApi = await userApi.getByID(dto);
     if (resApi.status == 200) {
       this.setState({ dataUser: resApi.data }, () => {
+        console.log('====> resApiresApi',resApi.data);
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
         this.props.actions.onUserFieldChange('avatar', resApi.data.avatar);
+        this.props.actions.onUserFieldChange('birthDate', resApi.data.birthDate);
       });
     }
     // console.log('====> after updated', resApi.data);
