@@ -55,11 +55,11 @@ class EditInfo extends Component {
     this.state = {
       fullName: fullName,
       email: email,
-      phone: phone,
+      phone: phone ? phone : null,
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
 
-      birthDate: birthDate ? moment(birthDate).format('DD-MM-YYYY') : null,
+      birthDate: birthDate ? moment(birthDate).format('MM-DD-YYYY') : null,
       mode: 'date',
       showDate: false,
 

@@ -142,6 +142,7 @@ class Profile extends Component {
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
         this.props.actions.onUserFieldChange('avatar', resApi.data.avatar);
         this.props.actions.onUserFieldChange('birthDate', resApi.data.birthDate);
+        this.props.actions.onUserFieldChange('phone', resApi.data.phone);
       });
     }
     // console.log('====> after updated', resApi.data);
