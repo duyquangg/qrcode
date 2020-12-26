@@ -16,20 +16,13 @@ import CommonHeader from '../header/CommonHeader';
 import * as globalActions from '../../reducers/global/globalActions';
 import userApi from '../../lib/userApi';
 
-class Signup extends Component {
+class AddReason extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullName: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            checkLogin: true,
-
-            checkPass: true,
-            checkConfirmPass: true,
-
             loading: false,
+            reason: '',
+            typeReason: 'leave',
         }
     }
     _renderHeader = () => {
@@ -41,27 +34,70 @@ class Signup extends Component {
             />
         )
     };
+    _renderBody = () => {
+        let { typeReason } = this.state;
+        let oval = require('../../assets/images/oval-copy.png');
+        let ovalNone = require('../../assets/images/ovalNone.png');
+        let _renderTypeReason = (type) => {
+            return (
+                <TouchableOpacity
+                    style={styles.viewChooseSex}
+                    onPress={() => {
+                        this.setState({ typeReason: type });
+                    }}
+                >
+                    {typeReason == type
+                        ? <Image source={oval} />
+                        : <Image source={ovalNone} />}
+                    <Text style={styles.sexText}>Báo nghỉ</Text>
+                </TouchableOpacity>
+            )
+        }
+        return (
+            <KeyboardAwareScrollView
+                style={{ flex: 1, width: '100%' }}
+                keyboardShouldPersistTaps="always"
+            >
+                <Text style={styles.labelText}>Chọn lý do</Text>
+                <View style={styles.viewChoose}>
+                    {_renderTypeReason('leave')}
+                    {_renderTypeReason('late')}
+                    <View />
+                </View>
+                <Text style={styles.labelText}>Chọn ngày</Text>
+                <View style={styles.viewInput}>
+                    <TextInput
+                        style={styles.input}
+                        placeholderTextColor="#a6a9b6"
+                        placeholder='Lý do...'
+                        multiline
+                        onChangeText={(reason) => this.setState({ reason })}
+                        value={this.state.reason}
+                        underlineColorAndroid="transparent"
+                        autoCapitalize="none"
+                    />
+                </View>
+                <TouchableOpacity onPress={this.onSend.bind(this)} style={styles.button}>
+                    <Text style={styles.buttonTitle}>Gửi</Text>
+                </TouchableOpacity>
+            </KeyboardAwareScrollView>
+        )
+    }
+    onSend = () => {
+        let { typeReason, reason } = this.state;
+        if (!reason) {
+            this.refs.toastTop.show('Lý do không được để trống!');
+            return;
+        };
+        console.log('===>typeReason ',typeReason);
+
+
+    }
     render() {
         return (
             <View style={styles.container}>
                 {this._renderHeader()}
-                <KeyboardAwareScrollView
-                    style={{ flex: 1, width: '100%' }}
-                    keyboardShouldPersistTaps="always"
-                >
-                    <TextInput
-                        style={styles.viewInput}
-                        placeholderTextColor="#a6a9b6"
-                        placeholder='Lý do...'
-                        onChangeText={(password) => this.setState({ password })}
-                        value={this.state.password}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonTitle}>Gửi</Text>
-                    </TouchableOpacity>
-                </KeyboardAwareScrollView>
+                {this._renderBody()}
                 <Toast
                     ref="toastTop"
                     position='top'
@@ -81,54 +117,47 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center'
     },
-    title: {
-
+    labelText: {
+        fontSize: 12,
+        color: '#627792',
+        marginLeft: 16,
+        marginTop: 20,
     },
-    logo: {
-        flex: 1,
-        height: 120,
-        width: 90,
-        alignSelf: "center",
-        margin: 30,
-        marginTop: 100,
+    viewChoose: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+        marginLeft: 16,
+        justifyContent: 'space-between',
+    },
+    viewChooseSex: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    sexText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#4b515d',
+        marginLeft: 8,
     },
     viewInput: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginHorizontal: 30,
+        marginHorizontal: 16,
         height: 48,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#34626c',
-        paddingHorizontal: 16
-    },
-    inputPass: {
-        height: 46,
-        borderRadius: 5,
-        width: gui.screenWidth - 110,
-        color: '#000',
-        overflow: 'hidden',
-        backgroundColor: 'white',
+        marginTop: 20,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     input: {
-        height: 48,
-        borderRadius: 5,
-        overflow: 'hidden',
-        backgroundColor: 'white',
-        color: '#000',
-        borderWidth: 1,
-        borderColor: '#34626c',
-        marginTop: 10,
-        marginBottom: 10,
-        marginLeft: 30,
-        marginRight: 30,
-        paddingLeft: 16
+        height: 30,
+        width: gui.screenWidth - 32,
+        paddingHorizontal: 16,
     },
     button: {
         backgroundColor: '#34626c',
-        marginLeft: 30,
-        marginRight: 30,
+        marginHorizontal: 16,
         marginTop: 20,
         height: 48,
         borderRadius: 5,
@@ -140,20 +169,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold"
     },
-    footerView: {
-        flex: 1,
-        alignItems: "center",
-        marginTop: 20
-    },
-    footerText: {
-        fontSize: 16,
-        color: '#a6a9b6'
-    },
-    footerLink: {
-        color: "#34626c",
-        fontWeight: "bold",
-        fontSize: 16
-    }
 })
 
 const actions = [
@@ -177,4 +192,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, mapDispatchToProps)(AddReason)
