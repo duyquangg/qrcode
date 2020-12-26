@@ -38,7 +38,7 @@ class AddReason extends Component {
         let { typeReason } = this.state;
         let oval = require('../../assets/images/oval-copy.png');
         let ovalNone = require('../../assets/images/ovalNone.png');
-        let _renderTypeReason = (type) => {
+        let _renderTypeReason = (type, title) => {
             return (
                 <TouchableOpacity
                     style={styles.viewChooseSex}
@@ -49,7 +49,7 @@ class AddReason extends Component {
                     {typeReason == type
                         ? <Image source={oval} />
                         : <Image source={ovalNone} />}
-                    <Text style={styles.sexText}>Báo nghỉ</Text>
+                    <Text style={styles.sexText}>{title}</Text>
                 </TouchableOpacity>
             )
         }
@@ -60,8 +60,8 @@ class AddReason extends Component {
             >
                 <Text style={styles.labelText}>Chọn lý do</Text>
                 <View style={styles.viewChoose}>
-                    {_renderTypeReason('leave')}
-                    {_renderTypeReason('late')}
+                    {_renderTypeReason('leave', 'Báo nghỉ')}
+                    {_renderTypeReason('late', 'Đi muộn')}
                     <View />
                 </View>
                 <Text style={styles.labelText}>Chọn ngày</Text>

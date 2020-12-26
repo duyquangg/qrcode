@@ -152,6 +152,21 @@ class EditInfo extends Component {
     let oval = require('../../assets/images/oval-copy.png');
     let ovalNone = require('../../assets/images/ovalNone.png');
     let { gender } = this.state;
+    let _renderGender = (type, title) => {
+      return (
+          <TouchableOpacity
+              style={styles.viewChooseSex}
+              onPress={() => {
+                  this.setState({ gender: type });
+              }}
+          >
+              {gender == type
+                  ? <Image source={oval} />
+                  : <Image source={ovalNone} />}
+              <Text style={styles.sexText}>{title}</Text>
+          </TouchableOpacity>
+      )
+  }
     return (
       <View>
         <TouchableOpacity
@@ -173,28 +188,8 @@ class EditInfo extends Component {
         {this._renderEmail()}
         <Text style={styles.labelText}>Giới tính</Text>
         <View style={styles.viewChoose}>
-          <TouchableOpacity
-            style={styles.viewChooseSex}
-            onPress={() => {
-              this.setState({ gender: 'male' });
-            }}
-          >
-            {gender === 'male'
-              ? <Image source={oval} />
-              : <Image source={ovalNone} />}
-            <Text style={styles.sexText}>Nam</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.viewChooseSex}
-            onPress={() => {
-              this.setState({ gender: 'female' });
-            }}
-          >
-            {gender === 'female'
-              ? <Image source={oval} />
-              : <Image source={ovalNone} />}
-            <Text style={styles.sexText}>Nữ</Text>
-          </TouchableOpacity>
+          {_renderGender('male', 'Nam')}
+          {_renderGender('female', 'Nữ')}
           <View />
         </View>
         {/* {this._renderBirthDay()} */}
