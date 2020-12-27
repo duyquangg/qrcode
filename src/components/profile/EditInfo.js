@@ -187,7 +187,7 @@ class EditInfo extends Component {
             <Image source={edit} style={styles.viewEdit} />
           </View>
         </TouchableOpacity>
-        {/* {this._renderFullName()} */}
+        {this._renderFullName()}
         {this._renderPhone()}
         {this._renderEmail()}
         <Text style={styles.labelText}>Giới tính</Text>
@@ -299,7 +299,6 @@ class EditInfo extends Component {
             cancelTextIOS={'Huỷ'}
             isVisible={showDate}
             mode="date"
-            titleStyle={{ color: 'red' }}
             onConfirm={this.setDate.bind(this)}
             onCancel={() => this.setState({ showDate: false })}
           />

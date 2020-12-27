@@ -3,6 +3,7 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Text, Image, Alert } fro
 import { Actions } from 'react-native-router-flux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -12,7 +13,7 @@ import gui from '../../lib/gui';
 import Loader from '../icons/Loader';
 import Toast from '../toast/Toast';
 import CommonHeader from '../header/CommonHeader';
-
+import moment from 'moment';
 import * as globalActions from '../../reducers/global/globalActions';
 import userApi from '../../lib/userApi';
 
@@ -23,6 +24,10 @@ class AddReason extends Component {
             loading: false,
             reason: '',
             typeReason: 'leave',
+            showDate1: false,
+            valueDate1: moment().format('DD/MM/YYYY'),
+            showDate2: false,
+            valueDate2: moment().format('DD/MM/YYYY'),
         }
     }
     _renderHeader = () => {
@@ -64,7 +69,11 @@ class AddReason extends Component {
                     {_renderTypeReason('late', 'Đi muộn')}
                     <View />
                 </View>
-                <Text style={styles.labelText}>Chọn ngày</Text>
+                <Text style={styles.labelText}>Từ ngày</Text>
+                {this._renderFrom()}
+                <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
+                {this._renderTo()}
+                <Text style={[styles.labelText, { marginTop: -10 }]}>Lý do</Text>
                 <View style={styles.viewInput}>
                     <TextInput
                         style={styles.input}
@@ -83,16 +92,98 @@ class AddReason extends Component {
             </KeyboardAwareScrollView>
         )
     }
+
     onSend = () => {
-        let { typeReason, reason } = this.state;
+        let { typeReason, reason, valueDate1, valueDate2 } = this.state;
         if (!reason) {
             this.refs.toastTop.show('Lý do không được để trống!');
             return;
         };
-        console.log('===>typeReason ',typeReason);
-
-
+        console.log('===>valueDate1 ', valueDate1);
+        console.log('===>valueDate2 ', valueDate2);
+        console.log('===>reason ', reason);
     }
+    _renderFrom() {
+        const { showDate1, valueDate1 } = this.state;
+        let calendar = require('../../assets/images/calendar.png');
+        return (
+            <View style={styles.viewChooseDate}>
+                <TouchableOpacity
+                    style={styles.viewChooseBOD}
+                    onPress={this.datepicker1.bind(this)}
+                >
+                    <Text style={styles.titleTextBody}>{valueDate1}</Text>
+                    <Image source={calendar} />
+                </TouchableOpacity>
+                <DateTimePickerModal
+                    headerTextIOS={'Chọn ngày'}
+                    confirmTextIOS={'Lưu'}
+                    locale="vn-VN" // Use "en_GB" here
+                    cancelTextIOS={'Huỷ'}
+                    isVisible={showDate1}
+                    mode="date"
+                    onConfirm={this.setDate1.bind(this)}
+                    onCancel={() => this.setState({ showDate1: false })}
+                />
+            </View>
+        );
+    }
+    setDate1 = (valueDate) => {
+        let checkDate = moment(valueDate).format("DD-MM-YYYY");
+        let now = moment(Date.now()).format('DD-MM-YYYY');
+        if (checkDate < now) {
+            this.refs.toastTop.show('Không được chọn nhỏ hơn ngày hiện tại!');
+            return;
+        };
+        this.setState({
+            valueDate1: checkDate,
+            showDate1: false
+        });
+    };
+
+    datepicker1 = () => {
+        this.setState({ showDate1: true })
+    };
+    _renderTo() {
+        const { showDate2, valueDate2 } = this.state;
+        let calendar = require('../../assets/images/calendar.png');
+        return (
+            <View style={styles.viewChooseDate}>
+                <TouchableOpacity
+                    style={styles.viewChooseBOD}
+                    onPress={this.datepicker2.bind(this)}
+                >
+                    <Text style={styles.titleTextBody}>{valueDate2}</Text>
+                    <Image source={calendar} />
+                </TouchableOpacity>
+                <DateTimePickerModal
+                    headerTextIOS={'Chọn ngày'}
+                    confirmTextIOS={'Lưu'}
+                    locale="vn-VN" // Use "en_GB" here
+                    cancelTextIOS={'Huỷ'}
+                    isVisible={showDate2}
+                    mode="date"
+                    onConfirm={this.setDate2.bind(this)}
+                    onCancel={() => this.setState({ showDate2: false })}
+                />
+            </View>
+        );
+    }
+    setDate2 = (valueDate) => {
+        let checkDate = moment(valueDate).format("DD/MM/YYYY");
+        if (checkDate < this.state.valueDate1) {
+            this.refs.toastTop.show('Không được chọn ngày nhỏ hơn ngày bắt đầu!');
+            return;
+        }
+        this.setState({
+            valueDate2: checkDate,
+            showDate2: false
+        });
+    };
+
+    datepicker2 = () => {
+        this.setState({ showDate2: true })
+    };
     render() {
         return (
             <View style={styles.container}>
@@ -146,9 +237,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#34626c',
-        marginTop: 20,
+        marginTop: 10,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    viewChooseDate: {
+        marginHorizontal: 16,
+        height: 48,
+        borderColor: '#34626c',
     },
     input: {
         height: 30,
@@ -168,6 +264,12 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
         fontWeight: "bold"
+    },
+    viewChooseBOD: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 14,
+        justifyContent: 'space-between',
     },
 })
 
