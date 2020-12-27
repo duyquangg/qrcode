@@ -5,7 +5,6 @@ import AppRouter from './src/AppRouter';
 import configureStore from './src/lib/configureStore';
 import globalInitialState from './src/reducers/global/globalInitialState';
 import ls from './src/lib/localStorage';
-import Firebase, { db } from './src/components/firebase/FirebaseConfig';
 import {login} from './src/reducers/global/globalActions';
 
 function getInitialState() {

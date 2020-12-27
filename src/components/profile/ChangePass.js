@@ -19,7 +19,6 @@ import Toast from "../toast/Toast";
 import CommonHeader from '../header/CommonHeader';
 import gui from '../../lib/gui';
 import ls from '../../lib/localStorage';
-import Firebase, { db } from '../firebase/FirebaseConfig';
 
 import * as globalActions from '../../reducers/global/globalActions';
 

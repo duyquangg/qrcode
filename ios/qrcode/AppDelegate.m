@@ -10,7 +10,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import <Firebase.h>
+//#import <Firebase.h>
 // iOS 9.x or newer
 #import <React/RCTLinkingManager.h>
 
@@ -36,15 +36,15 @@
 {
  
   // Initialize Firebase
-  @try {
-    [FIRApp configure];
-  }
-  @catch (NSException * e) {
-    NSLog(@"Exception: %@", e);
-  }
-  @finally {
-    NSLog(@"FIRAppConfiguration finally");
-  }
+//  @try {
+//    [FIRApp configure];
+//  }
+//  @catch (NSException * e) {
+//    NSLog(@"Exception: %@", e);
+//  }
+//  @finally {
+//    NSLog(@"FIRAppConfiguration finally");
+//  }
   
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

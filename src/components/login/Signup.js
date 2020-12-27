@@ -13,7 +13,6 @@ import Loader from '../icons/Loader';
 import ls from '../../lib/localStorage';
 import Toast from '../toast/Toast';
 
-import Firebase, { db } from '../firebase/FirebaseConfig';
 import * as globalActions from '../../reducers/global/globalActions';
 import userApi from '../../lib/userApi';
 
