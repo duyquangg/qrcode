@@ -86,22 +86,8 @@ class AddReason extends Component {
                         autoCapitalize="none"
                     />
                 </View>
-                <TouchableOpacity onPress={this.onSend.bind(this)} style={styles.button}>
-                    <Text style={styles.buttonTitle}>Gửi</Text>
-                </TouchableOpacity>
             </KeyboardAwareScrollView>
         )
-    }
-
-    onSend = () => {
-        let { typeReason, reason, valueDate1, valueDate2 } = this.state;
-        if (!reason) {
-            this.refs.toastTop.show('Lý do không được để trống!');
-            return;
-        };
-        console.log('===>valueDate1 ', valueDate1);
-        console.log('===>valueDate2 ', valueDate2);
-        console.log('===>reason ', reason);
     }
     _renderFrom() {
         const { showDate1, valueDate1 } = this.state;
@@ -184,11 +170,33 @@ class AddReason extends Component {
     datepicker2 = () => {
         this.setState({ showDate2: true })
     };
+    _renderFooter() {
+        return (
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.viewButton}
+                  onPress={this.onSend.bind(this)}
+                >
+                    <Text style={styles.footerText}>Gửi</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+    onSend = () => {
+        let { typeReason, reason, valueDate1, valueDate2 } = this.state;
+        if (!reason) {
+            this.refs.toastTop.show('Lý do không được để trống!');
+            return;
+        };
+        console.log('===>valueDate1 ', valueDate1);
+        console.log('===>valueDate2 ', valueDate2);
+        console.log('===>reason ', reason);
+    }
     render() {
         return (
             <View style={styles.container}>
                 {this._renderHeader()}
                 {this._renderBody()}
+                {this._renderFooter()}
                 <Toast
                     ref="toastTop"
                     position='top'
@@ -251,25 +259,33 @@ const styles = StyleSheet.create({
         width: gui.screenWidth - 32,
         paddingHorizontal: 16,
     },
-    button: {
-        backgroundColor: '#34626c',
-        marginHorizontal: 16,
-        marginTop: 20,
-        height: 48,
-        borderRadius: 5,
-        alignItems: "center",
-        justifyContent: 'center'
-    },
-    buttonTitle: {
-        color: 'white',
-        fontSize: 16,
-        fontWeight: "bold"
-    },
     viewChooseBOD: {
         flexDirection: 'row',
         alignItems: 'center',
         marginRight: 14,
         justifyContent: 'space-between',
+    },
+    footer: {
+        height: 68,
+        width: gui.screenWidth,
+        position: 'absolute',
+        bottom: 0,
+        alignItems: 'center',
+        paddingTop: 8,
+        backgroundColor: '#fff'
+    },
+    footerText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    viewButton: {
+        height: 48,
+        width: gui.screenWidth - 32,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#34626c'
     },
 })
 
