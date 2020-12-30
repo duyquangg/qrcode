@@ -61,7 +61,6 @@ class Scan extends Component {
     };
   }
   onSuccess = async (e) => {
-    let { checkInTime } = this.state;
     if (e.data == 'checkin at PTIT') {
       alert('Checkin thành công!')
       let dtoCreate = {

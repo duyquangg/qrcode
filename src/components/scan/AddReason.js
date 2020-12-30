@@ -25,9 +25,9 @@ class AddReason extends Component {
             reason: '',
             typeReason: 'leave',
             showDate1: false,
-            valueDate1: moment().format('DD/MM/YYYY'),
+            valueDate1: new Date().getTime(),
             showDate2: false,
-            valueDate2: moment().format('DD/MM/YYYY'),
+            valueDate2: new Date().getTime(),
         }
     }
     _renderHeader = () => {
@@ -96,12 +96,13 @@ class AddReason extends Component {
                     style={styles.viewChooseBOD}
                     onPress={this.datepicker1.bind(this)}
                 >
-                    <Text style={styles.titleTextBody}>{valueDate1}</Text>
+                    <Text style={styles.titleTextBody}>{moment(valueDate1).format('DD/MM/YYYY')}</Text>
                     <Image source={calendar} />
                 </TouchableOpacity>
                 <DateTimePickerModal
                     headerTextIOS={'Chọn ngày'}
                     confirmTextIOS={'Lưu'}
+                    isDarkModeEnabled
                     locale="vn-VN" // Use "en_GB" here
                     cancelTextIOS={'Huỷ'}
                     isVisible={showDate1}
@@ -113,14 +114,14 @@ class AddReason extends Component {
         );
     }
     setDate1 = (valueDate) => {
-        let checkDate = moment(valueDate).format("DD-MM-YYYY");
-        let now = moment(Date.now()).format('DD-MM-YYYY');
+        let checkDate = moment(valueDate).format("DD/MM/YYYY");
+        let now = moment(Date.now()).format('DD/MM/YYYY');
         if (checkDate < now) {
             this.refs.toastTop.show('Không được chọn nhỏ hơn ngày hiện tại!');
             return;
         };
         this.setState({
-            valueDate1: checkDate,
+            valueDate1: checkDate ? valueDate : valueDate,
             showDate1: false
         });
     };
@@ -137,13 +138,14 @@ class AddReason extends Component {
                     style={styles.viewChooseBOD}
                     onPress={this.datepicker2.bind(this)}
                 >
-                    <Text style={styles.titleTextBody}>{valueDate2}</Text>
+                    <Text style={styles.titleTextBody}>{moment(valueDate2).format('DD/MM/YYYY')}</Text>
                     <Image source={calendar} />
                 </TouchableOpacity>
                 <DateTimePickerModal
                     headerTextIOS={'Chọn ngày'}
                     confirmTextIOS={'Lưu'}
                     locale="vn-VN" // Use "en_GB" here
+                    isDarkModeEnabled
                     cancelTextIOS={'Huỷ'}
                     isVisible={showDate2}
                     mode="date"
@@ -160,7 +162,7 @@ class AddReason extends Component {
             return;
         }
         this.setState({
-            valueDate2: checkDate,
+            valueDate2: checkDate ? valueDate : valueDate,
             showDate2: false
         });
     };
@@ -181,13 +183,33 @@ class AddReason extends Component {
     }
     onSend = () => {
         let { typeReason, reason, valueDate1, valueDate2 } = this.state;
+        let check = typeReason == 'leave' ? 1 : 2;
         if (!reason) {
             this.refs.toastTop.show('Lý do không được để trống!');
             return;
         };
-        console.log('===>valueDate1 ', valueDate1);
-        console.log('===>valueDate2 ', valueDate2);
-        console.log('===>reason ', reason);
+        if (check == 1) {
+            let dtoCreate = {
+                userID: this.props.global.currentUser.userID,
+                reason: check,
+                note: reason,
+                fromDate: valueDate1,
+                toDate: valueDate2,
+            }
+            userApi.timeCreate(dtoCreate).then(e => {
+                console.log('====> bao nghi', e);
+            });
+        } else {
+            let dtoCreate = {
+                userID: this.props.global.currentUser.userID,
+                reason: check,
+                note: reason,
+                onDate: valueDate1
+            }
+            userApi.timeCreate(dtoCreate).then(e => {
+                console.log('====> den muon', e);
+            });
+        }
     }
     render() {
         return (

@@ -296,6 +296,7 @@ class EditInfo extends Component {
             headerTextIOS={'Chọn ngày sinh'}
             confirmTextIOS={'Lưu'}
             locale="vn-VN" // Use "en_GB" here
+            isDarkModeEnabled
             cancelTextIOS={'Huỷ'}
             isVisible={showDate}
             mode="date"
