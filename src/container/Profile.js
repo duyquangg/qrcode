@@ -43,15 +43,16 @@ class Profile extends Component {
       dataUser: props.global.currentUser,
     };
   }
-  componentDidMount = async () => {
-    let dto = {
-      userID: this.props.global.currentUser.userID
-    }
-    let resApi = await userApi.getByID(dto);
-    if (resApi.status == 200) {
-      this.setState({ data: resApi.data });
-    }
-  }
+  // componentDidMount = async () => {
+  //   let dto = {
+  //     userID: this.props.global.currentUser.userID
+  //   }
+  //   let resApi = await userApi.getByID(dto);
+  //   if (resApi.status == 200) {
+  //     this.setState({ data: resApi.data });
+  //   }
+  // }
+  
   // componentDidUpdate(prevProps, prevState) {
   //   console.log('===> prevState componentDidUpdate', prevState)
   //   console.log('===> prevProps componentDidUpdate', prevProps.global.currentUser.fullName)
@@ -138,7 +139,7 @@ class Profile extends Component {
     let resApi = await userApi.getByID(dto);
     if (resApi.status == 200) {
       this.setState({ dataUser: resApi.data }, () => {
-        console.log('====> resApiresApi',resApi.data);
+        console.log('====> resApiresApi', resApi.data);
         this.props.actions.onUserFieldChange('fullName', resApi.data.fullName);
         this.props.actions.onUserFieldChange('avatar', resApi.data.avatar);
         this.props.actions.onUserFieldChange('birthDate', resApi.data.birthDate);

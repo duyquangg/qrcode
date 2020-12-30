@@ -62,6 +62,7 @@ class History extends Component {
       role: this.props.global.currentUser.role,
     };
     let resGetHistory = await userApi.getHistory(dtoUser);
+    console.log('====> resGetHistory', resGetHistory)
     if (resGetHistory.status == 200) {
       let data = resGetHistory.data;
       this.setState({ dataUser: data })
@@ -95,18 +96,6 @@ class History extends Component {
   }
   _renderBody() {
     let { dataUser } = this.state;
-    // console.log('===> dataUser', dataUser);
-    // let check1 = null;
-    // let dataNew = null;
-    // dataUser.forEach(e => {
-    //   let date = moment(e.checkInTime).format('DD-MM-YYYY');
-    //   if(date !== moment(e.checkInTime).format('DD-MM-YYYY')){
-    //     dataNew.push(e);
-    //   }
-    // });
-    // console.log('===> dataNew',dataNew);
-    // console.log('===> dataUser',dataUser);
-
     return (
       <FlatList
         refreshControl={
@@ -190,7 +179,10 @@ class FlatListItem extends Component {
           <View style={styles.viewRowTime}>
             <View style={{ marginLeft: 10 }}>
               <Text style={styles.textName}>{item.fullName}</Text>
-              {this._renderRowTime('caret-right', `${moment(item.checkInTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)}
+              {item.checkInTime ?
+                this._renderRowTime('caret-right', `${moment(item.checkInTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)
+                : null
+              }
               {item.checkOutTime ?
                 this._renderRowTime('caret-left', `${moment(item.checkOutTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)
                 : null

@@ -44,6 +44,7 @@ class Scan extends Component {
       userID: this.props.global.currentUser.userID
     };
     let resGetTimeByUser = await userApi.timeGetByUserID(dto);
+    console.log('====> resGetTimeByUser',resGetTimeByUser.data[0]);
     if (resGetTimeByUser.status == 200) {
       let data = resGetTimeByUser.data[0];
       this.setState({ dataCheck: data })
