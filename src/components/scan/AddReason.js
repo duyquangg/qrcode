@@ -74,18 +74,16 @@ class AddReason extends Component {
                 <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
                 {this._renderTo()}
                 <Text style={[styles.labelText, { marginTop: -10 }]}>Lý do</Text>
-                <View style={styles.viewInput}>
-                    <TextInput
-                        style={styles.input}
-                        placeholderTextColor="#a6a9b6"
-                        placeholder='Lý do...'
-                        multiline
-                        onChangeText={(reason) => this.setState({ reason })}
-                        value={this.state.reason}
-                        underlineColorAndroid="transparent"
-                        autoCapitalize="none"
-                    />
-                </View>
+                <TextInput
+                    style={styles.input}
+                    placeholderTextColor="#a6a9b6"
+                    placeholder='Lý do...'
+                    multiline
+                    onChangeText={(reason) => this.setState({ reason })}
+                    value={this.state.reason}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />
             </KeyboardAwareScrollView>
         )
     }
@@ -174,7 +172,7 @@ class AddReason extends Component {
         return (
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.viewButton}
-                  onPress={this.onSend.bind(this)}
+                    onPress={this.onSend.bind(this)}
                 >
                     <Text style={styles.footerText}>Gửi</Text>
                 </TouchableOpacity>
@@ -239,25 +237,21 @@ const styles = StyleSheet.create({
         color: '#4b515d',
         marginLeft: 8,
     },
-    viewInput: {
+    input: {
+        width: gui.screenWidth - 32,
+        height: 100,
+        color: '#000',
         marginHorizontal: 16,
-        height: 48,
+        padding: 10,
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#34626c',
         marginTop: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     viewChooseDate: {
         marginHorizontal: 16,
         height: 48,
         borderColor: '#34626c',
-    },
-    input: {
-        height: 30,
-        width: gui.screenWidth - 32,
-        paddingHorizontal: 16,
     },
     viewChooseBOD: {
         flexDirection: 'row',
