@@ -59,7 +59,8 @@ class EditInfo extends Component {
       avatar: avatar ? avatar : null,
       gender: gender ? gender : 'male',
 
-      birthDate: birthDate ? moment(birthDate).format('MM-DD-YYYY') : null,
+      // birthDate: birthDate ? birthDate : new Date().getTime(),
+      birthDate: birthDate ? birthDate : null,
       mode: 'date',
       showDate: false,
 
@@ -109,7 +110,7 @@ class EditInfo extends Component {
   }
   onSave = () => {
     let { fullName, phone, avatar, gender, birthDate } = this.state;
-    let checkDate = birthDate ? new Date(birthDate).getTime() : '';
+    console.log('====> birthDate',birthDate);
     if (!fullName) {
       this.refs.toastTop.show("Tên không được để trống!");
       return;
@@ -125,7 +126,7 @@ class EditInfo extends Component {
       phone, 
       avatar,
       gender, 
-      birthDate: checkDate
+      birthDate: birthDate
     }
     userApi.updateByID(dto)
       .then(e => {
@@ -289,7 +290,7 @@ class EditInfo extends Component {
           style={styles.viewChooseBOD}
           onPress={this.datepicker.bind(this)}
         >
-          <Text style={styles.titleTextBody}>{birthDate}</Text>
+          <Text style={styles.titleTextBody}>{moment(birthDate).format('DD-MM-YYYY')}</Text>
           <Image source={calendar} />
         </TouchableOpacity>
           <DateTimePickerModal
@@ -307,13 +308,12 @@ class EditInfo extends Component {
     );
   }
   setDate = (valueDate) => {
-    let checkDate = moment(valueDate).format("DD-MM-YYYY");
     if(valueDate > new Date().getTime()){
       this.refs.toastTop.show('Không được chọn lớn hơn ngày hiện tại!');
       return;
     }
     this.setState({
-      birthDate: checkDate,
+      birthDate: valueDate,
       showDate: false
     });
   };

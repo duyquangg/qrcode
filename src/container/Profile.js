@@ -60,6 +60,7 @@ class Profile extends Component {
   render() {
     let AvaUser = require('../assets/images/user.png');
     let { email, avatar } = this.state.dataUser;
+    // console.log('====> dataUser',this.state.dataUser);
     if (!this.state.dataUser) {
       return <Loader />
     }
