@@ -77,7 +77,7 @@ class Scan extends Component {
 
   render() {
     let { isCheckCam, typeCam, allData, dataUser, dataCheck } = this.state;
-    console.log('===> data checkIn', dataCheck);
+    // console.log('===> data checkIn', dataCheck);
     if (!allData) {
       return <Loader />
     }

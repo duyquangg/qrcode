@@ -61,7 +61,7 @@ class AddReason extends Component {
         return (
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
-                keyboardShouldPersistTaps="always"
+                keyboardShouldPersistTaps="handled"
             >
                 <Text style={styles.labelText}>Chọn lý do</Text>
                 <View style={styles.viewChoose}>
@@ -79,10 +79,12 @@ class AddReason extends Component {
                     placeholderTextColor="#a6a9b6"
                     placeholder='Lý do...'
                     multiline
+                    numberOfLines={3}
                     onChangeText={(reason) => this.setState({ reason })}
                     value={this.state.reason}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
+                    autoCorrect={false}
                 />
             </KeyboardAwareScrollView>
         )
@@ -188,26 +190,39 @@ class AddReason extends Component {
             this.refs.toastTop.show('Lý do không được để trống!');
             return;
         };
+        this.setState({ loading: true });
         if (check == 1) {
             let dtoCreate = {
                 userID: this.props.global.currentUser.userID,
                 reason: check,
-                note: reason,
+                note: reason.trim(),
                 fromDate: valueDate1,
                 toDate: valueDate2,
             }
             userApi.timeCreate(dtoCreate).then(e => {
                 console.log('====> bao nghi', e);
+                this.setState({
+                    loading: false,
+                }, () => {
+                    Actions.pop();
+                    this.props.doRefresh && this.props.doRefresh();
+                })
             });
         } else {
             let dtoCreate = {
                 userID: this.props.global.currentUser.userID,
                 reason: check,
-                note: reason,
+                note: reason.trim(),
                 onDate: valueDate1
             }
             userApi.timeCreate(dtoCreate).then(e => {
                 console.log('====> den muon', e);
+                this.setState({
+                    loading: false,
+                }, () => {
+                    Actions.pop();
+                    this.props.doRefresh && this.props.doRefresh();
+                })
             });
         }
     }
@@ -217,6 +232,7 @@ class AddReason extends Component {
                 {this._renderHeader()}
                 {this._renderBody()}
                 {this._renderFooter()}
+                <Loader loading={this.state.loading} />
                 <Toast
                     ref="toastTop"
                     position='top'
