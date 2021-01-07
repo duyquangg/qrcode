@@ -5,8 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Linking,
-  Alert
+  Alert,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -17,20 +16,18 @@ import { Map } from 'immutable';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Loader from '../icons/Loader';
 import CommonHeader from '../header/CommonHeader';
 import gui from '../../lib/gui';
 import userApi from '../../lib/userApi';
 import * as globalActions from '../../reducers/global/globalActions';
 import { Actions } from 'react-native-router-flux';
 
-class Scan extends Component {
+class CheckIn extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isCheckCam: false,
       typeCam: false,
-      allData: [],
 
 
       dataUser: props.global.currentUser,
@@ -59,26 +56,23 @@ class Scan extends Component {
   }
   onSuccess = async (e) => {
     if (e.data == 'HELLO WORLD') {
-      Alert.alert('Thông báo', 'Checkin thành công!')
+      alert('Checkin thành công!')
       let dtoCreate = {
         userID: this.props.global.currentUser.userID,
         checkInTime: Date.now(),
       }
       await userApi.timeCreate(dtoCreate).then(e => {
-        console.log('====> e', e);
+        console.log('====> e',e);
       })
-        .catch(e => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
-    } else {
+      .catch((e) => Alert.alert('Thông báo','Mã QR không hợp lệ!'))
+    }else {
       Alert.alert('Mã quét được',`${e.data}`);
     }
   };
 
   render() {
-    let { isCheckCam, typeCam, allData, dataUser, dataCheck } = this.state;
-    // console.log('===> data checkIn', dataCheck);
-    if (!allData) {
-      return <Loader />
-    }
+    let { isCheckCam, typeCam, dataUser, dataCheck } = this.state;
+    console.log('===> data checkIn', dataCheck);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         {this._renderHeader()}
@@ -174,4 +168,4 @@ const mapStateToProps = state => {
     ...state
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Scan);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckIn);

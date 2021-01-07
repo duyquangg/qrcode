@@ -5,11 +5,12 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Alert
+  Alert,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { Map } from 'immutable';
@@ -23,13 +24,12 @@ import userApi from '../../lib/userApi';
 import * as globalActions from '../../reducers/global/globalActions';
 import { Actions } from 'react-native-router-flux';
 
-class checkOut extends Component {
+class CheckOut extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isCheckCam: false,
       typeCam: false,
-      allData: [],
 
 
       dataUser: props.global.currentUser,
@@ -57,27 +57,25 @@ class checkOut extends Component {
     };
   }
   onSuccess = async (e) => {
+    let { dataCheck } = this.state;
+    let id = dataCheck.id;
     if (e.data == 'HELLO WORLD') {
-      Alert.alert('Thông báo', 'Checkout thành công!')
-      let dtoCreate = {
-        userID: this.props.global.currentUser.userID,
-        checkInTime: Date.now(),
+      alert('checkOut thành công!')
+      let dtoUpdated = {
+        id,
+        checkOutTime: Date.now(),
       }
-      await userApi.timeCreate(dtoCreate).then(e => {
-        console.log('====> e', e);
+      await userApi.timeUpdateByID(dtoUpdated).then(e => {
+        console.log('====> Updated Checkout', e);
       })
-        .catch(e => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
+        .catch((e) => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
     } else {
-      Alert.alert('Mã quét được',`${e.data}`);
+      Alert.alert('Mã quét được', `${e.data}`);
     }
   };
 
   render() {
-    let { isCheckCam, typeCam, allData, dataUser, dataCheck } = this.state;
-    // console.log('===> data checkOut', dataCheck.id);
-    if (!allData) {
-      return <Loader />
-    }
+    let { isCheckCam, typeCam } = this.state;
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         {this._renderHeader()}
@@ -173,4 +171,4 @@ const mapStateToProps = state => {
     ...state
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(checkOut);
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOut);
