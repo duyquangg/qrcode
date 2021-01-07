@@ -27,6 +27,7 @@ import AddReason from "./components/scan/AddReason";
 //profile
 import EditInfo from "./components/profile/EditInfo";
 import History from "./components/profile/History";
+import CreateQr from "./components/profile/CreateQr";
 
 import gui from './lib/gui';
 import ls from './lib/localStorage';
@@ -105,7 +106,7 @@ class AppRouter extends Component {
               />
               <Scene
                 key="Profile"
-                // initial
+                initial
                 component={Profile}
                 hideNavBar
                 title="Cá nhân"
@@ -156,6 +157,12 @@ class AppRouter extends Component {
               // initial
               component={History}
               title="History"
+            />
+            <Scene
+              key="CreateQr"
+              // initial
+              component={CreateQr}
+              title="CreateQr"
             />
           </Scene>
         </Router>

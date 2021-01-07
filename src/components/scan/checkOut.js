@@ -63,7 +63,7 @@ class checkOut extends Component {
   onSuccess = async (e) => {
     let { dataCheck } = this.state;
     let id = dataCheck.id;
-    if (e.data == 'checkin at PTIT') {
+    if (e.data == 'HELLO WORLD') {
       alert('checkOut thành công!')
       let dtoUpdated = {
         id,

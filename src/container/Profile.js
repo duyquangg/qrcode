@@ -97,11 +97,11 @@ class Profile extends Component {
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.viewLogout}
+          <TouchableOpacity style={[styles.viewLogout, {marginTop:15}]}
             onPress={() => Actions.CreateQr()}>
             <View style={styles.viewRowLogout}>
-              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
-              <Text style={styles.textLogout}>QR</Text>
+              <FontAwesome name={"qrcode"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
+              <Text style={styles.textLogout}>Tạo mã QR</Text>
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>

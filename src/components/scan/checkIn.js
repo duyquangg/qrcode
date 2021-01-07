@@ -61,7 +61,7 @@ class Scan extends Component {
     };
   }
   onSuccess = async (e) => {
-    if (e.data == 'checkin at PTIT') {
+    if (e.data == 'HELLO WORLD') {
       alert('Checkin thành công!')
       let dtoCreate = {
         userID: this.props.global.currentUser.userID,
