@@ -97,6 +97,14 @@ class Profile extends Component {
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
+          <TouchableOpacity style={styles.viewLogout}
+            onPress={() => Actions.CreateQr()}>
+            <View style={styles.viewRowLogout}>
+              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
+              <Text style={styles.textLogout}>QR</Text>
+            </View>
+            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
+          </TouchableOpacity>
           <View style={styles.footer}>
             <Text style={styles.textFooter}>Phiên bản</Text>
             <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
