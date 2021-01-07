@@ -5,15 +5,11 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Alert,
-  Platform,
-  Dimensions
+  Alert
 } from 'react-native';
-const { width, height } = Dimensions.get('window');
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
-import moment from 'moment';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { Map } from 'immutable';
@@ -61,19 +57,18 @@ class checkOut extends Component {
     };
   }
   onSuccess = async (e) => {
-    let { dataCheck } = this.state;
-    let id = dataCheck.id;
     if (e.data == 'HELLO WORLD') {
-      alert('checkOut thành công!')
-      let dtoUpdated = {
-        id,
-        checkOutTime: Date.now(),
+      Alert.alert('Thông báo', 'Checkin thành công!')
+      let dtoCreate = {
+        userID: this.props.global.currentUser.userID,
+        checkInTime: Date.now(),
       }
-      await userApi.timeUpdateByID(dtoUpdated).then(e => {
-        console.log('====> Updated Checkout', e);
+      await userApi.timeCreate(dtoCreate).then(e => {
+        console.log('====> e', e);
       })
+        .catch(e => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
     } else {
-      alert('Mã QR không hợp lệ!')
+      Alert.alert('Mã quét được',`${e.data}`);
     }
   };
 

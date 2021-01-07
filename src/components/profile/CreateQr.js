@@ -110,7 +110,6 @@ class CreateQr extends Component {
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="handled"
             >
-
                 <TextInput
                     style={styles.input}
                     placeholder='Nhập giá trị cần tạo...'
@@ -123,7 +122,7 @@ class CreateQr extends Component {
                     autoCapitalize="none"
                 />
                 <TouchableOpacity style={styles.viewRow} onPress={() => this.setState({ showModal: true })}>
-                    <Text>Chọn cấp độ sửa lỗi: </Text>
+                    <Text>Chọn mức độ sửa lỗi: </Text>
                     <View style={styles.viewChooseModal}>
                         {selectedError ? <Text>{selectedError.name}</Text> : null}
                         <FontAwesome name={'angle-down'} size={18} style={{ marginLeft: 5 }} />
@@ -140,7 +139,6 @@ class CreateQr extends Component {
                     </View>
                     : null
                 }
-
             </KeyboardAwareScrollView>
         );
     }

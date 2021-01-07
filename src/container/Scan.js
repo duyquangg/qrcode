@@ -5,13 +5,9 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Alert,
-  Platform,
-  Dimensions,
   ScrollView,
   RefreshControl
 } from 'react-native';
-const { width, height } = Dimensions.get('window');
 
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
@@ -21,7 +17,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 
-import Loader from '../components/icons/Loader';
 import HeaderScan from '../components/header/HeaderScan';
 import Toast from "../components/toast/Toast";
 import gui from '../lib/gui';
