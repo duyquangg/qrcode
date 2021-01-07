@@ -52,7 +52,7 @@ class Profile extends Component {
   //     this.setState({ data: resApi.data });
   //   }
   // }
-  
+
   // componentDidUpdate(prevProps, prevState) {
   //   console.log('===> prevState componentDidUpdate', prevState)
   //   console.log('===> prevProps componentDidUpdate', prevProps.global.currentUser.fullName)
@@ -90,18 +90,18 @@ class Profile extends Component {
             {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data: this.state.dataUser, doRefresh: this.fetchData.bind(this) }))}
           </View>
           <TouchableOpacity style={styles.viewLogout}
-            onPress={this.onActionsPress.bind(this)}>
-            <View style={styles.viewRowLogout}>
-              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
-              <Text style={styles.textLogout}>Đăng xuất</Text>
-            </View>
-            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.viewLogout, {marginTop:15}]}
             onPress={() => Actions.CreateQr()}>
             <View style={styles.viewRowLogout}>
               <FontAwesome name={"qrcode"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
               <Text style={styles.textLogout}>Tạo mã QR</Text>
+            </View>
+            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.viewLogout, { marginTop: 15 }]}
+            onPress={this.onActionsPress.bind(this)}>
+            <View style={styles.viewRowLogout}>
+              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
+              <Text style={styles.textLogout}>Đăng xuất</Text>
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
