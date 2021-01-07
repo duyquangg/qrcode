@@ -58,7 +58,7 @@ class checkOut extends Component {
   }
   onSuccess = async (e) => {
     if (e.data == 'HELLO WORLD') {
-      Alert.alert('Thông báo', 'Checkin thành công!')
+      Alert.alert('Thông báo', 'Checkout thành công!')
       let dtoCreate = {
         userID: this.props.global.currentUser.userID,
         checkInTime: Date.now(),
