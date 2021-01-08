@@ -29,6 +29,10 @@ import EditInfo from "./components/profile/EditInfo";
 import History from "./components/profile/History";
 import CreateQr from "./components/profile/CreateQr";
 
+//admin
+import InfoUser from "./components/admin/InfoUser";
+import AddUser from "./components/admin/AddUser";
+
 import gui from './lib/gui';
 import ls from './lib/localStorage';
 
@@ -163,6 +167,18 @@ class AppRouter extends Component {
               // initial
               component={CreateQr}
               title="CreateQr"
+            />
+            <Scene
+              key="InfoUser"
+              // initial
+              component={InfoUser}
+              title="InfoUser"
+            />
+            <Scene
+              key="AddUser"
+              // initial
+              component={AddUser}
+              title="AddUser"
             />
           </Scene>
         </Router>

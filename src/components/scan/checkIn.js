@@ -62,11 +62,11 @@ class CheckIn extends Component {
         checkInTime: Date.now(),
       }
       await userApi.timeCreate(dtoCreate).then(e => {
-        console.log('====> e',e);
+        console.log('====> e', e);
       })
-      .catch((e) => Alert.alert('Thông báo','Mã QR không hợp lệ!'))
-    }else {
-      Alert.alert('Mã quét được',`${e.data}`);
+        .catch((e) => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
+    } else {
+      Alert.alert('Mã quét được', `${e.data}`);
     }
   };
 
@@ -84,14 +84,11 @@ class CheckIn extends Component {
           cameraType={typeCam && typeCam ? 'front' : 'back'}
           containerStyle={{ backgroundColor: '#fff' }}
           flashMode={isCheckCam && isCheckCam ? RNCamera.Constants.FlashMode.torch : RNCamera.Constants.FlashMode.off}
-          // topContent={
-          //   <View style={{ marginTop: Platform.OS === 'ios' ? ((height === 812 || width === 812 || height === 896 || width === 896) ? 30 : 10) : 10 }}>
-          //       <Text style={styles.centerText}>Checkin</Text>
-          //   </View>
-          // }
           bottomContent={
             <View>
-              <TouchableOpacity disabled={this.state.typeCam} onPress={() => this.setState({ isCheckCam: !this.state.isCheckCam })}
+              <TouchableOpacity disabled={this.state.typeCam} onPress={() =>
+                this.setState({ isCheckCam: !this.state.isCheckCam })
+              }
                 style={styles.buttonTouchable}
               >
                 <Text style={styles.buttonText}>{this.state.isCheckCam ? 'Turn off' : 'Turn on'} </Text>

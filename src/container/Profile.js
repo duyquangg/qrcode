@@ -97,6 +97,17 @@ class Profile extends Component {
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
+          {this.props.global.currentUser.role == 'admin' ?
+            <TouchableOpacity style={[styles.viewLogout, { marginTop: 15 }]}
+              onPress={() => Actions.InfoUser()}>
+              <View style={styles.viewRowLogout}>
+                <FontAwesome name={"users"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
+                <Text style={styles.textLogout}>Thông tin thành viên</Text>
+              </View>
+              <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
+            </TouchableOpacity>
+            : null
+          }
           <TouchableOpacity style={[styles.viewLogout, { marginTop: 15 }]}
             onPress={this.onActionsPress.bind(this)}>
             <View style={styles.viewRowLogout}>
@@ -105,16 +116,24 @@ class Profile extends Component {
             </View>
             <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
           </TouchableOpacity>
-          <View style={styles.footer}>
+          {/* <View style={styles.footer}>
             <Text style={styles.textFooter}>Phiên bản</Text>
             <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
-          </View>
+          </View> */}
         </LinearGradient>
         {/* </ScrollView> */}
       </View>
     );
   }
   _renderBody = (source, text, onPress) => {
+    return (
+      <TouchableOpacity style={styles.viewRowBody} onPress={onPress}>
+        <FontAwesome name={source} color={'#fff'} size={26} />
+        <Text style={styles.normalTextBody}>{text}</Text>
+      </TouchableOpacity>
+    );
+  };
+  _renderRowBody = (source, text, onPress) => {
     return (
       <TouchableOpacity style={styles.viewRowBody} onPress={onPress}>
         <FontAwesome name={source} color={'#fff'} size={26} />
@@ -203,7 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginLeft: 16,
     height: 106,
-    marginTop: 44,
+    marginTop: 30,
   },
   viewRowBody: {
     width: (gui.screenWidth - 32) / 2 - 8,
@@ -222,7 +241,7 @@ const styles = StyleSheet.create({
     marginLeft: 16,
     width: gui.screenWidth - 32,
     borderRadius: 8,
-    marginTop: 32,
+    marginTop: 25,
     flexDirection: 'row',
     backgroundColor: '#839b97',
     justifyContent: 'space-between',
