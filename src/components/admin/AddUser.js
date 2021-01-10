@@ -3,9 +3,9 @@ import {
     View,
     Text,
     StyleSheet,
-    FlatList,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -96,7 +96,7 @@ class AddUser extends Component {
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="always">
                 <TextInput
-                    style={[styles.input, {marginTop:50}]}
+                    style={[styles.input, { marginTop: 50 }]}
                     placeholder='Họ và tên'
                     placeholderTextColor="#a6a9b6"
                     onChangeText={(fullName) => this.setState({ fullName })}
@@ -149,7 +149,7 @@ class AddUser extends Component {
             </KeyboardAwareScrollView>
         );
     }
-    onRegisterPress = () => {
+    onRegisterPress = async () => {
         let { email, password, fullName } = this.state;
         if (!fullName) {
             this.refs.toastTop.show("Họ và tên không được để trống!");
@@ -170,24 +170,23 @@ class AddUser extends Component {
             this.setState({ email });
             this.refs.toastTop.show("Email không đúng định dạng!");
             return false;
-        } else {
-            userApi.register(email, password, fullName)
-                .then(e => {
-                    this.setState({ loading: true })
-                    if (e.status == 200) {
-                        Alert.alert('Thông báo', 'Thêm thành viên thành công!');
-                        this.setState({
-                            email: '',
-                            password: '',
-                            fullName: '',
-                            loading: false
-                        });
-                    }
-                })
-                .catch((res) => {
-					this.refs.toastTop.show("Quá trình thêm thành viên xảy ra lỗi. Bạn vui lòng thử lại sau");
-				})
         }
+        await userApi.register(email, password, fullName)
+            .then(e => {
+                this.setState({ loading: true })
+                if (e.status == 200) {
+                    Alert.alert('Thông báo', 'Thêm thành viên thành công!');
+                    this.setState({
+                        email: '',
+                        password: '',
+                        fullName: '',
+                        loading: false
+                    });
+                }
+            })
+            .catch((res) => {
+                this.refs.toastTop.show("Quá trình thêm thành viên xảy ra lỗi. Bạn vui lòng thử lại sau");
+            })
     }
 }
 const styles = StyleSheet.create({

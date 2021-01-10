@@ -89,33 +89,14 @@ class Profile extends Component {
             {this._renderBody('history', 'Lịch sử', () => Actions.History())}
             {this._renderBody('edit', 'Sửa thông tin', () => Actions.EditInfo({ data: this.state.dataUser, doRefresh: this.fetchData.bind(this) }))}
           </View>
-          <TouchableOpacity style={styles.viewLogout}
-            onPress={() => Actions.CreateQr()}>
-            <View style={styles.viewRowLogout}>
-              <FontAwesome name={"qrcode"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
-              <Text style={styles.textLogout}>Tạo mã QR</Text>
-            </View>
-            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
-          </TouchableOpacity>
           {this.props.global.currentUser.role == 'admin' ?
-            <TouchableOpacity style={[styles.viewLogout, { marginTop: 15 }]}
-              onPress={() => Actions.InfoUser()}>
-              <View style={styles.viewRowLogout}>
-                <FontAwesome name={"users"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
-                <Text style={styles.textLogout}>Thông tin thành viên</Text>
-              </View>
-              <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
-            </TouchableOpacity>
+            <View>
+              {this._renderRowBody('qrcode', 'Tạo mã QR', () => Actions.CreateQr(),25)}
+              {this._renderRowBody('users', 'Thông tin thành viên', () => Actions.InfoUser(),15)}
+            </View>
             : null
           }
-          <TouchableOpacity style={[styles.viewLogout, { marginTop: 15 }]}
-            onPress={this.onActionsPress.bind(this)}>
-            <View style={styles.viewRowLogout}>
-              <FontAwesome name={"sign-out"} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
-              <Text style={styles.textLogout}>Đăng xuất</Text>
-            </View>
-            <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
-          </TouchableOpacity>
+           {this._renderRowBody('sign-out', 'Đăng xuất', this.onActionsPress.bind(this),this.props.global.currentUser.role == 'admin' ? 15 : 25)}
           {/* <View style={styles.footer}>
             <Text style={styles.textFooter}>Phiên bản</Text>
             <Text style={[styles.textFooter, { fontSize: 14 }]}>1.0.1</Text>
@@ -133,11 +114,15 @@ class Profile extends Component {
       </TouchableOpacity>
     );
   };
-  _renderRowBody = (source, text, onPress) => {
+  _renderRowBody = (icon, title, onPress, marginTop) => {
     return (
-      <TouchableOpacity style={styles.viewRowBody} onPress={onPress}>
-        <FontAwesome name={source} color={'#fff'} size={26} />
-        <Text style={styles.normalTextBody}>{text}</Text>
+      <TouchableOpacity style={[styles.viewLogout, { marginTop }]}
+        onPress={onPress}>
+        <View style={styles.viewRowLogout}>
+          <FontAwesome name={icon} color={'#fff'} size={20} style={{ opacity: 0.9 }} />
+          <Text style={styles.textLogout}>{title}</Text>
+        </View>
+        <FontAwesome name={"chevron-right"} color={'#fff'} size={18} style={{ marginRight: 12, opacity: 0.8 }} />
       </TouchableOpacity>
     );
   };
