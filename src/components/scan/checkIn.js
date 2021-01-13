@@ -55,14 +55,14 @@ class CheckIn extends Component {
     };
   }
   onSuccess = async (e) => {
-    if (e.data == 'HELLO WORLD') {
-      alert('Checkin thành công!')
+    if (e.data == 'CHECKIN AT PTIT') {
+      Alert.alert('Thông báo','Checkin thành công!');
       let dtoCreate = {
         userID: this.props.global.currentUser.userID,
         checkInTime: Date.now(),
       }
       await userApi.timeCreate(dtoCreate).then(e => {
-        console.log('====> e', e);
+        console.log('====> checkIn', e);
       })
         .catch((e) => Alert.alert('Thông báo', 'Mã QR không hợp lệ!'))
     } else {

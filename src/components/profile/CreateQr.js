@@ -6,6 +6,7 @@ import {
     FlatList,
     TouchableOpacity,
     TextInput,
+    Alert
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -65,11 +66,36 @@ class CreateQr extends Component {
                 id: 4,
             },
         ];
+        let dataMode = [
+            {
+                key: 'numeric',
+                name: 'Kiểu số',
+            },
+            {
+                key: 'alphanumeric',
+                name: 'Kiểu chuỗi',
+            },
+            {
+                key: 'byte',
+                name: 'Kiểu nhị phân',
+            },
+            {
+                key: 'kanji',
+                name: 'Kiểu Nhật ngữ',
+            },
+        ];
+
         this.state = {
             value: '',
             showModal: false,
             dataError: dataError,
             selectedError: null,
+            version: '',
+            selectedMode: null,
+            showModalMode: false,
+            dataMode: dataMode,
+
+            check: false
         };
     }
     componentDidMount() {
@@ -81,6 +107,7 @@ class CreateQr extends Component {
                 {this._renderHeader()}
                 {this._renderBody()}
                 {this._renderModal()}
+                {this._renderModalMode()}
                 <Toast
                     ref="toastTop"
                     position='top'
@@ -103,21 +130,37 @@ class CreateQr extends Component {
         );
     }
     _renderBody() {
-        let image = require('../../assets/images/ptit.png');
-        let { value, selectedError } = this.state;
+        let { value, selectedError, selectedMode, check, version } = this.state;
         return (
             <KeyboardAwareScrollView
                 style={{ flex: 1, width: '100%' }}
                 keyboardShouldPersistTaps="handled"
             >
+                <TouchableOpacity style={[styles.viewRow, { marginTop: 15 }]} onPress={() => this.setState({ showModalMode: true })}>
+                    <Text>Chọn bộ chỉ chế độ: </Text>
+                    <View style={[styles.viewChooseModal, { width: 'auto' }]}>
+                        {selectedMode ? <Text>{selectedMode.name}</Text> : null}
+                        <FontAwesome name={'angle-down'} size={18} style={{ marginLeft: 5 }} />
+                    </View>
+                </TouchableOpacity>
                 <TextInput
                     style={styles.input}
-                    placeholder='Nhập giá trị cần tạo...'
-                    multiline
-                    numberOfLines={3}
+                    placeholder='Nhập chuỗi giá trị cần tạo...'
+                    // multiline
+                    // numberOfLines={3}
                     placeholderTextColor="#a6a9b6"
                     onChangeText={(value) => this.setState({ value })}
                     value={this.state.value}
+                    underlineColorAndroid="transparent"
+                    autoCapitalize="none"
+                />
+                <TextInput
+                    style={[styles.input, { marginTop: 0 }]}
+                    placeholder='Nhập phiên bản tạo mã (VD: 01-40)...'
+                    placeholderTextColor="#a6a9b6"
+                    onChangeText={(version) => this.setState({ version })}
+                    value={this.state.version}
+                    keyboardType={'numeric'}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
@@ -128,19 +171,45 @@ class CreateQr extends Component {
                         <FontAwesome name={'angle-down'} size={18} style={{ marginLeft: 5 }} />
                     </View>
                 </TouchableOpacity>
-
-                {value !== '' && selectedError !== null ?
+                <TouchableOpacity style={styles.viewButton} onPress={this.createQRCode.bind(this)}>
+                    <Text style={styles.footerText}>Tạo mã </Text>
+                </TouchableOpacity>
+                {check  && value.trim() !== '' ?
                     <View style={styles.viewQR}>
                         <QRCode
-                            value={value.trim()}
-                            size={200}
+                            value={[
+                                {
+                                    data: value.trim(),
+                                    mode: selectedMode.key,
+                                    versions: 3
+                                }
+                            ]}
+                            size={250}
                             ecl={selectedError.name}
+                            onError={() => Alert.alert('Thông báo',`Chuỗi nhập vào không đúng định dạng là ${selectedMode.name}`)}
                         />
                     </View>
                     : null
                 }
             </KeyboardAwareScrollView>
         );
+    }
+    createQRCode = () => {
+        let { value, selectedError, selectedMode, version } = this.state;
+        console.log('-===> version',version)
+        if (!selectedMode) {
+            return this.refs.toastTop.show('Bộ chỉ chế độ không được để trống!');
+        };
+        if (value == '') {
+            return this.refs.toastTop.show('Chuỗi của bạn không được để trống!');
+        };
+        // if (!version) {
+        //     return this.refs.toastTop.show('Phiên bản không được để trống!');
+        // };
+        if (!selectedError) {
+            return this.refs.toastTop.show('Mức độ sửa lỗi không được để trống!');
+        };
+        this.setState({ check: true });
     }
     _renderModal = () => {
         let { showModal, dataError } = this.state;
@@ -181,6 +250,52 @@ class CreateQr extends Component {
                 onPress={() => {
                     this.setState({
                         showModal: false, selectedError: child,
+                    });
+                }}
+            >
+                <Text style={{ color, fontSize: 14 }}>{child.name}</Text>
+            </TouchableOpacity>
+        );
+    };
+    _renderModalMode = () => {
+        let { showModalMode, dataMode } = this.state;
+        return (
+            <Modal
+                style={{
+                    height: "auto",
+                    width: gui.screenWidth - 16,
+                    borderRadius: 10,
+                }}
+                position={"center"}
+                isOpen={showModalMode}
+                swipeToClose={true}
+                backdropPressToClose={true}
+                onClosed={() => {
+                    this.setState({ showModalMode: false });
+                }}
+            >
+                <View style={{ height: "auto" }}>
+                    <FlatList
+                        data={dataMode}
+                        renderItem={this._renderMode.bind(this)}
+                        keyExtractor={(item) => "_renderMode" + item.name.toString()}
+                    />
+                </View>
+            </Modal>
+        );
+    };
+    _renderMode = (item, index) => {
+        let { selectedMode } = this.state;
+        let child = item.item;
+        let check = selectedMode && selectedMode.key == child.key;
+        let backgroundColor = check ? '#34626c' : '#fff';
+        let color = check ? '#fff' : '#242833';
+        return (
+            <TouchableOpacity
+                style={[{ backgroundColor, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 16 }]}
+                onPress={() => {
+                    this.setState({
+                        showModalMode: false, selectedMode: child,
                     });
                 }}
             >
@@ -241,6 +356,7 @@ const styles = StyleSheet.create({
         height: 40,
         width: gui.screenWidth - 32,
         marginLeft: 16,
+        marginTop: 15,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
@@ -256,6 +372,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CreateQr);
