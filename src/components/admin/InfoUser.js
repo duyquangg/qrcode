@@ -5,7 +5,6 @@ import {
     StyleSheet,
     FlatList,
     TouchableOpacity,
-    TextInput,
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -43,7 +42,7 @@ function mapDispatchToProps(dispatch) {
         dispatch
     };
 }
-class CreateQr extends Component {
+class InfoUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -106,65 +105,5 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
     },
-    viewRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: gui.screenWidth - 32,
-        marginLeft: 16,
-        marginTop: 20,
-    },
-    input: {
-        height: 46,
-        width: gui.screenWidth - 32,
-        marginLeft: 16,
-        borderRadius: 5,
-        overflow: 'hidden',
-        color: '#000',
-        borderWidth: 1,
-        borderColor: '#34626c',
-        backgroundColor: 'white',
-        marginTop: 20,
-        marginBottom: 10,
-        paddingHorizontal: 16
-    },
-    viewRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginLeft: 16,
-        width: gui.screenWidth - 32,
-    },
-    viewChooseModal: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: 40,
-        height: 30,
-        marginLeft: 10,
-        padding: 5,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#34626c',
-    },
-    viewButton: {
-        height: 40,
-        width: gui.screenWidth - 32,
-        marginLeft: 16,
-        borderRadius: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#34626c'
-    },
-    footerText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    viewQR: {
-        marginTop: 50,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
 });
-export default connect(mapStateToProps, mapDispatchToProps)(CreateQr);
+export default connect(mapStateToProps, mapDispatchToProps)(InfoUser);
