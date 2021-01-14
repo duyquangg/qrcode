@@ -14,6 +14,9 @@ var timeGetByUserIDUrl = cfg.api + "timeLine/getByUserID";
 var timeUpdateByIDUrl = cfg.api + "timeLine/updateByID";
 var getHistoryUrl = cfg.api + "timeLine/getHistory";
 
+//admin
+var getAllUserURL = cfg.api + "user/search";
+
 var userApi = {
     login(email, password) {
         var params = {
@@ -171,6 +174,26 @@ var userApi = {
             })
             .catch(e => {
                 console.log("Error in getHistory", e);
+            }
+            );
+    },
+    getAllUser(dto) {
+        // console.log('========= CALL getAllUserURL======', userID);
+        return fetch(getAllUserURL,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + dto
+                },
+                body: JSON.stringify(dto)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in getAllUser", e);
             }
             );
     },
