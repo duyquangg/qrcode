@@ -39,6 +39,7 @@ class Scan extends Component {
       userID: this.props.global.currentUser.userID
     };
     let resGetTimeByUser = await userApi.timeGetByUserID(dto);
+    console.log('====> resGetTimeByUser',resGetTimeByUser);
     if (resGetTimeByUser.status == 200) {
       let data = resGetTimeByUser.data[0];
       this.setState({ dataCheck: data })
@@ -84,7 +85,7 @@ class Scan extends Component {
   };
   _renderBody = () => {
     let { dataCheck } = this.state;
-    // console.log('===> dataCheck',dataCheck);
+    console.log('===> dataCheck',dataCheck);
     let timeCheckin = null;
     let timeCheckout = null;
     dataCheck ? timeCheckin = dataCheck.checkInTime : null;
@@ -116,7 +117,7 @@ class Scan extends Component {
   }
   checkIn = () => {
     let { dataCheck } = this.state;
-    if (dataCheck == null) {
+    if (!dataCheck) {
       Actions.CheckIn({ dataCheck, doRefresh: this.fetchData.bind(this) });
     } else {
       this.refs.toastTop.show("Bạn đã checkIn ngày hôm nay rồi!");
@@ -124,7 +125,7 @@ class Scan extends Component {
   }
   checkOut = () => {
     let { dataCheck } = this.state;
-    if (dataCheck == null) {
+    if (!dataCheck) {
       return this.refs.toastTop.show("Bạn phải checkIn trước đã!");
     }
     Actions.CheckOut({ dataCheck, doRefresh: this.fetchData.bind(this) });

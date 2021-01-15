@@ -53,7 +53,10 @@ class InfoUser extends Component {
         this.fetchData();
     };
     fetchData = async () => {
-        let resAllUser = await userApi.getAllUser({role: this.props.global.currentUser.role,});
+        let dto = {
+            role: this.props.global.currentUser.role,
+        }
+        let resAllUser = await userApi.getAllUser(dto);
         console.log('====> resAllUser',resAllUser);
     };
     render() {
