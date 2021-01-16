@@ -87,7 +87,7 @@ class InfoUser extends Component {
                 leftContent={<FontAwesome name={'chevron-left'} color={'#fff'} size={20} />}
                 onPressLeft={() => Actions.pop()}
                 rightContent={<FontAwesome name={'plus'} color={'#fff'} size={20} />}
-                onPressRight={() => Actions.AddUser()}
+                onPressRight={() => Actions.AddUser({onRefresh: this.fetchData.bind(this)})}
             />
         );
     }
@@ -103,7 +103,7 @@ class InfoUser extends Component {
                     />
                 }
                 style={{ backgroundColor: '#fff', flex: 1 }}
-                contentContainerStyle={{ marginHorizontal: 16 }}
+                contentContainerStyle={{ marginHorizontal: 16, paddingBottom: 20 }}
                 data={dataUser}
                 renderItem={({ item, index }) => {
                     return (
@@ -135,17 +135,17 @@ class FlatListItem extends Component {
         super(props);
         this.state = {
             loading: false,
+            showModal: false,
         };
     }
     render() {
         let { item, index } = this.props;
-        console.log('===> newItem', item);
         return (
             <View>
                 <View style={styles.viewRow}>
                     <Text>{item.email}</Text>
                     <View style={styles.viewInfo}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => Actions.DetailUser({ item: item })}>
                             <FontAwesome name={'info-circle'} size={18} color={'#34626c'} />
                         </TouchableOpacity>
                         <TouchableOpacity style={{ marginLeft: 12 }} onPress={this.onDeleteAcc.bind(this, item)}>
@@ -180,7 +180,7 @@ class FlatListItem extends Component {
                 this.setState({ loading: false }, () => this.props.doRefreshData && this.props.doRefreshData());
             })
             .catch((e) => console.log('====> Lỗi xoá tài khoản', e));
-    }
+    };
 };
 const styles = StyleSheet.create({
     container: {

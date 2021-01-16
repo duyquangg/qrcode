@@ -170,12 +170,14 @@ class AddUser extends Component {
             this.setState({ email });
             this.refs.toastTop.show("Email không đúng định dạng!");
             return false;
-        }
+        };
+        this.setState({ loading: true })
         await userApi.register(email, password, fullName)
             .then(e => {
-                this.setState({ loading: true })
                 if (e.status == 200) {
                     Alert.alert('Thông báo', 'Thêm thành viên thành công!');
+                    Actions.pop();
+                    this.props.onRefresh && this.props.onRefresh();
                     this.setState({
                         email: '',
                         password: '',

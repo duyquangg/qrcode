@@ -96,6 +96,13 @@ class History extends Component {
   }
   _renderBody() {
     let { dataUser } = this.state;
+    if (dataUser.length == 0) {
+      return (
+        <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+          <Text>Không có lịch sử checkin/checkout nào cả!</Text>
+        </View>
+      )
+    };
     return (
       <FlatList
         refreshControl={
