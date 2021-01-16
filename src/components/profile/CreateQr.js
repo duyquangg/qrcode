@@ -154,7 +154,7 @@ class CreateQr extends Component {
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
                 />
-                <TextInput
+                {/* <TextInput
                     style={[styles.input, { marginTop: 0 }]}
                     placeholder='Nhập phiên bản tạo mã (VD: 01-40)...'
                     placeholderTextColor="#a6a9b6"
@@ -163,10 +163,10 @@ class CreateQr extends Component {
                     keyboardType={'numeric'}
                     underlineColorAndroid="transparent"
                     autoCapitalize="none"
-                />
+                /> */}
                 <TouchableOpacity style={styles.viewRow} onPress={() => this.setState({ showModal: true })}>
                     <Text>Chọn mức độ sửa lỗi: </Text>
-                    <View style={styles.viewChooseModal}>
+                    <View style={[styles.viewChooseModal, { width: 'auto' }]}>
                         {selectedError ? <Text>{selectedError.name}</Text> : null}
                         <FontAwesome name={'angle-down'} size={18} style={{ marginLeft: 5 }} />
                     </View>
@@ -181,7 +181,7 @@ class CreateQr extends Component {
                                 {
                                     data: value.trim(),
                                     mode: selectedMode.key,
-                                    versions: 3
+                                    // version: 3
                                 }
                             ]}
                             size={250}
