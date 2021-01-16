@@ -74,7 +74,7 @@ class History extends Component {
     console.log('====> resGetHistory', resGetHistory);
     if (resGetHistory.status == 200) {
       let data = resGetHistory.data;
-      this.setState({ dataUser: data })
+      this.setState({ dataUser: data });
     }
   }
   render() {
@@ -197,6 +197,8 @@ class History extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.viewLineModal} />
+          {/* <Text style={styles.titleModal}>TRẠNG THÁI</Text> */}
+          {/* <Text style={styles.titleModal}>THỜI GIAN</Text> */}
           <Text style={styles.labelText}>Từ ngày</Text>
           {this._renderFrom()}
           <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
@@ -460,6 +462,13 @@ const styles = StyleSheet.create({
     color: '#34626c',
     fontWeight: '700'
   },
+  titleModal: {
+    fontSize:14,
+    color:'gray',
+    fontWeight:'700',
+    marginLeft:16,
+    marginTop:16,
+  },
   viewLineModal: {
     height: 1,
     backgroundColor: '#34626c',
@@ -467,7 +476,7 @@ const styles = StyleSheet.create({
   },
   viewChooseDate: {
     marginHorizontal: 16,
-    height: 48,
+    height: 40,
     borderColor: '#34626c',
   },
   viewChooseBOD: {
@@ -480,7 +489,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#627792',
     marginLeft: 16,
-    marginTop: 20,
+    marginTop: 10,
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(History);
