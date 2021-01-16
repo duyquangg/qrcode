@@ -4,8 +4,8 @@ var cfg = {
     serverGetDiaChinh: "http://toilabeos.herokuapp.com" //product
 };
 
-cfg.api = `${cfg.server}:${cfg.port}/`;
-// cfg.api = `${cfg.serverGetDiaChinh}/`;
+// cfg.api = `${cfg.server}:${cfg.port}/`;
+cfg.api = `${cfg.serverGetDiaChinh}/`;
 
 cfg.maxWidth = 1024;
 cfg.maxHeight = 1024;

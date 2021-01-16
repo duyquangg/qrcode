@@ -60,7 +60,7 @@ class CheckOut extends Component {
     let { dataCheck } = this.state;
     let id = dataCheck.id;
     if (e.data == 'CHECKIN AT PTIT') {
-      Alert.alert('Thông báo','Checkin thành công!');
+      Alert.alert('Thông báo','Checkout thành công!');
       let dtoUpdated = {
         id,
         checkOutTime: Date.now(),

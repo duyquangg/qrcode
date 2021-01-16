@@ -185,6 +185,26 @@ class AddReason extends Component {
     }
     onSend = () => {
         let { typeReason, reason, valueDate1, valueDate2 } = this.state;
+        let start = new Date();
+
+        // time start date
+        let a = new Date(valueDate1);
+        var year1 = a.getUTCFullYear();
+        var month1 = a.getUTCMonth();
+        var day1 = a.getUTCDate();
+        var startHour1 =Date.UTC(year1,month1,day1,0,0,0,0); //onDate di muon
+
+        //time end date
+        let b = new Date(valueDate2);
+        var year2 = b.getUTCFullYear();
+        var month2 = b.getUTCMonth();
+        var day2 = b.getUTCDate();
+        var startHour2 =Date.UTC(year2,month2,day2,0,0,0,0);
+        var endHour2 = startHour2 + 86400000 - 1;
+
+        console.log('====> startHour1',startHour1);
+        console.log('====> endHour2',endHour2);
+        console.log('====> start',start);
         let check = typeReason == 'leave' ? 1 : 2;
         if (!reason) {
             this.refs.toastTop.show('Lý do không được để trống!');
@@ -196,8 +216,8 @@ class AddReason extends Component {
                 userID: this.props.global.currentUser.userID,
                 reason: check,
                 note: reason.trim(),
-                fromDate: valueDate1,
-                toDate: valueDate2,
+                fromDate: startHour1,
+                toDate: endHour2,
             }
             userApi.timeCreate(dtoCreate).then(e => {
                 console.log('====> bao nghi', e);
@@ -213,7 +233,7 @@ class AddReason extends Component {
                 userID: this.props.global.currentUser.userID,
                 reason: check,
                 note: reason.trim(),
-                onDate: valueDate1
+                onDate: startHour1
             }
             userApi.timeCreate(dtoCreate).then(e => {
                 console.log('====> den muon', e);

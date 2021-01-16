@@ -197,6 +197,26 @@ var userApi = {
             }
             );
     },
+    deleteByID(dto) {
+        // console.log('========= CALL deleteByIDUrl======', userID);
+        return fetch(deleteByIDUrl,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + dto
+                },
+                body: JSON.stringify(dto)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in deleteByID", e);
+            }
+            );
+    },
 };
 
 export { userApi as default };
