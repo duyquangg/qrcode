@@ -13,6 +13,7 @@ var timeCreateUrl = cfg.api + "timeLine/create";
 var timeGetByUserIDUrl = cfg.api + "timeLine/getByUserID";
 var timeUpdateByIDUrl = cfg.api + "timeLine/updateByID";
 var getHistoryUrl = cfg.api + "timeLine/getHistory";
+var searchURL = cfg.api + "timeLine/search";
 
 //admin
 var getAllUserURL = cfg.api + "user/search";
@@ -214,6 +215,26 @@ var userApi = {
             })
             .catch(e => {
                 console.log("Error in deleteByID", e);
+            }
+            );
+    },
+    search(dto) {
+        // console.log('========= CALL searchURL======', userID);
+        return fetch(searchURL,
+            {
+                method: 'POST',
+                headers: {
+                    "Accept": "*/*",
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + dto
+                },
+                body: JSON.stringify(dto)
+            })
+            .then(response => {
+                return response.json()
+            })
+            .catch(e => {
+                console.log("Error in search", e);
             }
             );
     },

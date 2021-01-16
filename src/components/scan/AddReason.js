@@ -69,10 +69,19 @@ class AddReason extends Component {
                     {_renderTypeReason('late', 'Đi muộn')}
                     <View />
                 </View>
-                <Text style={styles.labelText}>Từ ngày</Text>
-                {this._renderFrom()}
-                <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
-                {this._renderTo()}
+                {typeReason == 'leave' ?
+                    <View>
+                        <Text style={styles.labelText}>Từ ngày</Text>
+                        {this._renderFrom()}
+                        <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
+                        {this._renderTo()}
+                    </View>
+                    :
+                    <View>
+                        <Text style={styles.labelText}>Chọn ngày</Text>
+                        {this._renderFrom()}
+                    </View>
+                }
                 <Text style={[styles.labelText, { marginTop: -10 }]}>Lý do</Text>
                 <TextInput
                     style={styles.input}
@@ -192,19 +201,19 @@ class AddReason extends Component {
         var year1 = a.getUTCFullYear();
         var month1 = a.getUTCMonth();
         var day1 = a.getUTCDate();
-        var startHour1 =Date.UTC(year1,month1,day1,0,0,0,0); //onDate di muon
+        var startHour1 = Date.UTC(year1, month1, day1, 0, 0, 0, 0); //onDate di muon
 
         //time end date
         let b = new Date(valueDate2);
         var year2 = b.getUTCFullYear();
         var month2 = b.getUTCMonth();
         var day2 = b.getUTCDate();
-        var startHour2 =Date.UTC(year2,month2,day2,0,0,0,0);
+        var startHour2 = Date.UTC(year2, month2, day2, 0, 0, 0, 0);
         var endHour2 = startHour2 + 86400000 - 1;
 
-        console.log('====> startHour1',startHour1);
-        console.log('====> endHour2',endHour2);
-        console.log('====> start',start);
+        // console.log('====> startHour1', startHour1);
+        // console.log('====> endHour2', endHour2);
+        // console.log('====> start', start);
         let check = typeReason == 'leave' ? 1 : 2;
         if (!reason) {
             this.refs.toastTop.show('Lý do không được để trống!');
