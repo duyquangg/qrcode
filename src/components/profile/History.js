@@ -60,6 +60,8 @@ class History extends Component {
       valueDate2: new Date().getTime(),
       showDate1: false,
       showDate2: false,
+
+      valueCheck: false,
     };
   }
   componentDidMount() {
@@ -172,7 +174,7 @@ class History extends Component {
   //   }
   // };
   _renderModal = () => {
-    let { showModal } = this.state;
+    let { showModal, valueCheck } = this.state;
     return (
       <Modal
         style={{
@@ -197,8 +199,13 @@ class History extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.viewLineModal} />
-          {/* <Text style={styles.titleModal}>TRẠNG THÁI</Text> */}
-          {/* <Text style={styles.titleModal}>THỜI GIAN</Text> */}
+
+          {/* <Text style={styles.titleModal}>TRẠNG THÁI</Text>
+          <TouchableOpacity onPress={() => this.setState({ valueCheck: !this.state.valueCheck })}>
+            <Text style={{ marginLeft: 16, marginTop: 5, color: valueCheck ? '#34626c' : '#000', fontWeight: valueCheck ? '700' : 'normal' }}>Đi muộn</Text>
+          </TouchableOpacity>
+          <Text style={styles.titleModal}>THỜI GIAN</Text> */}
+
           <Text style={styles.labelText}>Từ ngày</Text>
           {this._renderFrom()}
           <Text style={[styles.labelText, { marginTop: -10 }]}>Đến ngày</Text>
@@ -295,7 +302,7 @@ class History extends Component {
     this.setState({ showDate2: true })
   };
   onFilter = () => {
-    let { valueDate1, valueDate2 } = this.state;
+    let { valueDate1, valueDate2, dataUser, valueCheck } = this.state;
 
     // time start date
     let a = new Date(valueDate1);
@@ -315,7 +322,24 @@ class History extends Component {
     if (valueDate2 < valueDate1) {
       return this.refs.toastTop.show('Không được chọn ngày nhỏ hơn ngày bắt đầu!');
     }
-
+    
+    //trang thai
+    // let dataCheck = [];
+    // dataUser.forEach(e => {
+    //   let time = moment(e.checkInTime).format('HH:mm');
+    //   let correctTime = "21:04";
+    //   let minus = utils.parseTime(time) - utils.parseTime(correctTime);
+    //   if (minus > 0) {
+    //     return dataCheck.push(e);
+    //   };
+    // });
+    // if (valueCheck) {
+    //   this.setState({
+    //     dataUser: dataCheck,
+    //     loading: false,
+    //     showModal: false
+    //   })
+    // }
     this.setState({ loading: true });
     let dtoCreate = {
       role: this.props.global.currentUser.role,
@@ -463,11 +487,11 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   titleModal: {
-    fontSize:14,
-    color:'gray',
-    fontWeight:'700',
-    marginLeft:16,
-    marginTop:16,
+    fontSize: 14,
+    color: 'gray',
+    fontWeight: '700',
+    marginLeft: 16,
+    marginTop: 16,
   },
   viewLineModal: {
     height: 1,
