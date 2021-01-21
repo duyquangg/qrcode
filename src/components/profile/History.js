@@ -339,7 +339,7 @@ class History extends Component {
     //   })
     // }
     this.setState({ loading: true });
-   
+
 
     let dtoCreate = {
       role: this.props.global.currentUser.role,
@@ -391,7 +391,7 @@ class FlatListItem extends Component {
 
   render() {
     let { item, index, doRefreshData } = this.props;
-    // console.log('===> item', item);
+    console.log('===> item', item);
     let time = moment(item.checkInTime).format('HH:mm');
     let correctTime = "09:00";
     let minus = utils.parseTime(time) - utils.parseTime(correctTime);
@@ -409,11 +409,11 @@ class FlatListItem extends Component {
               {item.reason ?
                 <View style={styles.viewRowTime}>
                   <Text style={styles.textName}>{item.fullName}</Text>
-                  <Text style={styles.textReason}> - {this.checkReason(item.reason)} ngày  
+                  <Text style={[styles.textReason, {fontSize:!4}]}> - {this.checkReason(item.reason)} ngày
                   {item.reason == 2 ?
-                   `${ ' ' + moment(item.onDate).format('DD/MM/YYYY')}`
-                   : `${ ' ' + moment(item.fromDate).format('DD/MM/YYYY')}`
-                   }
+                      `${' ' + moment(item.onDate).format('DD/MM/YYYY')}`
+                      : `${' ' + moment(item.fromDate).format('DD/MM/YYYY')}`
+                    }
                   </Text>
                 </View>
                 :
@@ -429,13 +429,22 @@ class FlatListItem extends Component {
               }
             </View>
           </View>
-          {minus > 0 ?
-            <View style={styles.viewWarming}>
-              <FontAwesome name={'exclamation'} color={'red'} size={15} />
-              <Text style={styles.textWarming}>Muộn {afterCheckTime}'</Text>
-            </View>
-            : null
-          }
+          <View>
+            {minus > 0 ?
+              <View style={[styles.viewRowTime, { marginRight: 16 }]}>
+                <FontAwesome name={'exclamation'} color={'red'} size={15} />
+                <Text style={styles.textWarming}> {afterCheckTime}'</Text>
+              </View>
+              : null
+            }
+            {item.note ?
+              <View style={styles.viewWarming}>
+                <Text style={{fontSize:12}}>{item.note}</Text>
+              </View>
+              : null
+            }
+          </View>
+
         </View>
         <View style={styles.viewLine} />
       </View>
@@ -491,7 +500,6 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   viewWarming: {
-    alignItems: 'center',
     marginRight: 16
   },
   textWarming: {
