@@ -73,7 +73,7 @@ class History extends Component {
       role: this.props.global.currentUser.role,
     };
     let resGetHistory = await userApi.getHistory(dtoUser);
-    console.log('====> resGetHistory', resGetHistory);
+    // console.log('====> resGetHistory', resGetHistory);
     if (resGetHistory.status == 200) {
       let data = resGetHistory.data;
       this.setState({ dataUser: data });
@@ -285,8 +285,6 @@ class History extends Component {
   }
   setDate2 = (valueDate) => {
     // let checkDate = moment(valueDate).format("DD/MM/YYYY");
-    console.log('====> valueDate', valueDate);
-    console.log('====> this.state.valueDate1', this.state.valueDate1);
     if (valueDate < this.state.valueDate1) {
       this.refs.toastTop.show('Không được chọn ngày nhỏ hơn ngày bắt đầu!');
       return;
@@ -341,18 +339,22 @@ class History extends Component {
     //   })
     // }
     this.setState({ loading: true });
+   
+
     let dtoCreate = {
       role: this.props.global.currentUser.role,
+      userID: this.props.global.currentUser.userID,
       fromDate: startHour1,
       toDate: endHour2,
     };
-    userApi.search(dtoCreate)
+    // console.log('===> dtoCreate',dtoCreate);
+    userApi.getHistory(dtoCreate)
       .then(e => {
-        console.log('====> search', e);
+        // console.log('====> search', e);
         this.setState({
           loading: false,
           showModal: false,
-          dataUser: e
+          dataUser: e.data
         }
           // , () => {
           //   this.fetchData.bind(this)
@@ -389,7 +391,7 @@ class FlatListItem extends Component {
 
   render() {
     let { item, index, doRefreshData } = this.props;
-    console.log('===> item', item);
+    // console.log('===> item', item);
     let time = moment(item.checkInTime).format('HH:mm');
     let correctTime = "09:00";
     let minus = utils.parseTime(time) - utils.parseTime(correctTime);
