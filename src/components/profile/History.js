@@ -322,7 +322,7 @@ class History extends Component {
     if (valueDate2 < valueDate1) {
       return this.refs.toastTop.show('Không được chọn ngày nhỏ hơn ngày bắt đầu!');
     }
-    
+
     //trang thai
     // let dataCheck = [];
     // dataUser.forEach(e => {
@@ -368,10 +368,28 @@ class FlatListItem extends Component {
 
     };
   }
+  checkReason = (check) => {
+    if (check == 1) {
+      return 'Xin nghỉ';
+    };
+    if (check == 2) {
+      return 'Xin đi muộn';
+    };
+    return '';
+  };
+  checkDateReason = (check) => {
+    if (check == 1) {
+      return 'Xin nghỉ';
+    };
+    if (check == 2) {
+      return 'Xin đi muộn';
+    };
+    return '';
+  };
 
   render() {
     let { item, index, doRefreshData } = this.props;
-    // console.log('===> item', item);
+    console.log('===> item', item);
     let time = moment(item.checkInTime).format('HH:mm');
     let correctTime = "09:00";
     let minus = utils.parseTime(time) - utils.parseTime(correctTime);
@@ -386,7 +404,19 @@ class FlatListItem extends Component {
         <View style={styles.viewInItem}>
           <View style={styles.viewRowTime}>
             <View style={{ marginLeft: 10 }}>
-              <Text style={styles.textName}>{item.fullName}</Text>
+              {item.reason ?
+                <View style={styles.viewRowTime}>
+                  <Text style={styles.textName}>{item.fullName}</Text>
+                  <Text style={styles.textReason}> - {this.checkReason(item.reason)} ngày  
+                  {item.reason == 2 ?
+                   `${ ' ' + moment(item.onDate).format('DD/MM/YYYY')}`
+                   : `${ ' ' + moment(item.fromDate).format('DD/MM/YYYY')}`
+                   }
+                  </Text>
+                </View>
+                :
+                <Text style={styles.textName}>{item.fullName}</Text>
+              }
               {item.checkInTime ?
                 this._renderRowTime('caret-right', `${moment(item.checkInTime).format('LT' + ' | ' + 'DD/MM/YYYY')}`)
                 : null
@@ -439,6 +469,10 @@ const styles = StyleSheet.create({
   },
   textName: {
     fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 5
+  },
+  textReason: {
     fontSize: 16,
     marginBottom: 5
   },

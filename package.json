@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.7.1",
     "@react-native-community/datetimepicker": "2.1.0",
+    "easyqrcode-react-native": "^3.9.1",
     "immutable": "4.0.0-rc.12",
     "key-mirror": "1.0.1",
     "moment": "2.29.1",
@@ -36,6 +37,7 @@
     "react-native-screens": "2.9.0",
     "react-native-svg": "12.1.0",
     "react-native-vector-icons": "6.6.0",
+    "react-native-webview": "^11.0.3",
     "react-redux": "7.2.2",
     "redux": "4.0.5",
     "redux-thunk": "2.3.0"
